@@ -1,10 +1,36 @@
-import './App.css';
+import "./App.css";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import Splash from "./pages/Splash/Splash";
+import Login from "./pages/Login/Login";
 
 function App() {
+  const [showSplash, setShowSplash] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowSplash(false);
+    }, 2500); // 2.5초 후에 스플래시 화면 숨기기
+
+    return () => clearTimeout(timer); // 타이머 해제
+  }, []);
+
   return (
-    <div className="App font-bold">
-      Team Cruise 초기세팅
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={showSplash ? <Splash /> : <Navigate to="/login" />}
+        />
+        <Route path="/splash" element={<Splash />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
