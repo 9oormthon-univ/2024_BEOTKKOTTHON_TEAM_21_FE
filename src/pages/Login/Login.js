@@ -59,7 +59,9 @@ function Login() {
         <div>
           <div className="flex text-xs gap-10">
             <div className="text-gray-400">아직 회원이 아니신가요?</div>
-            <a className="border-b border-gray-400">회원가입</a>
+            <a href="" className="border-b border-gray-400">
+              회원가입
+            </a>
           </div>
         </div>
       </LoginContainer>
