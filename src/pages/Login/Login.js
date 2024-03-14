@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const LoginContainer = styled.div`
@@ -17,6 +18,12 @@ const Logo = styled.div`
 `;
 
 function Login() {
+  const navigate = useNavigate();
+
+  const goToSignUp = () => {
+    navigate("/signup");
+  };
+
   return (
     <div className="App">
       <LoginContainer>
@@ -59,7 +66,10 @@ function Login() {
         <div>
           <div className="flex text-xs gap-10">
             <div className="text-gray-400">아직 회원이 아니신가요?</div>
-            <a href="" className="border-b border-gray-400">
+            <a
+              onClick={goToSignUp}
+              className="border-b border-gray-400 cursor-pointer"
+            >
               회원가입
             </a>
           </div>

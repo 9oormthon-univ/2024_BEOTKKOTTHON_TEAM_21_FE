@@ -10,7 +10,9 @@ import Splash from "./pages/Splash/Splash";
 import Login from "./pages/Login/Login";
 import WorkSpaceHome from "./pages/WorkSpace/WorkSpaceHome";
 import SecretFeedback from "./pages/WorkSpace/SecretFeedback";
-import FeedbackStorage from './pages/WorkSpace/FeedbackStorage';
+import FeedbackStorage from "./pages/WorkSpace/FeedbackStorage";
+import SignUp from "./pages/SignUp/SignUp";
+import SignUpEnd from "./pages/SignUp/SignUpEnd";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -36,6 +38,8 @@ function App() {
           <Route path="/workspacehome" element={<WorkSpaceHome />} />
           <Route path="/feedbackstorage" element={<FeedbackStorage />} />
           <Route path="/secretfeedback" element={<SecretFeedback />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signend" element={<SignUpEnd />} />
         </Routes>
       </Router>
     </div>
