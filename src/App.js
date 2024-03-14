@@ -8,6 +8,8 @@ import {
 } from "react-router-dom";
 import Splash from "./pages/Splash/Splash";
 import Login from "./pages/Login/Login";
+import SignUp from "./pages/SignUp/SignUp";
+import SignUpEnd from "./pages/SignUp/SignUpEnd";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -29,6 +31,8 @@ function App() {
         />
         <Route path="/splash" element={<Splash />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signend" element={<SignUpEnd />} />
       </Routes>
     </Router>
   );
