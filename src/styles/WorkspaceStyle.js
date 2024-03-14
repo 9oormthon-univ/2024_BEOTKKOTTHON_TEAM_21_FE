@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
+// 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div`
 `;
-
 export const Background = styled.div`
   position: absolute;
   z-index: -1;
@@ -54,4 +54,27 @@ export const Modal = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+`;
+
+// 하단바
+export const BottomContainer = styled.div`
+  width: 375px;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
+  display: flex;
+  height: 55px;
+  text-align: center;
+  border-top: 1px solid #D7D7D7;
+  background-color: white;
+`;
+export const BottomContent = styled.button`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items:center;
+  font-size: 13px;
+  color: ${props => props.active ? '#FEC533' : '#d7d7d7'};
 `;
