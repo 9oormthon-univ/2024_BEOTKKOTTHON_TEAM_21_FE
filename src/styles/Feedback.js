@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+// 피드백 보관함
 export const FeedbackTitleBox = styled.div`
   display: flex;
   padding: 20px;
@@ -58,3 +59,21 @@ export const ReceiveBtn = styled.button`
   border-radius: 20px 0px 20px 20px;box-shadow: 0px 0px 3.882px 0px rgba(0, 0, 0, 0.20);
   background: #FFA680;`
 };`
+
+// 시크릿 피드백 채팅
+export const SecretFeedback = styled.div`
+
+`
+
+export const sendMessage = styled.div`
+  border: 1px solid #d7d7d7;
+  padding: 8px;
+  margin: 20px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`

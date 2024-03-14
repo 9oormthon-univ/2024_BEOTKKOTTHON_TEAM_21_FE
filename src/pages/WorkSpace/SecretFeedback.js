@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Stomp from 'stompjs';
+import * as F from "../../styles/Feedback";
+import { useNavigate } from 'react-router-dom';
+import { GoChevronLeft } from "react-icons/go";
+import { BsSendPlus } from "react-icons/bs";
+import { images } from '../../utils/images';
+import { FaCircleArrowUp } from "react-icons/fa6";
+import WorkspaceBottom from '../../component/WorkspaceBottom';
 
 const SecretFeedback = () => {
   const [stompClient, setStompClient] = useState(null);
@@ -47,7 +54,8 @@ const SecretFeedback = () => {
   };
 
   return (
-    <div>
+    <F.SecretFeedback>
+      <SecretTitle />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div>
         {messages.map((message, index) => (
@@ -55,14 +63,36 @@ const SecretFeedback = () => {
         ))}
       </div>
       {/* 메세지를 보내기 위한 input */}
-      <input
-        type="text"
-        value={inputMessage}
-        onChange={e => setInputMessage(e.target.value)}
-      />
-      <button onClick={sendMessage}>Send</button>
-    </div>
+      <F.sendMessage>
+        <input
+          type="text"
+          value={inputMessage}
+          onChange={e => setInputMessage(e.target.value)}
+        />
+        <button onClick={sendMessage}>
+          <FaCircleArrowUp size={25} color='#FFD875'/>
+        </button>
+      </F.sendMessage>
+      {/* <WorkspaceBottom activeItem={'chat'} /> */}
+    </F.SecretFeedback>
   );
 };
 
 export default SecretFeedback;
+
+export const SecretTitle = () => {
+  const navigate = useNavigate();
+
+  return (
+    <F.FeedbackTitleBox>
+      <div className='flex items-center'>
+        <GoChevronLeft size={20} onClick={()=>{navigate(-1)}}/>
+        <div className='ml-2 flex items-center'>
+          <img src={images.dog} className='w-[28px] mr-1' />
+          <div>김구름</div>
+        </div>
+      </div>
+      <BsSendPlus onClick={()=>{navigate('/')}}/>
+    </F.FeedbackTitleBox>
+  )
+}
