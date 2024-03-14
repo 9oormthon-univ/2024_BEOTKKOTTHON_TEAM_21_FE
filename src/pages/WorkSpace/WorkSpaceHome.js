@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import styled from "styled-components";
 import { images } from '../../utils/images';
+import WorkspaceBottom from '../../component/WorkspaceBottom';
 
 const WorkSpaceHomeContainer = styled.div`
+`;
 
+const Background = styled.div`
+  position: absolute;
+  z-index: -1;
+  min-width: 375px;
+  height: 250px;
+  border-radius: 0px 0px 50px 50px;
+  background: linear-gradient(180deg, #FFD875 0%, #FFA680 100%);
+  flex-shrink: 0;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 const PersonGrid = styled.div`
   margin: 0 auto;
@@ -15,7 +28,7 @@ const Person = styled.div`
   position: relative;
   width: 50%;
   text-align: center;
-  margin-bottom: 25px;
+  margin: 15px 0 15px 0;
 `;
 const PersonImg = styled.div` 
   margin: 0 auto;
@@ -57,9 +70,10 @@ const WorkSpaceHome = () => {
 
   return (
     <WorkSpaceHomeContainer>
-      <div className='text-center p-10'>
-        <div className='text-3xl mb-2'>00팀의 WORKSPACE</div>
-        <div className='text-sm text-[#ACACAC]'>자유롭게 1:1 시크릿 메세지를 보내보세요!</div>
+      <Background></Background>
+      <div className='text-center pt-10 text-white'>
+        <div className='text-2xl font-bold'>00팀의 워크스페이스</div>
+        <div className='text-sm mb-5'>자유롭게 1:1 시크릿 메세지를 보내보세요!</div>
       </div>
 
       <PersonGrid>
@@ -67,6 +81,8 @@ const WorkSpaceHome = () => {
           <PersonBox key={person.userid} person={person} />
         ))}
       </PersonGrid>
+
+      <WorkspaceBottom activeItem={'home'} />
     </WorkSpaceHomeContainer>
   );
 };
