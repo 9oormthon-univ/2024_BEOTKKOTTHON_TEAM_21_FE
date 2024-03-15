@@ -14,6 +14,7 @@ import FeedbackStorage from "./pages/WorkSpace/FeedbackStorage";
 import SignUp from "./pages/SignUp/SignUp";
 import SignUpEnd from "./pages/SignUp/SignUpEnd";
 import RecommendStart from "./pages/Recommend/RecommendStart";
+import RecommendMiddle from "./pages/Recommend/RecommendMiddle";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -42,6 +43,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signend" element={<SignUpEnd />} />
           <Route path="/recommendstart" element={<RecommendStart />} />
+          <Route path="/recommendmiddle" element={<RecommendMiddle />} />
         </Routes>
       </Router>
     </div>

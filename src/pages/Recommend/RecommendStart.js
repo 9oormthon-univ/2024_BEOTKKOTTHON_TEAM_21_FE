@@ -38,15 +38,14 @@ const GradientContainer = styled.div`
 `;
 
 const TextContainer = styled.div`
-  margin-left: -90px;
+  margin-left: -80px;
 `;
 
 const TeamnameContainer1 = styled.div`
   display: flex;
   flex-direction: row;
-  position: absolute;
   margin-top: 15vh;
-  left: 30%;
+  margin-left: 100px;
   gap: 20px;
   width: 346px;
   height: 52.695px;
@@ -57,9 +56,8 @@ const TeamnameContainer1 = styled.div`
 const TeamnameContainer2 = styled.div`
   display: flex;
   flex-direction: row;
-  position: absolute;
-  margin-top: 30vh;
-  right: 30%;
+  margin-top: 18vh;
+  margin-right: 100px;
   gap: 20px;
   width: 346px;
   height: 52.695px;
@@ -79,12 +77,19 @@ const TeamnameBox = styled.div`
 `;
 
 const BtnContainer = styled.div`
-  position: absolute;
-  bottom: 30px;
+  /* position: absolute; */
+  /* bottom: 30px; */
   width: 311px;
+  height: 10vh;
 `;
 
 function RecommendStart() {
+  const navigate = useNavigate();
+
+  const goToNext = () => {
+    navigate("/recommendmiddle");
+  };
+
   return (
     <div className="App">
       <Container>
@@ -99,24 +104,29 @@ function RecommendStart() {
             </div>
           </TextContainer>
           <GradientContainer>
-            <div>
-              <TeamnameContainer1 className="text-sm">
-                <TeamnameBox>Team Krews</TeamnameBox>
-                <TeamnameBox>푸바오</TeamnameBox>
-                <TeamnameBox>Team2</TeamnameBox>
-              </TeamnameContainer1>
-              <TeamnameContainer2 className="text-sm">
-                <TeamnameBox>옴뇸뇸</TeamnameBox>
-                <TeamnameBox>팀이름</TeamnameBox>
-                <TeamnameBox>스폰지밥</TeamnameBox>
-              </TeamnameContainer2>
-            </div>
+            <div className="flex flex-col items-center justify-between">
+              <div>
+                <TeamnameContainer1 className="text-sm">
+                  <TeamnameBox>Team Krews</TeamnameBox>
+                  <TeamnameBox>푸바오</TeamnameBox>
+                  <TeamnameBox>Team2</TeamnameBox>
+                </TeamnameContainer1>
+                <TeamnameContainer2 className="text-sm">
+                  <TeamnameBox>옴뇸뇸</TeamnameBox>
+                  <TeamnameBox>팀이름</TeamnameBox>
+                  <TeamnameBox>스폰지밥</TeamnameBox>
+                </TeamnameContainer2>
+              </div>
 
-            <BtnContainer>
-              <button className="mb-5 w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm">
-                팀 이름 추천받기
-              </button>
-            </BtnContainer>
+              <BtnContainer className="mb-5">
+                <button
+                  onClick={goToNext}
+                  className="w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm"
+                >
+                  팀 이름 추천받기
+                </button>
+              </BtnContainer>
+            </div>
           </GradientContainer>
         </ContextContainer>
       </Container>
