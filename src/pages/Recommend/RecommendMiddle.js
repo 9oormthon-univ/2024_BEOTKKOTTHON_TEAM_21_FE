@@ -54,6 +54,7 @@ function RecommendMiddle() {
     }
     // 검증 로직 통과 시 : 다음 페이지로 이동
     setError("");
+    navigate("/recommendchoose");
   };
 
   return (

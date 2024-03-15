@@ -15,6 +15,7 @@ import SignUp from "./pages/SignUp/SignUp";
 import SignUpEnd from "./pages/SignUp/SignUpEnd";
 import RecommendStart from "./pages/Recommend/RecommendStart";
 import RecommendMiddle from "./pages/Recommend/RecommendMiddle";
+import RecommendChoose from "./pages/Recommend/RecommendChoose";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -44,6 +45,7 @@ function App() {
           <Route path="/signend" element={<SignUpEnd />} />
           <Route path="/recommendstart" element={<RecommendStart />} />
           <Route path="/recommendmiddle" element={<RecommendMiddle />} />
+          <Route path="/recommendchoose" element={<RecommendChoose />} />
         </Routes>
       </Router>
     </div>
