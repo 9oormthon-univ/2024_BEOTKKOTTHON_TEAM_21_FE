@@ -9,6 +9,7 @@ import {
 import Splash from "./pages/Splash/Splash";
 import Login from "./pages/Login/Login";
 import WorkSpaceHome from "./pages/WorkSpace/WorkSpaceHome";
+import WorkspaceList from "./pages/WorkSpace/WorkspaceList";
 import SecretFeedback from "./pages/WorkSpace/SecretFeedback";
 import FeedbackStorage from "./pages/WorkSpace/FeedbackStorage";
 import SignUp from "./pages/SignUp/SignUp";
@@ -36,6 +37,7 @@ function App() {
           <Route path="/splash" element={<Splash />} />
           <Route path="/login" element={<Login />} />
           <Route path="/workspacehome" element={<WorkSpaceHome />} />
+          <Route path="/workspacelist" element={<WorkspaceList />} />
           <Route path="/feedbackstorage" element={<FeedbackStorage />} />
           <Route path="/secretfeedback" element={<SecretFeedback />} />
           <Route path="/signup" element={<SignUp />} />

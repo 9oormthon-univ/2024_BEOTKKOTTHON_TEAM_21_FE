@@ -9,7 +9,7 @@ export const FeedbackTitleBox = styled.div`
   border-bottom: 1px solid #d7d7d7;
   font-size: 18px;
 `
-export const FeedbackContainer = styled.div`
+export const FeedbackContainer = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
@@ -68,7 +68,7 @@ export const SecretFeedback = styled.div`
 export const sendMessage = styled.div`
   border: 1px solid #d7d7d7;
   padding: 8px;
-  margin: 20px;
+  margin: 20px auto;
   border-radius: 20px;
   display: flex;
   justify-content: space-between;
@@ -76,4 +76,5 @@ export const sendMessage = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
+  width: 350px;
 `
