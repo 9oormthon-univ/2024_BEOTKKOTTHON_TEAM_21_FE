@@ -33,9 +33,10 @@ const SplashText = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  width: 311px;
+  width: 85%;
   position: absolute;
-  bottom: 3%;
+  bottom: 5%;
+  height: 10vh;
 `;
 
 function SignUpEnd() {
@@ -56,7 +57,7 @@ function SignUpEnd() {
             팀원들과 함께 즐겁고 알찬 프로젝트를 진행해보아요!
           </div>
           <ButtonContainer>
-            <button className="w-full mb-5 rounded-full h-10 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm">
+            <button className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm">
               홈으로 이동하기
             </button>
           </ButtonContainer>
