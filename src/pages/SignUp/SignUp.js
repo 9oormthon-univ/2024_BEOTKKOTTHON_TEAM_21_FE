@@ -34,7 +34,7 @@ const NewDivContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 375px;
-  height: 420px;
+  height: 80vh;
   border-radius: 25px 25px 0 0;
   /* background-color: gray; */
   background-color: white;
@@ -52,6 +52,36 @@ const NewDivContainer = styled.div`
   }
 `;
 
+const ProfileCircle = styled.div`
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+  width: 100px;
+  background: ${(props) => (props.isSelected ? "#656565" : "#ACACAC")};
+  border-radius: 100%;
+  flex-shrink: 0;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+`;
+
+const CheckIcon = styled.svg`
+  position: absolute;
+  width: 24px;
+  height: 16px;
+  stroke: white;
+`;
+
+const ProfileinnerText = styled.div`
+  color: ${(props) => (props.isSelected ? "#ACACAC" : "#000")};
+`;
+
+const BtnContainer = styled.div`
+  /*width: 311px;*/
+  height: 10vh;
+`;
+
 function SignUp() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -60,6 +90,8 @@ function SignUp() {
   const [password, setPassword] = useState("");
   const [nickname, setNickName] = useState("");
   const [showNewDiv, setShowNewDiv] = useState(false);
+  const [selectedButtonIndex, setselectedButtonIndex] = useState(null);
+  const [profileid, setProfileId] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
   const handleNext = () => {
     if (activeStep < 1) {
@@ -78,6 +110,10 @@ function SignUp() {
 
   const handleSvgClick = () => {
     setShowNewDiv(true);
+  };
+
+  const handleButtonClick = (index) => {
+    setselectedButtonIndex(index);
   };
 
   const goToSignEnd = () => {
@@ -180,39 +216,57 @@ function SignUp() {
                     className="flex justify-center my-10 cursor-pointer"
                     onClick={handleSvgClick}
                   >
-                    <svg
-                      width="74"
-                      height="74"
-                      viewBox="0 0 74 73"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <circle
-                        cx="37"
-                        cy="36.5"
-                        r="36.149"
-                        fill="#D7D7D7"
-                        stroke="#FEC533"
-                        stroke-width="0.701923"
-                      />
-                      <circle cx="37" cy="24.8466" r="11.1201" fill="white" />
-                      <path
-                        d="M16.7222 52.6216C16.7222 44.8684 23.0074 38.5831 30.7606 38.5831H43.2393C50.9925 38.5831 57.2777 44.8684 57.2777 52.6216V54.6972C57.2777 56.6355 55.7064 58.2068 53.7681 58.2068H20.2318C18.2935 58.2068 16.7222 56.6355 16.7222 54.6972V52.6216Z"
-                        fill="white"
-                      />
-                      <circle
-                        cx="59.1106"
-                        cy="63.524"
-                        r="8.77404"
-                        fill="#FEC533"
-                        stroke="white"
-                        stroke-width="1.40385"
-                      />
-                      <path
-                        d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
-                        fill="white"
-                      />
-                    </svg>
+                    {selectedButtonIndex === null && (
+                      <div>
+                        <svg
+                          width="100"
+                          height="100"
+                          viewBox="0 0 74 73"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="37"
+                            cy="36.5"
+                            r="36.149"
+                            fill="#D7D7D7"
+                            stroke="#FEC533"
+                            stroke-width="0.701923"
+                          />
+                          <circle
+                            cx="37"
+                            cy="24.8466"
+                            r="11.1201"
+                            fill="white"
+                          />
+                          <path
+                            d="M16.7222 52.6216C16.7222 44.8684 23.0074 38.5831 30.7606 38.5831H43.2393C50.9925 38.5831 57.2777 44.8684 57.2777 52.6216V54.6972C57.2777 56.6355 55.7064 58.2068 53.7681 58.2068H20.2318C18.2935 58.2068 16.7222 56.6355 16.7222 54.6972V52.6216Z"
+                            fill="white"
+                          />
+                          <circle
+                            cx="59.1106"
+                            cy="63.524"
+                            r="8.77404"
+                            fill="#FEC533"
+                            stroke="white"
+                            stroke-width="1.40385"
+                          />
+                          <path
+                            d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
+                            fill="white"
+                          />
+                        </svg>
+                      </div>
+                    )}
+
+                    {selectedButtonIndex !== null && (
+                      <div>
+                        {/* Render the selected profile information */}
+                        {/* For example: */}
+                        <div>선택된 사진으로 대체할 공간</div>
+                        <div>Selected Profile: {selectedButtonIndex + 1}</div>
+                      </div>
+                    )}
                   </div>
                 </div>
                 <div className="text-sm">
@@ -237,12 +291,20 @@ function SignUp() {
                 {/* stepper 로직상 버튼 컴포넌트는 로그인 이후 사용예정*/}
                 {showNewDiv === false ? (
                   <div>
-                    <button
+                    {/* <button
                       onClick={goToSignEnd}
                       className="w-full mb-5 rounded-full h-10 border border-primary bg-primary text-white text-sm"
                     >
                       완료
-                    </button>
+                    </button> */}
+                    <BtnContainer>
+                      <button
+                        onClick={goToSignEnd}
+                        className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm"
+                      >
+                        완료
+                      </button>
+                    </BtnContainer>
                   </div>
                 ) : (
                   ""
@@ -250,12 +312,14 @@ function SignUp() {
               </div>
             ) : (
               <div>
-                <button
-                  onClick={handleNext}
-                  className="w-full mb-5 rounded-full h-10 border  border-primary text-primary text-sm"
-                >
-                  다음
-                </button>
+                <BtnContainer>
+                  <button
+                    onClick={handleNext}
+                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                  >
+                    다음
+                  </button>
+                </BtnContainer>
               </div>
             )}
           </ContextInnerContainer>
@@ -265,161 +329,50 @@ function SignUp() {
           <div>
             <NewDivContainer>
               <div className="mx-8 flex flex-col h-full justify-evenly">
-                <div className="mt-5 grid grid-cols-3 gap-2 justify-items-center">
+                <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center">
                   {/* 각 버튼별 선택된 이미지 저장 및 아이콘 어둡게 작업 필요*/}
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
+                  {profileid.map((index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleButtonClick(index)}
                     >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
-                  <button>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="100"
-                      height="100"
-                      viewBox="0 0 80 80"
-                      fill="none"
-                    >
-                      <circle
-                        cx="39.759"
-                        cy="39.759"
-                        r="39.759"
-                        fill="#ACACAC"
-                      />
-                    </svg>
-                  </button>
+                      <ProfileCircle isSelected={selectedButtonIndex === index}>
+                        {selectedButtonIndex === index && (
+                          <CheckIcon
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 23 16"
+                            fill="none"
+                          >
+                            <path
+                              d="M1 5.875L9.07692 14L22 1"
+                              strokeWidth="3"
+                              strokeLinecap="round"
+                            />
+                          </CheckIcon>
+                        )}
+                        <ProfileinnerText
+                          isSelected={selectedButtonIndex === index}
+                        >
+                          프로필 {index + 1}
+                        </ProfileinnerText>
+                      </ProfileCircle>
+                    </button>
+                  ))}
                 </div>
-                <button
+                {/* <button
                   className="w-full mb-5 rounded-full h-10 border  border-primary text-primary text-sm bg-white"
                   onClick={() => setShowNewDiv(false)} // 선택 버튼 클릭 시 새로운 div 상자 숨김
                 >
                   선택
-                </button>
+                </button> */}
+                <BtnContainer className="mb-5">
+                  <button
+                    onClick={() => setShowNewDiv(false)}
+                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                  >
+                    선택
+                  </button>
+                </BtnContainer>
               </div>
             </NewDivContainer>
           </div>
