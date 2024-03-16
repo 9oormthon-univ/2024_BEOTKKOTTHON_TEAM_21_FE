@@ -5,7 +5,7 @@ import styled from "styled-components";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   min-height: 100vh;
   font-family: "Pretendard";
@@ -34,15 +34,21 @@ const SplashText = styled.div`
 
 const ButtonContainer = styled.div`
   width: 85%;
-  position: absolute;
-  bottom: 5%;
   height: 10vh;
+`;
+
+const NavContainer = styled.div`
+  display: flex;
+  width: 100%;
+  min-height: 10vh;
 `;
 
 function SignUpEnd() {
   return (
     <div className="App">
       <Container>
+        <NavContainer></NavContainer>
+
         <div className="flex flex-col items-center w-11/12">
           <div>
             <SplashLogo>
@@ -56,12 +62,12 @@ function SignUpEnd() {
           <div className="text-xs text-gray-400 my-3">
             팀원들과 함께 즐겁고 알찬 프로젝트를 진행해보아요!
           </div>
-          <ButtonContainer>
-            <button className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm">
-              홈으로 이동하기
-            </button>
-          </ButtonContainer>
         </div>
+        <ButtonContainer className="mb-6">
+          <button className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm">
+            홈으로 이동하기
+          </button>
+        </ButtonContainer>
       </Container>
     </div>
   );
