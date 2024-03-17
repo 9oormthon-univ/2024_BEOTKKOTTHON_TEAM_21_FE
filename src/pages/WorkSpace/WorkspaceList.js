@@ -58,8 +58,8 @@ const WorkspaceList = () => {
   useEffect(()=>{ // 내 워크스페이스 목록 반환
     const spaceList = async () => {
       try {
-          // const response = await APIClient().get('/workspace/list');
-          // const data = response.data
+          const response = await APIClient().get('/workspace/list');
+          const data = response.data
           console.log('워크스페이스 목록 반환')
         } catch (error) {
           console.error(error);
@@ -69,10 +69,10 @@ const WorkspaceList = () => {
     spaceList();
   }, [])
 
-  const JoinWorkspace = async (UUID) => {
+  const JoinWorkspace = async (workspaceUUID) => {
     try {
-      // const response = await APIClient().post(`/workspaces/${workspaceUUID}/join`, null);
-      navigate(`/workspacehome/${UUID}`, response)
+      const response = await APIClient().post(`/workspaces/${workspaceUUID}/join`, null);
+      navigate(`/workspacehome/${workspaceUUID}`, response)
     } catch (error) {
       console.error(error);
   }}

@@ -37,7 +37,7 @@ const WorkSpaceHome = () => {
                 "profileImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s"
               },
               {
-                "id": "3",
+                "id": "4",
                 "nickName": "도레미",
                 "profileImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s"
               }
@@ -53,7 +53,7 @@ const WorkSpaceHome = () => {
       try {
           const response = await APIClient().post(`/workspaces/${UUID}/join`, null);
           const data = response.data;
-          console.log('선택한 워크스페이스에 참여')
+          console.log('선택한 워크스페이스에 참여')          
       } catch (error) {
           console.error(error);
       }
@@ -88,6 +88,7 @@ const WorkSpaceHome = () => {
 export default WorkSpaceHome;
 
 const PersonBox = ({ person, data }) => {
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 토글
   const [isEdit, setIsEdit] = useState(false); // 이름 편집 토글
   const [name, setName] = useState(person.nickName);
@@ -111,13 +112,30 @@ const PersonBox = ({ person, data }) => {
 
     try {
         // workspaceID에 뭐가 들어가야하는지? UUID? 사용자id?
-        // const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
-        // const data = response.data;
+        const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
+        const data = response.data;
         console.log('워크스페이스 프로필 수정')
         console.log(editProfileState)
     } catch (error) {
         console.error(error);
     }
+  }
+
+  const OneToOneChat = async () => {
+    console.log(person.id, person.nickName); // 내가 요청하고 싶은 상대방 id
+    const userId1 = person.id;
+    const userName = person.nickName
+    const userId2 = 1 // 내 아이디
+    try {
+      // const response = await APIClient().post(`/chatRoom/create/chatRoom/${userId1}/${userId2}`, null);
+      // 채팅방 id가 돌아오나?
+      // const chatRoomId = response.data;
+      const chatRoomId = 0
+      navigate(`/secretfeedback/${chatRoomId}`, {state : { userId1, userName }}) // 1:1 채팅방 페이지로 이동
+  } catch (error) {
+      console.error(error);
+  }
+    
   }
   return (
     <>
@@ -143,7 +161,7 @@ const PersonBox = ({ person, data }) => {
 
         {isModalOpen && (
         <W.Modal>
-          <Link to={`/secretFeedback`}>1:1 시크릿 피드백 요청하기</Link>
+          <button onClick={()=>{ OneToOneChat() }}>1:1 시크릿 피드백 요청하기</button>
         </W.Modal>
         )}
       </W.Person>
