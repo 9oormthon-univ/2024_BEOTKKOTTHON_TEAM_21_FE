@@ -33,10 +33,10 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          {/* <Route
+          <Route
             path="/"
             element={showSplash ? <Splash /> : <Navigate to="/login" />}
-          /> */}
+          />
           <Route path="/splash" element={<Splash />} />
           <Route path="/login" element={<Login />} />
           <Route path="/workspacelist" element={<WorkspaceList />} />
