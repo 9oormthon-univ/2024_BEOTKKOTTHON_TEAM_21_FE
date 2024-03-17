@@ -33,16 +33,19 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-          <Route
+          {/* <Route
             path="/"
             element={showSplash ? <Splash /> : <Navigate to="/login" />}
-          />
+          /> */}
           <Route path="/splash" element={<Splash />} />
           <Route path="/login" element={<Login />} />
           <Route path="/workspacelist" element={<WorkspaceList />} />
           <Route path="/workspacehome/:UUID" element={<WorkSpaceHome />} />
           <Route path="/feedbackstorage/:UUID" element={<FeedbackStorage />} />
-          <Route path="/secretfeedback/:chatRoomId" element={<SecretFeedback />} />
+          <Route
+            path="/secretfeedback/:chatRoomId"
+            element={<SecretFeedback />}
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signend" element={<SignUpEnd />} />
           <Route path="/recommendstart" element={<RecommendStart />} />
