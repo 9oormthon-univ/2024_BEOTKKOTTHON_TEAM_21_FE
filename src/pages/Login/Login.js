@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import logoImage from "../../assets/logo.png";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -15,7 +16,11 @@ const LoginContainer = styled.div`
 const Logo = styled.div`
   width: 100px;
   height: 100px;
-  background: #d9d9d9;
+  background-image: url(${logoImage});
+
+  background-size: contain; /* 100x100으로 크기 조정 */
+  background-repeat: no-repeat;
+  background-position: center;
 `;
 
 function Login() {
