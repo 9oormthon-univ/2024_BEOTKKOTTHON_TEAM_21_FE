@@ -3,7 +3,7 @@ import WorkspaceBottom from '../../component/WorkspaceBottom';
 import { GoChevronLeft } from "react-icons/go";
 import { BsSendPlus } from "react-icons/bs";
 import * as F from "../../styles/Feedback";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { images } from './../../utils/images';
 import mockData from '../../utils/mockData.json';
 
@@ -11,6 +11,7 @@ import mockData from '../../utils/mockData.json';
 const FeedbackStorage = () => {
   // true > 받은 피드백 / false > 보낸 피드백
   const [feedbackState, SetFeedbackState] = useState(true);
+  const { UUID } = useParams();
 
   return (
     <div className='relative'>
@@ -41,7 +42,7 @@ const FeedbackStorage = () => {
         })}
       </F.SendFeedBack>}
       
-      <WorkspaceBottom activeItem={'chat'} />
+      <WorkspaceBottom activeItem={'chat'} UUID={UUID} />
     </div>
   );
 };

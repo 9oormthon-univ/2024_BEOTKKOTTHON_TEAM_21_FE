@@ -51,9 +51,9 @@ const WorkSpaceHome = () => {
   useEffect(()=>{
     const JoinWorkspace = async () => {
       try {
-          // const response = await APIClient().post(`/workspaces/${UUID}/join`, null);
-          // const data = response.data;
-          console.log('yet')
+          const response = await APIClient().post(`/workspaces/${UUID}/join`, null);
+          const data = response.data;
+          console.log('선택한 워크스페이스에 참여')
       } catch (error) {
           console.error(error);
       }
@@ -79,7 +79,7 @@ const WorkSpaceHome = () => {
         ))}
       </W.PersonGrid>
       
-      <WorkspaceBottom activeItem={'home'} />
+      <WorkspaceBottom activeItem={'home'} UUID={UUID} />
     </W.WorkSpaceHomeContainer>
   </>
   );
@@ -92,7 +92,7 @@ const PersonBox = ({ person, data }) => {
   const [isEdit, setIsEdit] = useState(false); // 이름 편집 토글
   const [name, setName] = useState(person.nickName);
   const [editProfileState, setEditProfileState] = useState({
-    "workspaceId": "워크스페이스 ID",
+    "workspaceId": data.workspaceUUID,
     "workspaceName": data.teamName,
     "userName": person.nickName,
     "created_at": "워크스페이스 생성 일자"
@@ -102,23 +102,22 @@ const PersonBox = ({ person, data }) => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const EditProfile = (person, data, name) => {
+  const EditProfile = async (person, data, name) => {
     setIsEdit(false)
     setEditProfileState(prevState => ({
       ...prevState, // 기존 정보 그대로
       userName: name, // 바뀐 이름
     }));
 
-    const HandleEditName = async () => {
-      try {
-          const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
-          const data = response.data;
-      } catch (error) {
-          console.error(error);
-      }
+    try {
+        // workspaceID에 뭐가 들어가야하는지? UUID? 사용자id?
+        // const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
+        // const data = response.data;
+        console.log('워크스페이스 프로필 수정')
+        console.log(editProfileState)
+    } catch (error) {
+        console.error(error);
     }
-
-    HandleEditName();
   }
   return (
     <>
@@ -128,6 +127,7 @@ const PersonBox = ({ person, data }) => {
         </W.PersonImg>
 
         <div className='flex items-center justify-center'>
+          {/* 편집 권한 본인일 때만 가능하도록 추가 구현 필요 */}
           {isEdit ?
           <div className='flex justify-center items-center w-1/2'>
             <input className='w-full' type="text" value={name} onChange={(e)=>{ setName(e.target.value) }} />

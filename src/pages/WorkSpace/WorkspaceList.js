@@ -59,7 +59,8 @@ const WorkspaceList = () => {
     const spaceList = async () => {
       try {
           // const response = await APIClient().get('/workspace/list');
-          console.log('yet')
+          // const data = response.data
+          console.log('워크스페이스 목록 반환')
         } catch (error) {
           console.error(error);
       }
