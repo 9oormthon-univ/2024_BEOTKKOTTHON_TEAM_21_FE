@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import axios from "axios";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -19,9 +20,33 @@ const Logo = styled.div`
 
 function Login() {
   const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const goToSignUp = () => {
     navigate("/signup");
+  };
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post("/api/auth/signIn", {
+        loginId: username,
+        password: password,
+      });
+      console.log("Response:", response.data);
+      // 로그인 성공시 워크스페이스 리스트로 이동
+      // navigate("/");
+    } catch (error) {
+      console.error("Error:", error.response.data);
+    }
   };
 
   return (
@@ -33,30 +58,28 @@ function Login() {
         </div>
         <div className="flex flex-col  justify-center items-center my-5 gap-10 text-sm w-2/3">
           <div className="w-full">
-            {/* <input
-              class="appearance-none border-b rounded w-full py-2 px-3 text-gray-700 leading-tight focus:border-sky-500 focus:ring-sky-400 focus:ring-1 focus:shadow-outline "
-              id="username"
-              type="text"
-              placeholder="아이디"
-            ></input> */}
             <input
               type="text"
               name="id"
-              class="mt-1 px-3 py-2 bg-white border-b shadow-sm  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  sm:text-sm focus:ring-1"
+              value={username}
+              onChange={handleUsernameChange}
+              className="mt-1 px-3 py-2 bg-white border-b shadow-sm  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  sm:text-sm focus:ring-1"
               placeholder="아이디"
             />
           </div>
           <div className="w-full">
             <input
-              class="mt-1 px-3 py-2 bg-white border-b shadow-sm  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  sm:text-sm focus:ring-1"
+              className="mt-1 px-3 py-2 bg-white border-b shadow-sm  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  sm:text-sm focus:ring-1"
               id="password"
               type="password"
+              value={password}
+              onChange={handlePasswordChange}
               placeholder="비밀번호"
             ></input>
           </div>
         </div>
         <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center">
-          <button>로그인</button>
+          <button onClick={handleLogin}>로그인</button>
         </div>
         <div className="flex text-xs -mt-8 text-gray-400">
           <a>아이디 찾기</a>
