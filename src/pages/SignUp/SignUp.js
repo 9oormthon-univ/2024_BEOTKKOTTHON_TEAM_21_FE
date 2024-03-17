@@ -43,14 +43,14 @@ const NewDivContainer = styled.div`
   box-shadow: 0px -15px 15px -15px rgba(0, 0, 0, 0.5);
   font-family: "Pretendard-Regular";
 
-//   @media (max-width: 500px) {
-//     width: 100vw;
-//   }
-//   @media (min-height: 800px) {
-//     height: 600px;
-//     gap: 3rem;
-//   }
-// `;
+  @media (max-width: 500px) {
+    width: 100vw;
+  }
+  @media (min-height: 800px) {
+    height: 600px;
+    gap: 3rem;
+  }
+`;
 
 const ProfileCircle = styled.div`
   display: flex;
@@ -100,17 +100,17 @@ function SignUp() {
     }
   };
 
-//   const handleBack = () => {
-//     if (activeStep > 0) {
-//       setActiveStep((prevActiveStep) => prevActiveStep - 1);
-//     } else {
-//       navigate(-1); // 다시 로그인 페이지로 이동
-//     }
-//   };
+  const handleBack = () => {
+    if (activeStep > 0) {
+      setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    } else {
+      navigate(-1); // 다시 로그인 페이지로 이동
+    }
+  };
 
-//   const handleSvgClick = () => {
-//     setShowNewDiv(true);
-//   };
+  const handleSvgClick = () => {
+    setShowNewDiv(true);
+  };
 
   const handleButtonClick = (index) => {
     setselectedButtonIndex(index);

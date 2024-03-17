@@ -4,12 +4,13 @@ import styled from "styled-components";
 export const WorkSpaceHomeContainer = styled.div`
 `;
 export const Background = styled.div`
+  border-radius: 0 0 20% 20%;
+  background: linear-gradient(180deg, #FFD875 0%, #FFA680 100%);
+  width: 375px;
+  height: 275px;
+  background-size: contain;
   position: absolute;
   z-index: -1;
-  min-width: 375px;
-  height: 250px;
-  border-radius: 0px 0px 50px 50px;
-  background: linear-gradient(180deg, #FFD875 0%, #FFA680 100%);
   flex-shrink: 0;
   top: 0;
   left: 50%;
@@ -78,3 +79,24 @@ export const BottomContent = styled.button`
   font-size: 13px;
   color: ${props => props.active ? '#FEC533' : '#d7d7d7'};
 `;
+
+export const wsListContainer = styled.div`
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  justify-items: center;
+  align-items: center;
+  gap: 30px;
+`
+
+export const wsListBox = styled.div`
+  color: white;
+  width: 100%;
+  height: 130px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+`
