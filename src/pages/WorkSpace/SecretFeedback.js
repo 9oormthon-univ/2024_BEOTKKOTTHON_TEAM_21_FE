@@ -13,7 +13,7 @@ const SecretFeedback = () => {
   const location = useLocation();
   console.log(location.state) // null ... 
 
-  const [stompClient, setStompClient] = useState(null);
+  const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
 
@@ -45,14 +45,14 @@ const SecretFeedback = () => {
     };
 
     if (stompClient) {
-      stompClient.subscribe('/sub', handleMessage);
+      stompClient.subscribe(`/message/room/${chatRoomId}`, handleMessage);
     }
   }, [stompClient]); // stompClient 값 변경X, 값이 동일한 상태에서 여러 번 호출되는 것.
 
   // 메세지 송신
   const sendMessage = () => {
     if (stompClient && inputMessage.trim() !== '') {
-      stompClient.send('/pub', {}, inputMessage);
+      stompClient.send(`/message/room/${chatRoomId}`, {}, inputMessage);
       setInputMessage('');
     }
   };
