@@ -1,0 +1,19 @@
+/* RecommendStart.module.css */
+
+@keyframes slidein {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-405%);
+  }
+}
+
+@keyframes slidein2 {
+  0% {
+    transform: translateX(50%);
+  }
+  100% {
+    transform: translateX(-355%);
+  }
+}
