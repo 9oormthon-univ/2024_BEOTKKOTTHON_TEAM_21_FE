@@ -24,7 +24,8 @@ export const StyledImg = styled.img`
   width: 70px;
   height: 70px;
   border-radius: 50%;
-`
+  border: 2px solid ${props => props.active ? '#FEC533' : '#FFA680'};
+  `
 export const FeedbackContent = styled.div`
   display: flex;
   flex-direction: column;

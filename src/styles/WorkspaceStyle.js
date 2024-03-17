@@ -90,7 +90,7 @@ export const wsListContainer = styled.div`
   gap: 30px;
 `
 
-export const wsListBox = styled.div`
+export const wsListBox = styled.button`
   color: white;
   width: 100%;
   height: 130px;
@@ -98,5 +98,4 @@ export const wsListBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 10px;
-`
+  border-radius: 10px;`

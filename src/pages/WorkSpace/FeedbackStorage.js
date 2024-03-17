@@ -28,7 +28,7 @@ const FeedbackStorage = () => {
       <F.ReceiveFeedBack>
         {mockData.map((data)=>{
           return(
-            <Feedback userid={data.userId} img={data.img} name={data.name} time={data.time} content={data.content}/>
+            <Feedback receive={true} userid={data.userId} img={data.img} name={data.name} time={data.time} content={data.content}/>
           )
         })}
       </F.ReceiveFeedBack> : 
@@ -36,7 +36,7 @@ const FeedbackStorage = () => {
       <F.SendFeedBack>
          {mockData.map((data)=>{
           return(
-            <Feedback userid={data.userId} img={data.img} name={data.name} time={data.time} content={data.content}/>
+            <Feedback receive={false} userid={data.userId} img={data.img} name={data.name} time={data.time} content={data.content}/>
           )
         })}
       </F.SendFeedBack>}
@@ -74,7 +74,7 @@ export const Feedback = (props) => {
   return (
     <F.FeedbackContainer onClick={ ()=>{HandleChatRoom(props)} }>
       <F.FeedbackImg>
-        <F.StyledImg src={images.cat} alt='img'/>
+        <F.StyledImg src={images.cat} alt='img' active={props.receive}/>
       </F.FeedbackImg>
 
       <F.FeedbackContent>

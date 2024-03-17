@@ -3,19 +3,14 @@ import styled from "styled-components";
 import { images } from '../../utils/images';
 import WorkspaceBottom from '../../component/WorkspaceBottom';
 import * as W from "../../styles/WorkspaceStyle";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { GoChevronLeft } from "react-icons/go";
 import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { APIClient } from '../../utils/Api';
 
 const WorkSpaceHome = () => {
-  const people = [
-    { userid:1, name:'김구름', image: images.dog },
-    { userid:2, name:'김개똥', image: images.dog },
-    { userid:3, name:'미르미', image: images.dog },
-    { userid:4, name:'구르미', image: images.dog }
-  ];
+  const { UUID } = useParams();
 
   const response = {
       "success": true,
@@ -51,13 +46,12 @@ const WorkSpaceHome = () => {
   }
 
   const data = response.data;
-  console.log(data)
 
   // 워크스페이스 참여
   useEffect(()=>{
     const JoinWorkspace = async () => {
       try {
-          // const response = await APIClient().post(`/workspaces/${workspaceUUID}/join`, null);
+          // const response = await APIClient().post(`/workspaces/${UUID}/join`, null);
           // const data = response.data;
           console.log('yet')
       } catch (error) {
@@ -130,7 +124,7 @@ const PersonBox = ({ person, data }) => {
     <>
       <W.Person key={person.id}>
         <W.PersonImg  onClick={toggleModal}>
-          <img className='p-5' src={person.image} alt="" />
+          <img className='p-5' src={person.profileImageUrl} alt="" />
         </W.PersonImg>
 
         <div className='flex items-center justify-center'>
