@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -76,11 +77,55 @@ const BtnContainer = styled.div`
 `;
 
 function RecommendChoose() {
-  const navigate = useNavigate();
-  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+  // mockdata
+  const response2 = {
+    success: true,
+    code: "200",
+    message: "Success",
+    data: {
+      workspaceUUID: "37ef5ffb-166e-4b2c-b380-0a2780271a42",
+      teamName: "testTeam",
+      profileImageUrl:
+        "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228144115810458.jpg",
+      userInfoResponseList: [
+        {
+          id: "1",
+          nickName: "uuujjjeee",
+          profileImageUrl:
+            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s",
+        },
+      ],
+    },
+  };
 
-  const handleCardClick = (index) => {
-    setSelectedCardIndex(index);
+  const navigate = useNavigate();
+  const [selectedTeamName, setSelectedTeamName] = useState("");
+
+  const location = useLocation();
+  const teamNames = location.state?.teamNames || [];
+
+  console.log("전달받은 팀명 배열:", teamNames);
+
+  const handleCardClick = (teamName) => {
+    setSelectedTeamName(teamName);
+  };
+
+  const handleCreateTeam = async () => {
+    if (selectedTeamName !== "") {
+      // 선택된 팀 이름에 대한 개설
+      try {
+        // const response = await axios.post("/workspace", {
+        //   teamName: selectedTeamName,
+        // });
+        const workspaceUUID = response2.data.workspaceUUID;
+        console.log("workspace UUID :", workspaceUUID);
+        navigate(`/workspacehome/${workspaceUUID}`);
+      } catch (error) {
+        console.error("Error creating team:", error);
+      }
+    } else {
+      alert("팀 이름을 선택해주세요!"); // 모달창 따로 만들어도 될듯
+    }
   };
 
   const goToNext = () => {
@@ -103,10 +148,10 @@ function RecommendChoose() {
           <GradientContainer>
             <div className="mt-8 flex flex-col items-center justify-between">
               <CardContainer className="grid grid-cols-2 gap-5">
-                {[0, 1, 2, 3].map((index) => (
-                  <button key={index} onClick={() => handleCardClick(index)}>
-                    <Card isSelected={selectedCardIndex === index}>
-                      {selectedCardIndex === index && (
+                {teamNames.map((teamName, index) => (
+                  <button key={index} onClick={() => handleCardClick(teamName)}>
+                    <Card isSelected={selectedTeamName === teamName}>
+                      {selectedTeamName === teamName && (
                         <CheckIcon
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 23 16"
@@ -119,8 +164,11 @@ function RecommendChoose() {
                           />
                         </CheckIcon>
                       )}
-                      <CardinnerText isSelected={selectedCardIndex === index}>
-                        팀이름{index + 1}
+                      <CardinnerText
+                        isSelected={selectedTeamName === teamName}
+                        className="text-sm"
+                      >
+                        {teamName}
                       </CardinnerText>
                     </Card>
                   </button>
@@ -128,7 +176,10 @@ function RecommendChoose() {
               </CardContainer>
 
               <BtnContainer className="mb-5">
-                <button className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm">
+                <button
+                  onClick={handleCreateTeam}
+                  className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                >
                   팀 생성하기
                 </button>
               </BtnContainer>
