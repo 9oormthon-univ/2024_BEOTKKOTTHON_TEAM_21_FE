@@ -47,8 +47,14 @@ function Login() {
         password: password,
       });
       console.log("Response:", response.data);
+      // 로그인 토큰 저장 및 유저UUID 저장
+      const { authToken, userUUID } = response.data.data;
+      console.log("authToken :", authToken);
+      console.log("userUUID :", userUUID);
+      localStorage.setItem("authToken", authToken);
+      localStorage.setItem("userUUID", userUUID);
       // 로그인 성공시 워크스페이스 리스트로 이동
-      // navigate("/");
+      navigate("/workspacelist");
     } catch (error) {
       console.error("Error:", error.response.data);
     }

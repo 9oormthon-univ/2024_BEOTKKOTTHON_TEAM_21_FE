@@ -107,7 +107,7 @@ const Navbar = () => {
             </DrawerProfileContainer>
             <div>
               <ul>
-                <li className="my-5 px-5 h-10 border-b border-gray-200">
+                {/* <li className="my-5 px-5 h-10 border-b border-gray-200">
                   <a href="#" className="block hover:text-primary">
                     설정
                   </a>
@@ -116,7 +116,7 @@ const Navbar = () => {
                   <a href="#" className="block hover:text-primary">
                     도움말
                   </a>
-                </li>
+                </li> */}
                 <li className="my-5 px-5 h-10 border-b border-gray-200">
                   <a href="#" className="block hover:text-primary">
                     로그아웃
