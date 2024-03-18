@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
 import styles from "./RecommendStart.module.css"; // CSS 모듈 import
+import CloudBackground from "../../assets/CloudBg.png";
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,9 +34,10 @@ const GradientContainer = styled.div`
   width: 500px;
   height: 75vh;
   flex-shrink: 0;
-  border-radius: 160px 160px 0px 0px;
+  /* border-radius: 160px 160px 0px 0px; */
   /* background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%); */
-
+  background-image: url(${CloudBackground});
+  background-size: cover;
   z-index: 0; /* Ensure it's behind content */
 `;
 
