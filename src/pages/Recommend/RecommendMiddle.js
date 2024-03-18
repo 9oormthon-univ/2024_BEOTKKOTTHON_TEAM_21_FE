@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   font-family: "Pretendard";
-  position: relative; /* Add relative positioning */
+  position: relative;
   overflow: hidden;
 `;
 
@@ -30,98 +31,121 @@ const KeywordContainer = styled.div`
 `;
 
 const BtnContainer = styled.div`
-  /* position: absolute; */
-  /* bottom: 30px; */
   width: 311px;
   height: 10vh;
 `;
 
 function RecommendMiddle() {
-  const navigate = useNavigate();
-  const [keyword1, setKeyword1] = useState("");
-  const [keyword2, setKeyword2] = useState("");
-  const [keyword3, setKeyword3] = useState("");
-  const [keyword4, setKeyword4] = useState("");
-  const [keyword5, setKeyword5] = useState("");
+  // mockdata
+  const response2 = {
+    success: true,
+    code: "200",
+    message: "Success",
+    data: {
+      teamNames: [
+        "1. 개발귀요미팀",
+        "2. 카카오ESG개발팀",
+        "3. 귀여운카카오ESG팀",
+        "4. 카카오ESG개발단체",
+      ],
+    },
+  };
 
+  const data2 = response2.data;
+
+  const navigate = useNavigate();
+  const [keywords, setKeywords] = useState({
+    keyword1: "",
+    keyword2: "",
+    keyword3: "",
+    keyword4: "",
+    keyword5: "",
+  });
   const [error, setError] = useState("");
 
-  const handleNext = () => {
-    // 검증 로직: 키워드 1, 2, 3이 모두 입력되었는지 확인
-    if (!keyword1 || !keyword2 || !keyword3) {
-      setError("필수 키워드를 모두 입력해주세요.");
+  const handleNext = async () => {
+    const { keyword1, keyword2, keyword3, keyword4, keyword5 } = keywords;
+    const keywordList = [
+      keyword1,
+      keyword2,
+      keyword3,
+      keyword4,
+      keyword5,
+    ].filter((keyword) => keyword.trim() !== "");
+
+    if (keywordList.length < 3) {
+      setError("최소 3개의 키워드를 입력해주세요.");
       return;
     }
-    // 검증 로직 통과 시 : 다음 페이지로 이동
+
     setError("");
-    navigate("/recommendchoose");
+    // keywordList를 api에 활용, 팀명 추천 페이지로 이동
+    console.log("키워드 리스트:", keywordList);
+
+    try {
+      // const response = await axios.post("/openAI/generate/teamNames", {
+      //   seedWords: keywordList,
+      // });
+
+      // const teamNames = response.data.teamNames; // 응답에서 팀명 목록 가져오기
+      const teamNames = response2.data.teamNames; // mock data 이용
+      // 팀명 목록을 처리하여 추천 페이지로 이동하거나 사용
+
+      console.log("팀명 목록:", teamNames);
+
+      // 각 문자열의 3번째 인덱스부터 팀 이름으로 추출하는 함수
+      const extractTeamNames = (teamNames) => {
+        return teamNames.map((name) => name.substring(3)); // 각 문자열의 3번째 인덱스부터 추출
+      };
+
+      const extractedTeamNames = extractTeamNames(teamNames);
+      console.log(extractedTeamNames); // ["개발귀요미팀", "카카오ESG개발팀", "귀여운카카오ESG팀", "카카오ESG개발단체"]
+
+      navigate("/recommendchoose", {
+        state: { teamNames: extractedTeamNames },
+      });
+    } catch (error) {
+      console.error("Error:", error.response.data);
+    }
+
+    // navigate("/recommendchoose");
+  };
+
+  const handleKeywordChange = (event, keywordName) => {
+    setKeywords({ ...keywords, [keywordName]: event.target.value });
   };
 
   return (
     <div className="App">
       <Container>
-        <Navbar></Navbar>
+        <Navbar />
         <ContextContainer>
           <KeywordContainer>
             <div className="ml-8">팀의 키워드를 입력해주세요.</div>
             <div className="text-sm mx-10 flex flex-col gap-1/4">
-              {/* 필수 입력란 검증 로직 추가  */}
-              <input
-                type="text"
-                name="keyword1"
-                value={keyword1}
-                onChange={(e) => setKeyword1(e.target.value)}
-                className={`my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full xs:text-sm focus:ring-1 ${
-                  error && !keyword1 ? "border-red-500" : ""
-                }`}
-                placeholder="키워드 1"
-                required
-              />
-              <input
-                type="text"
-                name="keyword2"
-                value={keyword2}
-                onChange={(e) => setKeyword2(e.target.value)}
-                className={`my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full xs:text-sm focus:ring-1 ${
-                  error && !keyword2 ? "border-red-500" : ""
-                }`}
-                placeholder="키워드 2"
-                required
-              />
-              <input
-                type="text"
-                name="keyword3"
-                value={keyword3}
-                onChange={(e) => setKeyword3(e.target.value)}
-                className={`my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full xs:text-sm focus:ring-1 ${
-                  error && !keyword3 ? "border-red-500" : ""
-                }`}
-                placeholder="키워드 3"
-                required
-              />
-              <input
-                type="text"
-                name="keyword4"
-                value={keyword4}
-                onChange={(e) => setKeyword4(e.target.value)}
-                className="my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                placeholder="키워드 4 (선택)"
-              />
-              <input
-                type="text"
-                name="keyword5"
-                value={keyword5}
-                onChange={(e) => setKeyword5(e.target.value)}
-                className="my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                placeholder="키워드 5 (선택)"
-              />
+              {Object.keys(keywords).map((keywordName, index) => (
+                <input
+                  key={index}
+                  type="text"
+                  name={keywordName}
+                  value={keywords[keywordName]}
+                  onChange={(e) => handleKeywordChange(e, keywordName)}
+                  className={`my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full xs:text-sm focus:ring-1 ${
+                    error && !keywords[keywordName].trim()
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                  placeholder={`키워드 ${index + 1}`}
+                  required
+                />
+              ))}
             </div>
             {error && <div className="text-red-500 ml-8 text-sm">{error}</div>}
           </KeywordContainer>
-          <BtnContainer className="mb-5">
+          <BtnContainer>
             <button
               onClick={handleNext}
-              className="mb-5 w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm"
+              className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
             >
               다음
             </button>

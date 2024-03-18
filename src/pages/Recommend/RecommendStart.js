@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import styles from "./RecommendStart.module.css"; // CSS 모듈 import
+import CloudBackground from "../../assets/CloudBg.png";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   font-family: "Pretendard";
+  background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
 
   position: relative; /* Add relative positioning */
   overflow: hidden;
@@ -31,14 +34,18 @@ const GradientContainer = styled.div`
   width: 500px;
   height: 75vh;
   flex-shrink: 0;
-  border-radius: 160px 160px 0px 0px;
-  background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
-
+  /* border-radius: 160px 160px 0px 0px; */
+  /* background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%); */
+  background-image: url(${CloudBackground});
+  background-size: cover;
   z-index: 0; /* Ensure it's behind content */
 `;
 
 const TextContainer = styled.div`
-  margin-left: -80px;
+  /* margin-left: -80px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const TeamnameContainer1 = styled.div`
@@ -56,24 +63,39 @@ const TeamnameContainer1 = styled.div`
 const TeamnameContainer2 = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 18vh;
+  margin-top: 15vh;
   margin-right: 100px;
   gap: 20px;
   width: 346px;
   height: 52.695px;
   flex-shrink: 0;
   filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.25));
+
+  /* overflow: hidden; */
 `;
 
 const TeamnameBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 104.414px;
+  width: 108.337px;
   height: 52.695px;
   flex-shrink: 0;
   border-radius: 50px;
   background: #fff;
+  animation: ${styles.slidein} 15s linear infinite;
+`;
+
+const TeamnameBox2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 108.337px;
+  height: 52.695px;
+  flex-shrink: 0;
+  border-radius: 50px;
+  background: #fff;
+  animation: ${styles.slidein2} 15s linear infinite;
 `;
 
 const BtnContainer = styled.div`
@@ -97,7 +119,7 @@ function RecommendStart() {
         <ContextContainer>
           <TextContainer>
             <div className="text-lg mb-2">
-              우리 팀의 <b>팀명을 추천</b>해드릴게요!
+              <b>센스있는 팀명을 추천</b>해드릴게요!
             </div>
             <div className="text-sm text-gray-400">
               팀명은 언제든지 수정할 수 있어요.
@@ -107,17 +129,22 @@ function RecommendStart() {
             <div className="flex flex-col items-center justify-between">
               <div>
                 <TeamnameContainer1 className="text-sm">
-                  <TeamnameBox>Team Krews</TeamnameBox>
-                  <TeamnameBox>푸바오</TeamnameBox>
-                  <TeamnameBox>Team2</TeamnameBox>
+                  <TeamnameBox>🛥️ 팀 크루즈</TeamnameBox>
+                  <TeamnameBox>🚗 아우디</TeamnameBox>
+                  <TeamnameBox>☁️ 구름톤</TeamnameBox>
+                  <TeamnameBox2>🛥️ 팀 크루즈</TeamnameBox2>
+                  <TeamnameBox2>🚗 아우디</TeamnameBox2>
+                  <TeamnameBox2>☁️ 구름톤</TeamnameBox2>
                 </TeamnameContainer1>
                 <TeamnameContainer2 className="text-sm">
-                  <TeamnameBox>옴뇸뇸</TeamnameBox>
-                  <TeamnameBox>팀이름</TeamnameBox>
-                  <TeamnameBox>스폰지밥</TeamnameBox>
+                  <TeamnameBox>🫠 미르미네</TeamnameBox>
+                  <TeamnameBox>🍫 카카오</TeamnameBox>
+                  <TeamnameBox>🐣 햇병아리</TeamnameBox>
+                  <TeamnameBox2>🫠 미르미네</TeamnameBox2>
+                  <TeamnameBox2>🍫 카카오</TeamnameBox2>
+                  <TeamnameBox2>🐣 햇병아리</TeamnameBox2>
                 </TeamnameContainer2>
               </div>
-
               <BtnContainer className="mb-5">
                 <button
                   onClick={goToNext}
