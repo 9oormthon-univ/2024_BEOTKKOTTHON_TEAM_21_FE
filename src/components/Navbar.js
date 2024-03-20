@@ -38,6 +38,25 @@ const ProfileImage2 = styled.img`
   object-fit: cover;
 `;
 
+const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  width: 200px;
+  height: 100px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+`;
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -46,6 +65,7 @@ const Navbar = () => {
   const [id, setId] = useState("");
   const [nickname, setNickname] = useState("");
   const [profileImgUrl, setProfileImgUrl] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const goToBack = () => {
     navigate(-1);
@@ -110,6 +130,25 @@ const Navbar = () => {
 
   return (
     <div>
+      {showLogoutModal && (
+        <Modal className="text-sm">
+          <div>로그아웃하시겠습니까?</div>
+          <div className="flex gap-11">
+            <button
+              onClick={handleLogout}
+              className="hover:text-primary cursor-pointer"
+            >
+              네
+            </button>
+            <button
+              onClick={() => setShowLogoutModal(false)}
+              className="hover:text-primary cursor-pointer"
+            >
+              아니요
+            </button>
+          </div>
+        </Modal>
+      )}
       <div
         id="sidebar"
         className={`absolute bg-white  w-64 min-h-screen overflow-y-auto transition-transform transform ${
@@ -166,7 +205,7 @@ const Navbar = () => {
                 </li> */}
                 <li className="my-5 px-5 h-10 border-b border-gray-200">
                   <a
-                    onClick={handleLogout}
+                    onClick={() => setShowLogoutModal(true)}
                     className="block hover:text-primary cursor-pointer"
                   >
                     로그아웃
