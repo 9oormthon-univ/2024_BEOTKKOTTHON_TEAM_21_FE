@@ -51,6 +51,12 @@ const Navbar = () => {
     navigate(-1);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userUUID");
+    navigate("/login");
+  };
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       const sidebar = document.getElementById("sidebar");
@@ -159,7 +165,10 @@ const Navbar = () => {
                   </a>
                 </li> */}
                 <li className="my-5 px-5 h-10 border-b border-gray-200">
-                  <a href="#" className="block hover:text-primary">
+                  <a
+                    onClick={handleLogout}
+                    className="block hover:text-primary cursor-pointer"
+                  >
                     로그아웃
                   </a>
                 </li>
