@@ -80,7 +80,7 @@ const Navbar = () => {
             Authorization: `Bearer ${authToken}`,
           },
         });
-        console.log(response.data);
+        // console.log(response.data);
         if (response.status === 200) {
           setUserData(response.data);
 
@@ -100,7 +100,7 @@ const Navbar = () => {
     fetchUserData();
   }, []);
 
-  console.log(email, id, nickname, profileImgUrl);
+  // console.log(email, id, nickname, profileImgUrl);
 
   return (
     <div>
