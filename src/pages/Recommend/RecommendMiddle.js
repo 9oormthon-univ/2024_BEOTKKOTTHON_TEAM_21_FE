@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import Spinner from "../../assets/Spinner2.gif";
 import axios from "axios";
 
 const Container = styled.div`
@@ -62,6 +63,7 @@ function RecommendMiddle() {
     keyword5: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // 팀이름 loading 상태
 
   const handleNext = async () => {
     const { keyword1, keyword2, keyword3, keyword4, keyword5 } = keywords;
@@ -79,6 +81,8 @@ function RecommendMiddle() {
     }
 
     setError("");
+    setLoading(true); // 요청 시작 시 loading 상태를 true로 변경
+
     // keywordList를 api에 활용, 팀명 추천 페이지로 이동
     console.log("키워드 리스트:", keywordList);
 
@@ -140,12 +144,21 @@ function RecommendMiddle() {
             {error && <div className="text-red-500 ml-8 text-sm">{error}</div>}
           </KeywordContainer>
           <BtnContainer>
-            <button
-              onClick={handleNext}
-              className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
-            >
-              다음
-            </button>
+            {loading ? ( // loading이 true이면 Spinner를, 아니면 "다음" 버튼을 표시
+              <img
+                src={Spinner}
+                alt="Spinner"
+                width="150px"
+                className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              />
+            ) : (
+              <button
+                onClick={handleNext}
+                className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+              >
+                다음
+              </button>
+            )}
           </BtnContainer>
         </ContextContainer>
       </Container>
