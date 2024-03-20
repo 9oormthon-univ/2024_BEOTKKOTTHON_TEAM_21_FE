@@ -111,13 +111,32 @@ function RecommendChoose() {
   };
 
   const handleCreateTeam = async () => {
+    console.log("선택된 팀 이름:", selectedTeamName);
     if (selectedTeamName !== "") {
+      // 로컬 스토리지에서 authToken 가져오기
+      const authToken = localStorage.getItem("authToken");
+      console.log("authToken :", authToken);
+
+      if (!authToken) {
+        // 만약 authToken이 없으면 로그인 페이지로 이동하거나 다른 처리 수행 가능
+        console.error("AuthToken이 없습니다.");
+        return;
+      }
       // 선택된 팀 이름에 대한 개설
       try {
-        // const response = await axios.post("/workspace", {
-        //   teamName: selectedTeamName,
-        // });
-        const workspaceUUID = response2.data.workspaceUUID;
+        const response = await axios.post(
+          "/workspaces",
+          {
+            teamName: selectedTeamName,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        const workspaceUUID = response.data.workspaceUUID;
+        // const workspaceUUID = response2.data.workspaceUUID;
         console.log("workspace UUID :", workspaceUUID);
         navigate(`/workspacehome/${workspaceUUID}`);
       } catch (error) {

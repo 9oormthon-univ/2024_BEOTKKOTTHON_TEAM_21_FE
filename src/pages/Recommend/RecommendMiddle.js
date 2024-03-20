@@ -82,33 +82,30 @@ function RecommendMiddle() {
     // keywordList를 api에 활용, 팀명 추천 페이지로 이동
     console.log("키워드 리스트:", keywordList);
 
-    try {
-      // const response = await axios.post("/openAI/generate/teamNames", {
-      //   seedWords: keywordList,
-      // });
+    axios
+      .post("/openAI/generate/teamNames", {
+        seedWords: keywordList,
+      })
+      .then((response) => {
+        console.log(response);
+        const teamNames = response.data.data.teamNames;
 
-      // const teamNames = response.data.teamNames; // 응답에서 팀명 목록 가져오기
-      const teamNames = response2.data.teamNames; // mock data 이용
-      // 팀명 목록을 처리하여 추천 페이지로 이동하거나 사용
+        console.log("팀명 목록:", teamNames);
 
-      console.log("팀명 목록:", teamNames);
+        const extractTeamNames = (teamNames) => {
+          return teamNames.map((name) => name.substring(3));
+        };
 
-      // 각 문자열의 3번째 인덱스부터 팀 이름으로 추출하는 함수
-      const extractTeamNames = (teamNames) => {
-        return teamNames.map((name) => name.substring(3)); // 각 문자열의 3번째 인덱스부터 추출
-      };
+        const extractedTeamNames = extractTeamNames(teamNames);
+        console.log(extractedTeamNames);
 
-      const extractedTeamNames = extractTeamNames(teamNames);
-      console.log(extractedTeamNames); // ["개발귀요미팀", "카카오ESG개발팀", "귀여운카카오ESG팀", "카카오ESG개발단체"]
-
-      navigate("/recommendchoose", {
-        state: { teamNames: extractedTeamNames },
+        navigate("/recommendchoose", {
+          state: { teamNames: extractedTeamNames },
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error.response.data);
       });
-    } catch (error) {
-      console.error("Error:", error.response.data);
-    }
-
-    // navigate("/recommendchoose");
   };
 
   const handleKeywordChange = (event, keywordName) => {
