@@ -128,6 +128,10 @@ function RecommendChoose() {
           "/workspaces",
           {
             teamName: selectedTeamName,
+            profileImageUrl:
+              "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228144115810458.jpg",
+            explanation: `${selectedTeamName} 팀입니다`,
+            // profileImageUrl, explanation은 임의의 값으로 설정
           },
           {
             headers: {
@@ -135,6 +139,7 @@ function RecommendChoose() {
             },
           }
         );
+        console.log(response.data);
         const workspaceUUID = response.data.workspaceUUID;
         // const workspaceUUID = response2.data.workspaceUUID;
         console.log("workspace UUID :", workspaceUUID);
