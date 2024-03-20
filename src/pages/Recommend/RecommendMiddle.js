@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import Spinner from "../../assets/Spinner2.gif";
 import axios from "axios";
 
 const Container = styled.div`
@@ -62,6 +63,7 @@ function RecommendMiddle() {
     keyword5: "",
   });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // 팀이름 loading 상태
 
   const handleNext = async () => {
     const { keyword1, keyword2, keyword3, keyword4, keyword5 } = keywords;
@@ -79,36 +81,35 @@ function RecommendMiddle() {
     }
 
     setError("");
+    setLoading(true); // 요청 시작 시 loading 상태를 true로 변경
+
     // keywordList를 api에 활용, 팀명 추천 페이지로 이동
     console.log("키워드 리스트:", keywordList);
 
-    try {
-      // const response = await axios.post("/openAI/generate/teamNames", {
-      //   seedWords: keywordList,
-      // });
+    axios
+      .post("/openAI/generate/teamNames", {
+        seedWords: keywordList,
+      })
+      .then((response) => {
+        console.log(response);
+        const teamNames = response.data.data.teamNames;
 
-      // const teamNames = response.data.teamNames; // 응답에서 팀명 목록 가져오기
-      const teamNames = response2.data.teamNames; // mock data 이용
-      // 팀명 목록을 처리하여 추천 페이지로 이동하거나 사용
+        console.log("팀명 목록:", teamNames);
 
-      console.log("팀명 목록:", teamNames);
+        const extractTeamNames = (teamNames) => {
+          return teamNames.map((name) => name.substring(3));
+        };
 
-      // 각 문자열의 3번째 인덱스부터 팀 이름으로 추출하는 함수
-      const extractTeamNames = (teamNames) => {
-        return teamNames.map((name) => name.substring(3)); // 각 문자열의 3번째 인덱스부터 추출
-      };
+        const extractedTeamNames = extractTeamNames(teamNames);
+        console.log(extractedTeamNames);
 
-      const extractedTeamNames = extractTeamNames(teamNames);
-      console.log(extractedTeamNames); // ["개발귀요미팀", "카카오ESG개발팀", "귀여운카카오ESG팀", "카카오ESG개발단체"]
-
-      navigate("/recommendchoose", {
-        state: { teamNames: extractedTeamNames },
+        navigate("/recommendchoose", {
+          state: { teamNames: extractedTeamNames },
+        });
+      })
+      .catch((error) => {
+        console.error("Error:", error.response.data);
       });
-    } catch (error) {
-      console.error("Error:", error.response.data);
-    }
-
-    // navigate("/recommendchoose");
   };
 
   const handleKeywordChange = (event, keywordName) => {
@@ -143,12 +144,21 @@ function RecommendMiddle() {
             {error && <div className="text-red-500 ml-8 text-sm">{error}</div>}
           </KeywordContainer>
           <BtnContainer>
-            <button
-              onClick={handleNext}
-              className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
-            >
-              다음
-            </button>
+            {loading ? ( // loading이 true이면 Spinner를, 아니면 "다음" 버튼을 표시
+              <img
+                src={Spinner}
+                alt="Spinner"
+                width="150px"
+                className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              />
+            ) : (
+              <button
+                onClick={handleNext}
+                className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+              >
+                다음
+              </button>
+            )}
           </BtnContainer>
         </ContextContainer>
       </Container>
