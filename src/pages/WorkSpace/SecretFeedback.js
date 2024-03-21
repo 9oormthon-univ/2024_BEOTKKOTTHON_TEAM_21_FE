@@ -11,7 +11,7 @@ import WorkspaceBottom from '../../component/WorkspaceBottom';
 const SecretFeedback = () => {
   const { chatRoomId } = useParams();
   const location = useLocation();
-  const { userId1, userName } = location.state
+  // const { userId1, userName } = location.state
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [messages, setMessages] = useState([]);
@@ -19,7 +19,7 @@ const SecretFeedback = () => {
 
   useEffect(() => {
     const connectWebSocket = () => {
-      const socket = new WebSocket('http://3.35.236.118:8080/ws'); // 웹소켓 생성
+      const socket = new WebSocket('ws://http://3.35.236.118:8080/ws'); // 웹소켓 생성
       const stomp = Stomp.over(socket); // WebSocket을 STOMP 클라이언트로 변환
       // 웹소켓은 js에서만 사용가능한 객체이므로 서버와 통신하기 위해 stomp 클라이언트로 변환하는 것.
       stomp.connect({}, frame => { // 서버와 연결 설정
@@ -60,7 +60,7 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      <SecretTitle userName={userName} />
+      <SecretTitle userName={'sh'} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div>
         {messages.map((message, index) => (

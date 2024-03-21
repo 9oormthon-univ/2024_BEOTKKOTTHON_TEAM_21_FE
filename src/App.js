@@ -41,8 +41,8 @@ function App() {
           <Route path="/splash" element={<Splash />} />
           <Route path="/login" element={<Login />} />
           <Route path="/workspacelist" element={<WorkspaceList />} />
-          <Route path="/workspacehome/:UUID" element={<WorkSpaceHome />} />
-          <Route path="/feedbackstorage/:UUID" element={<FeedbackStorage />} />
+          <Route path="/workspacehome/:workspaceUUID" element={<WorkSpaceHome />} />
+          <Route path="/feedbackstorage/:workspaceUUID" element={<FeedbackStorage />} />
           <Route
             path="/secretfeedback/:chatRoomId"
             element={<SecretFeedback />}
