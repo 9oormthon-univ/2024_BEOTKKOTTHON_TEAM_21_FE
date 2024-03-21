@@ -5,18 +5,18 @@ import { IoChatbubbleEllipses } from "react-icons/io5";
 import { Navigate, useNavigate } from 'react-router-dom';
 import * as W from "../styles/WorkspaceStyle";
 
-const WorkspaceBottom = ({activeItem, UUID}) => {
+const WorkspaceBottom = ({activeItem, workspaceUUID}) => {
   const navigate = useNavigate();
 
   return (
     <div>
       <W.BottomContainer>
-        <W.BottomContent active={activeItem === 'home'} onClick={()=>{navigate(`/workspacehome/${UUID}`)}}>
+        <W.BottomContent active={activeItem === 'home'} onClick={()=>{navigate(`/workspacehome/${workspaceUUID}`)}}>
           <RiHome3Fill size={20} />
           <span>홈</span>
         </W.BottomContent>
 
-        <W.BottomContent active={activeItem === 'chat'}  onClick={()=>{navigate(`/feedbackstorage/${UUID}`)}}>
+        <W.BottomContent active={activeItem === 'chat'}  onClick={()=>{navigate(`/feedbackstorage/${workspaceUUID}`)}}>
           <IoChatbubbleEllipses size={20} />
           <span>채팅</span>
         </W.BottomContent>

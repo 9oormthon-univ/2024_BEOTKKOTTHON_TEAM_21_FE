@@ -7,21 +7,43 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { images } from './../../utils/images';
 import mockData from '../../utils/mockData.json';
 import { APIClient } from './../../utils/Api';
+import axios from 'axios';
+
 
 const FeedbackStorage = () => {
   // true > 받은 피드백 / false > 보낸 피드백
   const [feedbackState, SetFeedbackState] = useState(true);
-  const { UUID } = useParams();
+  const { workspaceUUID } = useParams();
 
   useEffect(()=>{
     const ShowFeedBack = async () => {
+      const authToken = localStorage.getItem("authToken");
       try {
         if (feedbackState) {
           console.log('받은 피드백')
-          const response = await APIClient().get(`/chatRoom/receive`);
+          const response = await axios.get("/chatRoom/received", { 
+            params: {
+              workspaceUUID: workspaceUUID
+            },
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            }
+          });
+          
+          console.log(response)
         } else {
           console.log('보낸 피드백')
-          const response = await APIClient().get(`/chatRoom/send`);
+          const response = await axios.get("/chatRoom/sent", { 
+            params: {
+              workspaceUUID: workspaceUUID
+            },
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            }
+          });
+          
+          console.log(response)
+
         }
         //  const data = response.data;
       } catch (error) {
@@ -29,7 +51,7 @@ const FeedbackStorage = () => {
       }
     }
     ShowFeedBack();
-  }, [feedbackState])
+  }, [feedbackState,WorkspaceBottom])
 
   return (
     <div className='relative'>
@@ -60,7 +82,7 @@ const FeedbackStorage = () => {
         })}
       </F.SendFeedBack>}
       
-      <WorkspaceBottom activeItem={'chat'} UUID={UUID} />
+      <WorkspaceBottom activeItem={'chat'} workspaceUUID={workspaceUUID} />
     </div>
   );
 };

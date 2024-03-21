@@ -7,6 +7,7 @@ import { BsSendPlus } from "react-icons/bs";
 import { images } from '../../utils/images';
 import { FaCircleArrowUp } from "react-icons/fa6";
 import WorkspaceBottom from '../../component/WorkspaceBottom';
+import SockJS from "sockjs-client";
 
 const SecretFeedback = () => {
   const { chatRoomId } = useParams();
@@ -19,7 +20,8 @@ const SecretFeedback = () => {
 
   useEffect(() => {
     const connectWebSocket = () => {
-      const socket = new WebSocket('ws://http://3.35.236.118:8080/ws'); // 웹소켓 생성
+      const socket = new SockJS("http://3.35.236.118:8080/ws");
+      // const socket = new WebSocket('ws://http://3.35.236.118:8080/ws'); // 웹소켓 생성
       const stomp = Stomp.over(socket); // WebSocket을 STOMP 클라이언트로 변환
       // 웹소켓은 js에서만 사용가능한 객체이므로 서버와 통신하기 위해 stomp 클라이언트로 변환하는 것.
       stomp.connect({}, frame => { // 서버와 연결 설정
