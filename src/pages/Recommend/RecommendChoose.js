@@ -140,10 +140,10 @@ function RecommendChoose() {
           }
         );
         console.log(response.data);
-        const workspaceUUID = response.data.workspaceUUID;
+        const workspaceUUID = response.data.data.workspaceUUID;
         // const workspaceUUID = response2.data.workspaceUUID;
         console.log("workspace UUID :", workspaceUUID);
-        navigate(`/workspacehome/${workspaceUUID}`);
+        navigate("/recommendend", { state: { workspaceUUID: workspaceUUID } });
       } catch (error) {
         console.error("Error creating team:", error);
       }
