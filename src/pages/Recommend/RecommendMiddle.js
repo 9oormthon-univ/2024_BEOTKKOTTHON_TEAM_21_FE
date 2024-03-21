@@ -86,10 +86,19 @@ function RecommendMiddle() {
     // keywordList를 api에 활용, 팀명 추천 페이지로 이동
     console.log("키워드 리스트:", keywordList);
 
+    const authToken = localStorage.getItem("authToken");
     axios
-      .post("/openAI/generate/teamNames", {
-        seedWords: keywordList,
-      })
+      .post(
+        "/openAI/generate/teamNames",
+        {
+          seedWords: keywordList,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response);
         const teamNames = response.data.data.teamNames;
