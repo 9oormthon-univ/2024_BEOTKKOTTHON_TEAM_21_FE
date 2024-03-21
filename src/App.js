@@ -18,6 +18,7 @@ import RecommendStart from "./pages/Recommend/RecommendStart";
 import RecommendMiddle from "./pages/Recommend/RecommendMiddle";
 import RecommendChoose from "./pages/Recommend/RecommendChoose";
 import RecommendEnd from "./pages/Recommend/RecommendEnd";
+import WorkSpaceEnter from "./pages/WorkSpace/WorkSpaceEnter";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/workspacelist" element={<WorkspaceList />} />
           <Route path="/workspacehome/:workspaceUUID" element={<WorkSpaceHome />} />
           <Route path="/feedbackstorage/:workspaceUUID" element={<FeedbackStorage />} />
+          <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
           <Route
             path="/secretfeedback/:chatRoomId"
             element={<SecretFeedback />}
