@@ -106,7 +106,7 @@ function Login() {
             <div className="text-gray-400">아직 회원이 아니신가요?</div>
             <a
               onClick={goToSignUp}
-              className="border-b border-primary text-primary cursor-pointer hover:text-sm"
+              className="border-b border-primary text-primary cursor-pointer hover:text-orange-500 duration-300"
             >
               회원가입
             </a>
