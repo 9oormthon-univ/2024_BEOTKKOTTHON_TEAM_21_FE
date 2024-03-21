@@ -68,7 +68,7 @@ function Login() {
     <div className="App">
       <LoginContainer>
         {/* <div className="max-content w-20 h-20 bg-gray-200"></div> */}
-        <div className="flex justify-center items-center -mb-10">
+        <div className="flex justify-center items-center -mb-10 animate-bounce">
           <Logo></Logo>
         </div>
         <div className="flex flex-col  justify-center items-center my-5 gap-10 text-sm w-2/3">
