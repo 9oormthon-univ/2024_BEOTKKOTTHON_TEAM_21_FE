@@ -37,16 +37,6 @@ const WorkspaceList = () => {
   const [workspaceList, setWorkspaceList] = useState([]);
   const [userName, setUserName] = useState("");
 
-  const [sendJoinData, setSendJoinData] = useState({
-    "id": 0,
-    "nickName": "",
-    "loginId": "",
-    "email": "",
-    "password": "",
-    "profileImageUrl": "",
-    "userUUID": ""
-  })
-
   useEffect(() => {
     // 내 워크스페이스 목록 반환
     const authToken = localStorage.getItem("authToken");
@@ -61,7 +51,6 @@ const WorkspaceList = () => {
         const userName = data.nickName;
         setUserName(userName);
         setWorkspaceList(workspaceTeam);
-        console.log(workspaceList)
       } catch (error) {
         console.error(error);
       }
@@ -69,19 +58,6 @@ const WorkspaceList = () => {
 
     spaceList();
   }, []);
-
-  const JoinWorkspace = async (workspaceUUID) => {
-    const authToken = localStorage.getItem("authToken");
-    try {
-      const response = await axios.post(
-        `/workspaces/${workspaceUUID}/join`, 넘길 data, { headers : {
-          Authorization: `Bearer ${authToken}`}
-        });
-      // navigate(`/workspacehome/${workspaceUUID}`, response);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div className="relative overflow-hidden">
@@ -96,11 +72,10 @@ const WorkspaceList = () => {
       <W.wsListContainer>
         {workspaceList.map((workspace, index) => {
           const randomStyle = styles[index % styles.length]; // 랜덤 색상 변경
-          console.log(workspace)
           return (
             <W.wsListBox
               onClick={() => {
-                JoinWorkspace(workspace.workspaceUUID);
+                navigate(`/workspacehome/${workspace.workspaceUUID}`);
               }}
               key={workspace.workspaceUUID}
               style={randomStyle}
