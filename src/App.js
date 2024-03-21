@@ -25,7 +25,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowSplash(false);
-    }, 2500); // 2.5초 후에 스플래시 화면 숨기기
+    }, 3500); // 3.5초 후에 스플래시 화면 숨기기
 
     return () => clearTimeout(timer); // 타이머 해제
   }, []);

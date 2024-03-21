@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MobileStepper from "@mui/material/MobileStepper";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const SignUpContainer = styled.div`
   display: flex;
@@ -116,8 +117,29 @@ function SignUp() {
     setselectedButtonIndex(index);
   };
 
-  const goToSignEnd = () => {
-    navigate("/signend");
+  // const goToSignEnd = () => {
+  //   navigate("/signend");
+  // };
+
+  const sendData = async () => {
+    try {
+      const data = {
+        email: email,
+        loginId: id,
+        password: password,
+        nickName: nickname,
+        profileImageUrl: "", // 임시값, 나중에 선택한 프로필에따른 url로 변경해야함
+      };
+
+      const response = await axios.post("/api/auth/signUp", data);
+
+      console.log(response.data);
+
+      navigate("/signend");
+    } catch (error) {
+      // Handle errors
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -291,15 +313,9 @@ function SignUp() {
                 {/* stepper 로직상 버튼 컴포넌트는 로그인 이후 사용예정*/}
                 {showNewDiv === false ? (
                   <div>
-                    {/* <button
-                      onClick={goToSignEnd}
-                      className="w-full mb-5 rounded-full h-10 border border-primary bg-primary text-white text-sm"
-                    >
-                      완료
-                    </button> */}
                     <BtnContainer>
                       <button
-                        onClick={goToSignEnd}
+                        onClick={sendData}
                         className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm"
                       >
                         완료
