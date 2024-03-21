@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Bg from "../../assets/SignupBg.png";
 
 const Container = styled.div`
   display: flex;
@@ -9,6 +10,10 @@ const Container = styled.div`
   align-items: center;
   min-height: 100vh;
   font-family: "Pretendard";
+
+  background-image: url(${Bg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const SplashLogo = styled.div`
@@ -44,28 +49,25 @@ const NavContainer = styled.div`
 `;
 
 function SignUpEnd() {
+  const navigate = useNavigate();
+  const goToLogin = () => {
+    navigate("/login");
+  };
   return (
     <div className="App">
       <Container>
         <NavContainer></NavContainer>
 
-        <div className="flex flex-col items-center w-11/12">
-          <div>
-            <SplashLogo>
-              <SplashText>LOGO</SplashText>
-            </SplashLogo>
-          </div>
-          <div className="flex flex-col items-center mt-8">
-            <div>Team Krews에 오신 걸</div>
-            <div>환영합니다!</div>
-          </div>
-          <div className="text-xs text-gray-400 my-3">
-            팀원들과 함께 즐겁고 알찬 프로젝트를 진행해보아요!
-          </div>
+        <div className="-mt-10 flex flex-col items-center w-11/12 text-sm">
+          회원가입이 완료되었습니다!
         </div>
+
         <ButtonContainer className="mb-6">
-          <button className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm">
-            홈으로 이동하기
+          <button
+            className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm"
+            onClick={goToLogin}
+          >
+            로그인 하러가기
           </button>
         </ButtonContainer>
       </Container>
