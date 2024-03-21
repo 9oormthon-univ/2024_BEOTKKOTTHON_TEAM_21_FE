@@ -15,8 +15,8 @@ const SecretFeedback = () => {
   // const { userId1, userName } = location.state
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
-  const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
+  const [messages, setMessages] = useState([]); // 실시간을 대화하는 메세지 저장할 곳
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -42,20 +42,28 @@ const SecretFeedback = () => {
 
   useEffect(() => {
     // 메세지 수신
-    const handleMessage = message => {
-      setMessages(prevMessages => [...prevMessages, message.body]);
+  const handleMessage = message => {
+    const newMessage = {
+      content: message.body,
+      sender: 'server' // 서버가 보낸 메시지임을 표시
     };
-
-    if (stompClient) {
-      stompClient.subscribe(`/message/room/${chatRoomId}`, handleMessage);
-    }
-  }, [stompClient]); // stompClient 값 변경X, 값이 동일한 상태에서 여러 번 호출되는 것.
+    setMessages(prevMessages => [...prevMessages, newMessage]);
+  };
+  if (stompClient) {
+    stompClient.subscribe(`/message`, handleMessage);
+  }
+  }, [stompClient]); 
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {
     console.log(inputMessage) // 보낼 메세지
     if (stompClient && inputMessage.trim() !== '') {
-      stompClient.send(`/message/room/${chatRoomId}`, {}, inputMessage);
+      const newMessage = {
+        content: inputMessage,
+        sender: 'user' // 사용자가 보낸 메시지임을 표시
+      };
+      stompClient.send('/message', {}, inputMessage); // 서버의 @MessageMapping("/message")으로 메시지 전송
+      setMessages(prevMessages => [...prevMessages, inputMessage]);
     }
     setInputMessage(''); // 보낼 메세지 input 초기화
   };
@@ -63,36 +71,54 @@ const SecretFeedback = () => {
   return (
     <F.SecretFeedback>
       <SecretTitle userName={'sh'} />
-      {/* 주고받은 메세지가 담긴 배열 */}
-      <div>
+      {/* 주고받은 메세지가 담긴 배열 */} 
+      <div className='flex flex-col grow overflow-hidden pt-20'>
+        <div className='w-full flex justify-end flex-col overflow-hidden'>
         {messages.map((message, index) => (
-          <div key={index}>{message}</div>
+          <>
+          {message.sender === 'user' ? 
+          <F.sendChat key={index}>{message}</F.sendChat> :
+          <F.ReceiveChat key={index}>{message}</F.ReceiveChat>}
+          </>
         ))}
+        </div>
       </div>
       
-      {/* 메세지 design */}
-      <div className='flex flex-col grow'>
-        <div className='w-full flex justify-end'>
+      {/* 메세지 design 
+      <div className='flex flex-col grow overflow-hidden'>
+        <div className='w-full flex justify-end flex-col items-end overflow-hidden'>
+        <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
+        <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
+        <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
+        <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
+        <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
+        <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
         <F.sendChat>안녕하세요 이거 좀 고쳐주세요;;안녕하세요 이거 좀 고쳐주세요 ;;</F.sendChat>
         </div>
         
         <div>
         <F.ReceiveChat>알겠습니다. 수정하겠습닏.</F.ReceiveChat>
+        <F.ReceiveChat>알겠습니다. 수정하겠습닏.</F.ReceiveChat>
+        <F.ReceiveChat>알겠습니다. 수정하겠습닏.</F.ReceiveChat>
+        <F.ReceiveChat>알겠습니다. 수정하겠습닏.</F.ReceiveChat>
+        <F.ReceiveChat>알겠습니다. 수정하겠습닏.</F.ReceiveChat>
         </div>
-      </div>
+      </div>*/}
       
       {/* 메세지를 보내기 위한 input */}
       <F.sendMessage>
-        <input
-          type="text"
-          value={inputMessage}
-          onChange={e => setInputMessage(e.target.value)}
-        />
-        <button onClick={()=>{ sendMessage(inputMessage) }}>
-          <FaCircleArrowUp size={25} color='#FFD875'/>
-        </button>
+          <input
+            className='w-full'
+            type="text"
+            value={inputMessage}
+            onChange={e => setInputMessage(e.target.value)}
+          />
+          <button onClick={()=>{ sendMessage(inputMessage) }}>
+            <FaCircleArrowUp size={25} color='#FFD875'/>
+          </button>
       </F.sendMessage>
       {/* <WorkspaceBottom activeItem={'chat'} /> */}
+      <div className='fixed bottom-0 h-[80px] w-[375px] bg-white z-0 '></div>
     </F.SecretFeedback>
   );
 };
@@ -103,7 +129,7 @@ export const SecretTitle = ({userName}) => {
   const navigate = useNavigate();
 
   return (
-    <F.FeedbackTitleBox>
+    <F.FeedbackTitleBox className='fixed top-0 w-[375px] bg-white'>
       <div className='flex items-center'>
         <GoChevronLeft size={20} onClick={()=>{navigate(-1)}}/>
         <div className='ml-2 flex items-center'>
