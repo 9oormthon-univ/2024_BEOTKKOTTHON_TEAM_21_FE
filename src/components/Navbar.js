@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const NavContainer = styled.div`
   display: flex;
@@ -15,12 +16,65 @@ const DrawerProfileContainer = styled.div`
   background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
 `;
 
+const Profile = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: white;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
+const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const ProfileImage2 = styled.img`
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+`;
+
+const Modal = styled.div`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  width: 200px;
+  height: 100px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+`;
+
 const Navbar = () => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userData, setUserData] = useState("");
+  const [email, setEmail] = useState("");
+  const [id, setId] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [profileImgUrl, setProfileImgUrl] = useState("");
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   const goToBack = () => {
     navigate(-1);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("userUUID");
+    navigate("/login");
   };
 
   useEffect(() => {
@@ -43,8 +97,58 @@ const Navbar = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const authToken = localStorage.getItem("authToken");
+        const response = await axios.get("/users", {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+        // console.log(response.data);
+        if (response.status === 200) {
+          setUserData(response.data);
+
+          setId(response.data.data.id);
+          setNickname(response.data.data.nickName);
+          setEmail(response.data.data.email);
+          setProfileImgUrl(response.data.data.profileImageUrl);
+        } else {
+          // Handle error responses
+          console.error("Failed to fetch user data:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  // console.log(email, id, nickname, profileImgUrl);
+
   return (
     <div>
+      {showLogoutModal && (
+        <Modal className="text-sm">
+          <div>로그아웃하시겠습니까?</div>
+          <div className="flex gap-11">
+            <button
+              onClick={handleLogout}
+              className="hover:text-primary cursor-pointer"
+            >
+              네
+            </button>
+            <button
+              onClick={() => setShowLogoutModal(false)}
+              className="hover:text-primary cursor-pointer"
+            >
+              아니요
+            </button>
+          </div>
+        </Modal>
+      )}
       <div
         id="sidebar"
         className={`absolute bg-white  w-64 min-h-screen overflow-y-auto transition-transform transform ${
@@ -55,8 +159,11 @@ const Navbar = () => {
         <div>
           <div>
             <DrawerProfileContainer>
-              <div className="p-5 h-full flex flex-col justify-between">
-                <button onClick={() => setIsSidebarOpen(!isSidebarOpen)}>
+              <div className="h-full flex flex-col justify-between">
+                <button
+                  onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                  className="p-5"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="9"
@@ -71,36 +178,15 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                <div className="flex">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="50"
-                      height="50"
-                      viewBox="0 0 50 50"
-                      fill="none"
-                    >
-                      <circle
-                        cx="24.5207"
-                        cy="24.5207"
-                        r="24.5207"
-                        fill="white"
-                      />
-                      <circle
-                        cx="24.5206"
-                        cy="16.6919"
-                        r="7.47045"
-                        fill="#D7D7D7"
-                      />
-                      <path
-                        d="M10.8981 36.4666C10.8981 30.6419 15.6199 25.9201 21.4446 25.9201H27.5968C33.4214 25.9201 38.1433 30.6419 38.1433 36.4666C38.1433 37.9228 36.9628 39.1033 35.5067 39.1033H13.5347C12.0786 39.1033 10.8981 37.9228 10.8981 36.4666Z"
-                        fill="#D7D7D7"
-                      />
-                    </svg>
-                  </div>
+                <div className="flex px-4 py-5">
+                  <Profile>
+                    {profileImgUrl && (
+                      <ProfileImage src={profileImgUrl} alt="Profile" />
+                    )}
+                  </Profile>
                   <div className="mx-3 text-white">
-                    <div className="text-lg">미르미</div>
-                    <div className="text-sm text-white">goorumi@goorm.com</div>
+                    <div className="text-lg">{nickname}</div>
+                    <div className="text-sm text-white">{email}</div>
                   </div>
                 </div>
               </div>
@@ -118,7 +204,10 @@ const Navbar = () => {
                   </a>
                 </li> */}
                 <li className="my-5 px-5 h-10 border-b border-gray-200">
-                  <a href="#" className="block hover:text-primary">
+                  <a
+                    onClick={() => setShowLogoutModal(true)}
+                    className="block hover:text-primary cursor-pointer"
+                  >
                     로그아웃
                   </a>
                 </li>
@@ -147,7 +236,7 @@ const Navbar = () => {
           id="open-sidebar"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          <svg
+          {/* <svg
             xmlns="http://www.w3.org/2000/svg"
             width="30"
             height="30"
@@ -160,7 +249,12 @@ const Navbar = () => {
               d="M5.55554 18.5897C5.55554 15.6205 7.96261 13.2134 10.9319 13.2134H14.0681C17.0374 13.2134 19.4444 15.6205 19.4444 18.5897C19.4444 19.332 18.8427 19.9338 18.1003 19.9338H6.89963C6.15731 19.9338 5.55554 19.332 5.55554 18.5897Z"
               fill="white"
             />
-          </svg>
+          </svg> */}
+          <Profile>
+            {profileImgUrl && (
+              <ProfileImage2 src={profileImgUrl} alt="Profile" />
+            )}
+          </Profile>
         </button>
       </NavContainer>
     </div>

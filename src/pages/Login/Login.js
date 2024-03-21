@@ -40,9 +40,13 @@ function Login() {
     setPassword(event.target.value);
   };
 
+  const instance = axios.create({
+    baseURL: "http://3.35.236.118:8080",
+  });
+
   const handleLogin = async () => {
     try {
-      const response = await axios.post("/api/auth/signIn", {
+      const response = await instance.post("/api/auth/signIn", {
         loginId: username,
         password: password,
       });

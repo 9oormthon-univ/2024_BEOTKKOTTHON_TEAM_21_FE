@@ -8,57 +8,30 @@ import { GoChevronLeft } from "react-icons/go";
 import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import { APIClient } from '../../utils/Api';
+import axios from "axios";
 
 const WorkSpaceHome = () => {
   const { UUID } = useParams();
-
-  const response = {
-      "success": true,
-      "code": "200",
-      "message": "Success",
-      "data": {
-          "workspaceUUID": "37ef5ffb-166e-4b2c-b380-0a2780271a42",
-          "teamName": "팀크루즈",
-          "profileImageUrl": "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228144115810458.jpg",
-          "userInfoResponseList": [
-              {
-                  "id": "1",
-                  "nickName": "크루",
-                  "profileImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s"
-              },
-              {
-                  "id": "2",
-                  "nickName": "루크즈",
-                  "profileImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s"
-              },
-              {
-                "id": "3",
-                "nickName": "루키즈",
-                "profileImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s"
-              },
-              {
-                "id": "4",
-                "nickName": "도레미",
-                "profileImageUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0sncWCzz9t3udH4HZwqeMQ0nmoSLTQV3ZxOvjIk-m0w&s"
-              }
-          ]
-      }
-  }
-
-  const data = response.data;
+  const [workspaceUserList, setWorkspaceUserList] = useState([]);
+  const [teamName, setTeamName] = useState("");
 
   // 워크스페이스 참여
   useEffect(()=>{
+    const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-          const response = await APIClient().post(`/workspaces/${UUID}/join`, null);
-          const data = response.data;
-          console.log('선택한 워크스페이스에 참여')          
+          const response = await axios.get(`/workspaces/${UUID}`, { headers : {
+            Authorization: `Bearer ${authToken}`}
+          });
+          const data = response.data.data;
+          const teamName = data.teamName;
+          const workspaceUserList = data.userInfoResponseList;
+          setTeamName(teamName);
+          setWorkspaceUserList(workspaceUserList);
       } catch (error) {
           console.error(error);
       }
     }
-
     JoinWorkspace();
   }, [])
 
@@ -69,13 +42,13 @@ const WorkSpaceHome = () => {
       <WorkspaceTitle />
   
       <div className='text-center text-white py-5'>
-        <div className='text-2xl font-bold mb-2'>{data.teamName}의 워크스페이스</div>
+        <div className='text-2xl font-bold mb-2'>{teamName}의 워크스페이스</div>
         <div className='text-sm'>자유롭게 1:1 시크릿 메세지를 보내보세요!</div>
       </div>
 
       <W.PersonGrid>
-        {data.userInfoResponseList.map(person => (
-          <PersonBox key={person.id} person={person} data={data} />
+        {workspaceUserList.map(person => (
+          <PersonBox key={person.id} person={person} />
         ))}
       </W.PersonGrid>
       
@@ -87,15 +60,15 @@ const WorkSpaceHome = () => {
 
 export default WorkSpaceHome;
 
-const PersonBox = ({ person, data }) => {
+const PersonBox = ({ person }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 토글
   const [isEdit, setIsEdit] = useState(false); // 이름 편집 토글
   const [name, setName] = useState(person.nickName);
   const [editProfileState, setEditProfileState] = useState({
-    "workspaceId": data.workspaceUUID,
-    "workspaceName": data.teamName,
-    "userName": person.nickName,
+    "workspaceId": '',
+    "workspaceName": '',
+    "userName": '',
     "created_at": "워크스페이스 생성 일자"
   })
   
@@ -110,33 +83,35 @@ const PersonBox = ({ person, data }) => {
       userName: name, // 바뀐 이름
     }));
 
-    try {
-        // workspaceID에 뭐가 들어가야하는지? UUID? 사용자id?
-        const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
-        const data = response.data;
-        console.log('워크스페이스 프로필 수정')
-        console.log(editProfileState)
-    } catch (error) {
-        console.error(error);
-    }
+    // try {
+    //     // workspaceID에 뭐가 들어가야하는지? UUID? 사용자id?
+    //     const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
+    //     const data = response.data;
+    //     console.log('워크스페이스 프로필 수정')
+    // } catch (error) {
+    //     console.error(error);
+    // }
   }
 
   const OneToOneChat = async () => {
+    const authToken = localStorage.getItem("authToken");
     console.log(person.id, person.nickName); // 내가 요청하고 싶은 상대방 id
     const userId1 = person.id;
     const userName = person.nickName
     const userId2 = 1 // 내 아이디
     try {
-      // const response = await APIClient().post(`/chatRoom/create/chatRoom/${userId1}/${userId2}`, null);
+      const response = await axios.post(`/chatRoom`, null, { headers : {
+        Authorization: `Bearer ${authToken}`}
+      });
       // 채팅방 id가 돌아오나?
       // const chatRoomId = response.data;
       const chatRoomId = 0
       navigate(`/secretfeedback/${chatRoomId}`, {state : { userId1, userName }}) // 1:1 채팅방 페이지로 이동
-  } catch (error) {
-      console.error(error);
+    } catch (error) {
+        console.error(error);
+    }
   }
-    
-  }
+  
   return (
     <>
       <W.Person key={person.id}>
@@ -149,9 +124,9 @@ const PersonBox = ({ person, data }) => {
           {isEdit ?
           <div className='flex justify-center items-center w-1/2'>
             <input className='w-full' type="text" value={name} onChange={(e)=>{ setName(e.target.value) }} />
-            <IoCheckmarkSharp onClick={()=>{ EditProfile(person, data, name) }} className='ml-2' size={23}/>
+            <IoCheckmarkSharp onClick={()=>{ EditProfile(person, name) }} className='ml-2' size={23}/>
           </div> : <>
-          <span>{name}</span>
+          <span>{person.nickName}</span>
           <BsPencil 
             onClick={()=>{ setIsEdit(true) }}
             size={13} className='ml-2'/>

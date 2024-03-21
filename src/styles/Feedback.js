@@ -79,3 +79,20 @@ export const sendMessage = styled.div`
   right: 0;
   width: 350px;
 `
+
+export const sendChat = styled.div`
+border-radius: 18px 18px 0px 18px;
+background: #FFD875;
+padding: 10px;
+margin: 5px 15px;
+width: 66%;
+`
+
+export const ReceiveChat = styled.div`
+border-radius: 18px 18px 18px 0px;
+border: 1px solid #D7D7D7;
+padding: 10px;
+background: #FFF;
+margin: 5px 15px;
+width: 66%;
+`

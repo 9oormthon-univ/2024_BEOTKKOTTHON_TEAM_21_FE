@@ -111,15 +111,39 @@ function RecommendChoose() {
   };
 
   const handleCreateTeam = async () => {
+    console.log("선택된 팀 이름:", selectedTeamName);
     if (selectedTeamName !== "") {
+      // 로컬 스토리지에서 authToken 가져오기
+      const authToken = localStorage.getItem("authToken");
+      console.log("authToken :", authToken);
+
+      if (!authToken) {
+        // 만약 authToken이 없으면 로그인 페이지로 이동하거나 다른 처리 수행 가능
+        console.error("AuthToken이 없습니다.");
+        return;
+      }
       // 선택된 팀 이름에 대한 개설
       try {
-        // const response = await axios.post("/workspace", {
-        //   teamName: selectedTeamName,
-        // });
-        const workspaceUUID = response2.data.workspaceUUID;
+        const response = await axios.post(
+          "/workspaces",
+          {
+            teamName: selectedTeamName,
+            profileImageUrl:
+              "https://www.urbanbrush.net/web/wp-content/uploads/edd/2023/02/urban-20230228144115810458.jpg",
+            explanation: `${selectedTeamName} 팀입니다`,
+            // profileImageUrl, explanation은 임의의 값으로 설정
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        console.log(response.data);
+        const workspaceUUID = response.data.data.workspaceUUID;
+        // const workspaceUUID = response2.data.workspaceUUID;
         console.log("workspace UUID :", workspaceUUID);
-        navigate(`/workspacehome/${workspaceUUID}`);
+        navigate("/recommendend", { state: { workspaceUUID: workspaceUUID } });
       } catch (error) {
         console.error("Error creating team:", error);
       }
