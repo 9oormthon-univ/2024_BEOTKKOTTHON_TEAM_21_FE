@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import WaveBg from "../../assets/WaveBg.png";
 import Logo from "../../assets/rabbit_krew_bg.png";
@@ -53,6 +53,20 @@ const NavContainer = styled.div`
 `;
 
 function RecommendEnd() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const workspaceUUID = location.state?.workspaceUUID || "";
+
+  console.log(workspaceUUID);
+
+  const handleHomeButtonClick = () => {
+    if (workspaceUUID) {
+      navigate(`/workspacehome/${workspaceUUID}`);
+    } else {
+      console.error("No workspace UUID available");
+    }
+  };
+
   return (
     <div className="App">
       <Container>
@@ -67,7 +81,10 @@ function RecommendEnd() {
           </div>
         </div>
         <ButtonContainer className="mb-6">
-          <button className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm">
+          <button
+            className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm"
+            onClick={handleHomeButtonClick}
+          >
             홈으로 이동하기
           </button>
         </ButtonContainer>
