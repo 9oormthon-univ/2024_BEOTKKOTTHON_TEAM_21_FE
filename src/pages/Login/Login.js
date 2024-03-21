@@ -14,7 +14,7 @@ const LoginContainer = styled.div`
 `;
 
 const Logo = styled.div`
-  width: 200px;
+  width: 202px;
   height: 100px;
   background-image: url(${logoImage});
 
