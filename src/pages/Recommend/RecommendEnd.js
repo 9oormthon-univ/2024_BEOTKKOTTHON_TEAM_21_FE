@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import WaveBg from "../../assets/WaveBg.png";
+import Logo from "../../assets/rabbit_krew_bg.png";
 
 const Container = styled.div`
   display: flex;
@@ -17,11 +18,14 @@ const Container = styled.div`
 `;
 
 const SplashLogo = styled.div`
-  width: 120px;
-  height: 120px;
+  width: 165px;
+  height: 206px;
   flex-shrink: 0;
   background: #d9d9d9;
   border-radius: 20px;
+  background: url(${Logo});
+  background-size: contain;
+  background-repeat: no-repeat;
 
   display: flex;
   flex-direction: column;
@@ -55,8 +59,8 @@ function RecommendEnd() {
         <NavContainer></NavContainer>
 
         <div className="flex flex-col items-center w-11/12">
-          <div>
-            <SplashLogo>로고</SplashLogo>
+          <div className="-mt-10">
+            <SplashLogo></SplashLogo>
           </div>
           <div className="flex flex-col items-center mt-8">
             워크스페이스 개설이 완료되었습니다!
