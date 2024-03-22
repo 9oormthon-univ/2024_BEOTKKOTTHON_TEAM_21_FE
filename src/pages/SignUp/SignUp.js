@@ -152,7 +152,7 @@ function SignUp() {
   useEffect(() => {
     const checkDuplicate = async () => {
       try {
-        const response = await axios.post("${process.env.BACK_URL}/api/auth/check-duplicate", {
+        const response = await axios.post("http://3.35.236.118:8080/api/auth/check-duplicate", {
           loginId: id,
         });
         // 응답에서 중복 여부 확인

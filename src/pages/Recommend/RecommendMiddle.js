@@ -90,7 +90,7 @@ function RecommendMiddle() {
     const authToken = localStorage.getItem("authToken");
     axios
       .post(
-        "${process.env.BACK_URL}/openAI/generate/teamNames",
+        "http://3.35.236.118:8080/openAI/generate/teamNames",
         {
           seedWords: keywordList,
         },
