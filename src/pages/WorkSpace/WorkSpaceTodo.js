@@ -24,40 +24,51 @@ const WorkspaceTodo = () => {
     const ShowTodo = async () => {
       const authToken = localStorage.getItem("authToken");
 
-      try {
-        if (todoState === 0) {
-          console.log("받은 피드백");
-          const response = await axios.get("/chatRoom/received", {
-            params: {
-              workspaceUUID: workspaceUUID,
-            },
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          });
-          const ReceivedData = response.data.data;
-          setReceivedData(ReceivedData);
-          console.log("receivedData", receivedData);
-        } else if (todoState === 1) {
-          console.log("보낸 피드백");
-          const response = await axios.get("/chatRoom/sent", {
-            params: {
-              workspaceUUID: workspaceUUID,
-            },
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          });
-          const SendData = response.data.data;
-          setSendData(SendData);
-          console.log("sendData", sendData);
-        } else if (todoState === 2) {
-          // 새로운 상태에 따른 처리
-          console.log(2);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      const response = await axios.get(`/workspaces/${workspaceUUID}/todo`, {
+        params: {
+          workspaceUUID: workspaceUUID,
+        },
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      console.log(response.data);
+
+      //   try {
+      //     if (todoState === 0) {
+      //       console.log("받은 피드백");
+      //       const response = await axios.get("/chatRoom/received", {
+      //         params: {
+      //           workspaceUUID: workspaceUUID,
+      //         },
+      //         headers: {
+      //           Authorization: `Bearer ${authToken}`,
+      //         },
+      //       });
+      //       const ReceivedData = response.data.data;
+      //       setReceivedData(ReceivedData);
+      //       console.log("receivedData", receivedData);
+      //     } else if (todoState === 1) {
+      //       console.log("보낸 피드백");
+      //       const response = await axios.get("/chatRoom/sent", {
+      //         params: {
+      //           workspaceUUID: workspaceUUID,
+      //         },
+      //         headers: {
+      //           Authorization: `Bearer ${authToken}`,
+      //         },
+      //       });
+      //       const SendData = response.data.data;
+      //       setSendData(SendData);
+      //       console.log("sendData", sendData);
+      //     } else if (todoState === 2) {
+      //       // 새로운 상태에 따른 처리
+      //       console.log(2);
+      //     }
+      //   } catch (error) {
+      //     console.error(error);
+      //   }
     };
     ShowTodo();
   }, [todoState, WorkspaceBottom]);
