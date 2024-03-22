@@ -20,6 +20,7 @@ import RecommendChoose from "./pages/Recommend/RecommendChoose";
 import RecommendEnd from "./pages/Recommend/RecommendEnd";
 import WorkSpaceEnter from "./pages/WorkSpace/WorkSpaceEnter";
 import ProfileChange from "./pages/WorkSpace/ProfileChange";
+import WorkspaceTodo from "./pages/WorkSpace/WorkSpaceTodo";
 import { AnimatePresence } from "framer-motion";
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
               path="/secretfeedback/:chatRoomId"
               element={<SecretFeedback />}
             />
+            <Route path="/todo/:workspaceUUID" element={<WorkspaceTodo />} />
             <Route path="/profilechange" element={<ProfileChange />} />
 
             <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
