@@ -131,7 +131,9 @@ function SignUp() {
   useEffect(() => {
     const checkDuplicate = async () => {
       try {
-        const response = await axios.post("/api/auth/check-duplicate", { id });
+        const response = await axios.post("/api/auth/check-duplicate", {
+          loginId: id,
+        });
         // 응답에서 중복 여부 확인
         console.log("id:", id);
         console.log("id 타입:", typeof id);
