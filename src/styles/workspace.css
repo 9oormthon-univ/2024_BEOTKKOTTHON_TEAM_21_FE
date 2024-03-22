@@ -17,3 +17,13 @@
     bottom: 15px;
     right: 15px;
 }
+
+@keyframes wobbleEffect {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(-2deg); }
+    75% { transform: rotate(2deg); }
+}
+
+.plusIcon:hover {
+    animation: wobbleEffect 0.5s ease-in-out;
+}
