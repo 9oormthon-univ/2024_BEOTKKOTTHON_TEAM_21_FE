@@ -104,7 +104,7 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      {/* <SecretTitle person={person} /> */}
+      <SecretTitle person={person} />
       {/* 주고받은 메세지가 담긴 배열 */} 
       <div className='flex flex-col grow overflow-hidden pt-20'>
         <div className='w-full flex justify-end flex-col overflow-hidden'>

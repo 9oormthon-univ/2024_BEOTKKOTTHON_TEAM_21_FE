@@ -35,11 +35,13 @@ export const ReceiveFeedBack = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-bottom: 54px;
 `
 export const SendFeedBack = styled.div`
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  margin-bottom: 54px;
   `
 export const ReceiveBtn = styled.button`
   width: 100px;

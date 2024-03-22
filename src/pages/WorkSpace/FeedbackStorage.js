@@ -70,7 +70,7 @@ const FeedbackStorage = () => {
       <F.ReceiveFeedBack>
         {receivedData && receivedData.map((data)=> {
           return(
-            <Feedback receive={true} chatRoomId={data.chatRoomId} workspaceUUID={workspaceUUID}/>
+            <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
           )
         })}
       </F.ReceiveFeedBack> : 
@@ -78,7 +78,7 @@ const FeedbackStorage = () => {
       <F.SendFeedBack>
          {sendData && sendData.map((data)=> {
           return (
-            <Feedback receive={false} chatRoomId={data.chatRoomId} workspaceUUID={workspaceUUID}/>
+            <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
           )
         })}
       </F.SendFeedBack>}
@@ -106,22 +106,26 @@ export const FeedbackTitle = () => {
 
 export const Feedback = (props) => {
   const navigate = useNavigate();
+
+  const person = {
+    nickName: props.data.targetUser.nickName,
+    profileImageUrl: props.data.targetUser.profileImageUrl,
+  }
   
   const HandleChatRoom = (props) => {
-    console.log(props)
     console.log('채팅방 입장', props.chatRoomId);
-    navigate(`/secretfeedback/${props.chatRoomId}`, { state: { workspaceUUID: props.workspaceUUID}});
+    navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID} });
   }
 
   return (
     <F.FeedbackContainer onClick={ ()=>{ HandleChatRoom(props) } }>
       <F.FeedbackImg>
-        <F.StyledImg src={images.cat} alt='img' active={props.receive}/>
+        <F.StyledImg src={props.data.targetUser.profileImageUrl} alt='img' active={props.receive}/>
       </F.FeedbackImg>
 
       <F.FeedbackContent>
         <div className='flex items-center mb-1'>
-          <div>{props.chatRoomId}</div>
+          <div>{props.data.targetUser.nickName}</div>
           <div className='text-[#acacac] text-[12px] ml-2'>{props.time}</div>
         </div>
         <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>
