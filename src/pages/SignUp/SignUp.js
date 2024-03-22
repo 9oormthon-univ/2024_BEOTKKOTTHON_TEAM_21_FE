@@ -143,7 +143,15 @@ function SignUp() {
     }
   };
 
-  // 각 문장에 대한 fade 효과를 정의하는 variants
+  // 화면 전환 효과
+  const transitionVariants = {
+    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+  }
+
+  // 각 문장에 대한 fade 효과
   const sentenceVariants = {
     hidden: { opacity: 0, y: -10 },
     visible: (i) => ({
@@ -163,13 +171,8 @@ function SignUp() {
             animate={activeStep === 0 ? 'enter' : 'slide'}
             initial='initial'
             exit='exit'
-            variants={{
-              initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
-              enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
-              slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
-              exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
-            }}
-            transition={{ type: 'tween', duration: 0.5 }} // 부드러운 전환 효과
+            variants={transitionVariants}
+            transition={{ type: 'tween', duration: 0.5 }}
         >
         {/* NavBar -> Stepper 로직상 로그인이후 NavBar만 컴포넌트로 관리 */}
         <NavContainer>
