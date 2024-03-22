@@ -1,12 +1,12 @@
 import styled, { keyframes } from "styled-components";
+import YellowPlusBg from "../assets/plus-yellow.png";
 
 // 워크스페이스 홈
-export const WorkSpaceHomeContainer = styled.div`
-`;
+export const WorkSpaceHomeContainer = styled.div``;
 
 export const Background = styled.div`
   border-radius: 0 0 20% 20%;
-  background: linear-gradient(180deg, #FFD875 0%, #FFA680 100%);
+  background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
   background-size: contain;
   width: 375px;
   height: 275px;
@@ -30,12 +30,12 @@ export const Person = styled.div`
   text-align: center;
   margin: 15px 0 15px 0;
 `;
-export const PersonImg = styled.div` 
+export const PersonImg = styled.div`
   margin: 0 auto;
   width: 130px;
   height: 130px;
   border-radius: 50%;
-  border: 1px solid #D9D9D9;
+  border: 1px solid #d9d9d9;
   margin-bottom: 10px;
 `;
 export const Modal = styled.div`
@@ -43,10 +43,10 @@ export const Modal = styled.div`
   width: 138.575px;
   height: 29.447px;
   border-radius: 8.661px;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.20);
-  background: linear-gradient(93deg, #FFD875 0%, #FFA680 96.72%);
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(93deg, #ffd875 0%, #ffa680 96.72%);
   flex-shrink: 0;
-  color: #FFF;
+  color: #fff;
   font-family: Pretendard;
   font-size: 10px;
   font-style: normal;
@@ -69,7 +69,7 @@ export const BottomContainer = styled.div`
   display: flex;
   height: 55px;
   text-align: center;
-  border-top: 1px solid #D7D7D7;
+  border-top: 1px solid #d7d7d7;
   background-color: white;
 `;
 export const BottomContent = styled.button`
@@ -77,9 +77,9 @@ export const BottomContent = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items:center;
+  align-items: center;
   font-size: 13px;
-  color: ${props => props.active ? '#FEC533' : '#d7d7d7'};
+  color: ${(props) => (props.active ? "#FEC533" : "#d7d7d7")};
 `;
 
 export const wsListContainer = styled.div`
@@ -90,7 +90,7 @@ export const wsListContainer = styled.div`
   justify-items: center;
   align-items: center;
   gap: 30px;
-`
+`;
 
 export const wsListBox = styled.button`
   color: white;
@@ -100,19 +100,19 @@ export const wsListBox = styled.button`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 10px;`
+  border-radius: 10px;
+`;
 
-
-  export const plusBtn = styled.button`
+export const plusBtn = styled.button`
   border-radius: 7.759px;
-  background: #EFEFEF;
-`
+  background: #efefef;
+`;
 
 const gradientShift = keyframes`
   0% { background-position: 0 50%; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0 50%; }
-`
+`;
 
 export const GradientButton = styled.button`
   border: none;
@@ -127,4 +127,16 @@ export const GradientButton = styled.button`
   &:hover {
     opacity: 0.9;
   }
-`
+`;
+
+export const YellowPlusButton = styled.button`
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background-image: url(${YellowPlusBg});
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+`;
