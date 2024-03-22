@@ -32,9 +32,9 @@ function Login() {
   const [passwordError, setPasswordError] = useState("");
   const [loginError, setLoginError] = useState("");
 
-  const instance = axios.create({
-    baseURL: "http://3.35.236.118:8080",
-  });
+  // const instance = axios.create({
+  //   baseURL: "http://3.35.236.118:8080",
+  // });
 
   const goToSignUp = () => {
     navigate("/signup");
@@ -72,7 +72,11 @@ function Login() {
     if (!validateInputs()) return;
 
     try {
-      const response = await instance.post("/api/auth/signIn", {
+      // const response = await instance.post("/api/auth/signIn", {
+      //   loginId: username,
+      //   password: password,
+      // });
+      const response = await axios.post("/api/auth/signIn", {
         loginId: username,
         password: password,
       });

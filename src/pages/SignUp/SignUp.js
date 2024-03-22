@@ -133,8 +133,11 @@ function SignUp() {
       try {
         const response = await axios.post("/api/auth/check-duplicate", { id });
         // 응답에서 중복 여부 확인
+        console.log("id:", id);
+        console.log("id 타입:", typeof id);
         console.log(response.data);
         const isDuplicate = response.data.data;
+        console.log("isDuplicate 타입:", typeof isDuplicate);
         console.log(isDuplicate);
         setIsIdDuplicate(isDuplicate);
       } catch (error) {
