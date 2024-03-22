@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import { motion } from 'framer-motion';
 import styles from "./RecommendStart.module.css"; // CSS 모듈 import
 import CloudBackground from "../../assets/CloudBg.png";
 
@@ -37,6 +38,7 @@ const GradientContainer = styled.div`
   /* border-radius: 160px 160px 0px 0px; */
   /* background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%); */
   background-image: url(${CloudBackground});
+  //background-position: center bottom -15vh;
   background-size: cover;
   z-index: 0; /* Ensure it's behind content */
 `;
@@ -63,7 +65,7 @@ const TeamnameContainer1 = styled.div`
 const TeamnameContainer2 = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 15vh;
+  margin-top: 3.5vh;
   margin-right: 100px;
   gap: 20px;
   width: 346px;
@@ -78,8 +80,8 @@ const TeamnameBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 108.337px;
-  height: 52.695px;
+  width: 115.337px;
+  height: 40.695px;
   flex-shrink: 0;
   border-radius: 50px;
   background: #fff;
@@ -90,8 +92,8 @@ const TeamnameBox2 = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 108.337px;
-  height: 52.695px;
+  width: 115.337px;
+  height: 40.695px;
   flex-shrink: 0;
   border-radius: 50px;
   background: #fff;
@@ -112,9 +114,24 @@ function RecommendStart() {
     navigate("/recommendmiddle");
   };
 
+  // 화면 전환 효과
+  const transitionVariants = {
+    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+  }
+
   return (
     <div className="App">
       <Container>
+        <motion.div
+            initial='initial'
+            animate='enter'
+            exit='exit'
+            variants={transitionVariants}
+            transition={{ type: 'tween', duration: 0.5 }}
+        >
         <Navbar></Navbar>
         <ContextContainer>
           <TextContainer>
@@ -148,7 +165,7 @@ function RecommendStart() {
               <BtnContainer className="mb-5">
                 <button
                   onClick={goToNext}
-                  className="w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm"
+                  className="w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm hover:bg-yellow-400 hover:text-white duration-300"
                 >
                   팀 이름 추천받기
                 </button>
@@ -156,6 +173,7 @@ function RecommendStart() {
             </div>
           </GradientContainer>
         </ContextContainer>
+        </motion.div>
       </Container>
     </div>
   );

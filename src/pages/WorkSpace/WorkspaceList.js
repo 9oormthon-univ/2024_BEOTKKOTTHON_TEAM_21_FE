@@ -127,6 +127,15 @@ const WorkspaceList = () => {
         >
         <p>
         오늘은 <span className="font-bold">어떤 워크스페이스</span>에
+        </p>
+        </motion.div>
+        <motion.div
+            variants={sentenceVariants}
+            initial="hidden"
+            animate="visible"
+            custom={2}
+        >
+          <p>
         입장할까요?
         </p>
         </motion.div>
