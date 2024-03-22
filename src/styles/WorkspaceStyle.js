@@ -99,3 +99,9 @@ export const wsListBox = styled.button`
   flex-direction: column;
   justify-content: space-between;
   border-radius: 10px;`
+
+
+  export const plusBtn = styled.button`
+  border-radius: 7.759px;
+  background: #EFEFEF;
+`

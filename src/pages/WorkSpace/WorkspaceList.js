@@ -7,8 +7,22 @@ import axios from "axios";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { FaCirclePlus } from "react-icons/fa6";
+import '../../styles/workspace.css';
 
 const WorkspaceList = () => {
+  const PlusIcon = () => (
+    <svg className="plusIcon" width='45' viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style={{ stopColor: '#FFD875' }} />
+          <stop offset="100%" style={{ stopColor: '#FFA680' }} />
+        </linearGradient>
+      </defs>
+      <FaCirclePlus className="plusStyle" size={40} />
+    </svg>
+  );
+
   const navigate = useNavigate();
   const styles = [
     // 워크스페이스 리스트 랜덤 배경 색상
@@ -36,6 +50,8 @@ const WorkspaceList = () => {
 
   const [workspaceList, setWorkspaceList] = useState([]);
   const [userName, setUserName] = useState("");
+
+  const [plusToggle, setPlusToggle] = useState(false);
 
   useEffect(() => {
     // 내 워크스페이스 목록 반환
@@ -86,11 +102,25 @@ const WorkspaceList = () => {
                   <GiHamburgerMenu />
                 </button>
               </div>
-              <div>{workspace.explanation}</div>
+              <div className="text-start">{workspace.explanation}</div>
             </W.wsListBox>
           );
         })}
       </W.wsListContainer>
+      <div className="w-[375px] relative">
+        <button onClick={()=>{setPlusToggle(!plusToggle)}}>
+          <PlusIcon />
+        </button>
+
+        {plusToggle && (
+        <W.plusBtn className='py-1 absolute bottom-10 right-10'>
+          <div className="px-6 border-[#D7D7D7] border-solid border-b-[1px]">새로생성</div>
+          <div className="px-6">참여하기</div>
+        </W.plusBtn>
+      )}
+      </div>
+
+      
     </div>
   );
 };
