@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Stomp from "stompjs";
 import * as F from "../../styles/Feedback";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -22,6 +22,7 @@ const SecretFeedback = () => {
   const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용 불러오는 곳
   const [realMessages, setRealMessages] = useState([]); // 실시간 대화하는 메세지 저장할 곳
   const [senderId, setSenderId ] = useState()
+
 
   // 채팅방 내역
   const handleChatList = async () => {
@@ -61,6 +62,7 @@ const SecretFeedback = () => {
   const connectWebSocket = () => {
     const socket = new SockJS("http://3.35.236.118:8080/ws"); // WebSocket 연결 생성
     const stomp = Stomp.over(socket); // stomp 클라이언트로 변환
+    
     stomp.connect({}, (frame) => {
       // 서버와 연결 설정
       console.log("Connected: " + frame);
@@ -68,6 +70,7 @@ const SecretFeedback = () => {
       console.log(stompClient, "클라이언트 상태");
     }, []);
   };
+  
 
   useEffect(() => {
     getUserId()
@@ -79,7 +82,7 @@ const SecretFeedback = () => {
         stompClient.disconnect();
       }
     };
-  }, [stompClient]);
+  }, []);
 
   // 메세지 수신
   const handleMessage = (message) => {
@@ -95,7 +98,7 @@ const SecretFeedback = () => {
     if (stompClient) {
       stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
     }
-  }, [stompClient, chatRoomId]);
+  }, [stompClient]);
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {
@@ -123,20 +126,32 @@ const SecretFeedback = () => {
       <SecretTitle person={person} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
-        <div className="w-full flex justify-end flex-col overflow-auto mb-[80px]">
-          {saveMessages.map((message, index) => (
-            <>
-              {message.senderId === senderId ? (
-                <div className="ml-auto">
-                  <F.sendChat key={index}>{message.content}</F.sendChat>
-                </div>
-              ) : (
-                <div className="mr-auto">
-                  <F.ReceiveChat key={index}>{message.content}</F.ReceiveChat>
-                </div>
-              )}
-            </>
-          ))}
+        <div  
+          className="w-[95%] flex justify-end flex-col overflow-auto mb-[80px] mx-auto">
+          {saveMessages.map((message, index) => {
+            // 메시지의 createdAt에서 시간 정보 추출
+            // const time = message.createdAt.split("T")[1].split(":").slice(0, 2).join(":");
+            return (
+              <>
+                {message.senderId === senderId ? (
+                  <div className="ml-auto flex flex-row-reverse items-end" key={index}>
+                    <F.sendChat>{message.content}</F.sendChat>
+                    <div className="text-xs text-[#ACACAC] mb-3 text-end">{message.createdAt}</div> {/* 시간 정보 표시 */}
+                  </div>
+                ) : (
+                  <div className="mr-auto flex items-center" key={index}>
+                    {/* <div>
+                      <img src={person.profileImageUrl} className="w-[50px] rounded-[50%]"/>
+                      <div className='text-xs mt-1 mr-1'>{person.nickName}</div>
+                    </div> */}
+                    <F.ReceiveChat key={index}>{message.content}</F.ReceiveChat>
+                    <div className="text-xs text-[#ACACAC] mb-3 self-end">{message.createdAt}</div> {/* 시간 정보 표시 */}
+                  </div>
+                )}
+              </>
+            );
+          })}
+
         </div>
       </div>
 
