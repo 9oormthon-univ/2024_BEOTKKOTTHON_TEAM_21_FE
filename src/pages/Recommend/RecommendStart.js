@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import styles from "./RecommendStart.module.css"; // CSS 모듈 import
 import CloudBackground from "../../assets/CloudBg.png";
 
@@ -33,7 +33,7 @@ const GradientContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 500px;
-  height: 75vh;
+  height: 55vh;
   flex-shrink: 0;
   /* border-radius: 160px 160px 0px 0px; */
   /* background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%); */
@@ -53,7 +53,7 @@ const TextContainer = styled.div`
 const TeamnameContainer1 = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 15vh;
+  margin-top: -10%;
   margin-left: 100px;
   gap: 20px;
   width: 346px;
@@ -116,63 +116,63 @@ function RecommendStart() {
 
   // 화면 전환 효과
   const transitionVariants = {
-    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
     enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
-    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
-    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
-  }
+    slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+  };
 
   return (
     <div className="App">
       <Container>
         <motion.div
-            initial='initial'
-            animate='enter'
-            exit='exit'
-            variants={transitionVariants}
-            transition={{ type: 'tween', duration: 0.5 }}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={transitionVariants}
+          transition={{ type: "tween", duration: 0.5 }}
         >
-        <Navbar></Navbar>
-        <ContextContainer>
-          <TextContainer>
-            <div className="text-lg mb-2">
-              <b>센스있는 팀명을 추천</b>해드릴게요!
-            </div>
-            <div className="text-sm text-gray-400">
-              팀명은 언제든지 수정할 수 있어요.
-            </div>
-          </TextContainer>
-          <GradientContainer>
-            <div className="flex flex-col items-center justify-between">
-              <div>
-                <TeamnameContainer1 className="text-sm">
-                  <TeamnameBox>🛥️ 팀 크루즈</TeamnameBox>
-                  <TeamnameBox>🚗 아우디</TeamnameBox>
-                  <TeamnameBox>☁️ 구름톤</TeamnameBox>
-                  <TeamnameBox2>🛥️ 팀 크루즈</TeamnameBox2>
-                  <TeamnameBox2>🚗 아우디</TeamnameBox2>
-                  <TeamnameBox2>☁️ 구름톤</TeamnameBox2>
-                </TeamnameContainer1>
-                <TeamnameContainer2 className="text-sm">
-                  <TeamnameBox>🫠 미르미네</TeamnameBox>
-                  <TeamnameBox>🍫 카카오</TeamnameBox>
-                  <TeamnameBox>🐣 햇병아리</TeamnameBox>
-                  <TeamnameBox2>🫠 미르미네</TeamnameBox2>
-                  <TeamnameBox2>🍫 카카오</TeamnameBox2>
-                  <TeamnameBox2>🐣 햇병아리</TeamnameBox2>
-                </TeamnameContainer2>
+          <Navbar></Navbar>
+          <ContextContainer>
+            <TextContainer>
+              <div className="text-lg mb-2">
+                <b>센스있는 팀명을 추천</b>해드릴게요!
               </div>
-              <BtnContainer className="mb-5">
-                <button
-                  onClick={goToNext}
-                  className="w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm hover:bg-yellow-400 hover:text-white duration-300"
-                >
-                  팀 이름 추천받기
-                </button>
-              </BtnContainer>
-            </div>
-          </GradientContainer>
-        </ContextContainer>
+              <div className="text-sm text-gray-400">
+                팀명은 언제든지 수정할 수 있어요.
+              </div>
+            </TextContainer>
+            <GradientContainer>
+              <div className="flex flex-col items-center justify-between">
+                <div>
+                  <TeamnameContainer1 className="text-sm">
+                    <TeamnameBox>🛥️ 팀 크루즈</TeamnameBox>
+                    <TeamnameBox>🚗 아우디</TeamnameBox>
+                    <TeamnameBox>☁️ 구름톤</TeamnameBox>
+                    <TeamnameBox2>🛥️ 팀 크루즈</TeamnameBox2>
+                    <TeamnameBox2>🚗 아우디</TeamnameBox2>
+                    <TeamnameBox2>☁️ 구름톤</TeamnameBox2>
+                  </TeamnameContainer1>
+                  <TeamnameContainer2 className="text-sm">
+                    <TeamnameBox>🫠 미르미네</TeamnameBox>
+                    <TeamnameBox>🍫 카카오</TeamnameBox>
+                    <TeamnameBox>🐣 햇병아리</TeamnameBox>
+                    <TeamnameBox2>🫠 미르미네</TeamnameBox2>
+                    <TeamnameBox2>🍫 카카오</TeamnameBox2>
+                    <TeamnameBox2>🐣 햇병아리</TeamnameBox2>
+                  </TeamnameContainer2>
+                </div>
+                <BtnContainer className="mb-5">
+                  <button
+                    onClick={goToNext}
+                    className="w-full rounded-full h-12 border  border-primary text-primary bg-white text-sm hover:bg-yellow-400 hover:text-white duration-300"
+                  >
+                    팀 이름 추천받기
+                  </button>
+                </BtnContainer>
+              </div>
+            </GradientContainer>
+          </ContextContainer>
         </motion.div>
       </Container>
     </div>

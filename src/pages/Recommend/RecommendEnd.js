@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import WaveBg from "../../assets/WaveBg.png";
 import Logo from "../../assets/rabbit_krew_bg.png";
+import ClipboardIcon from "../../assets/clipboard.png";
 
 const Container = styled.div`
   display: flex;
@@ -56,6 +57,7 @@ function RecommendEnd() {
   const navigate = useNavigate();
   const location = useLocation();
   const workspaceUUID = location.state?.workspaceUUID || "";
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
 
   console.log(workspaceUUID);
 
@@ -67,6 +69,21 @@ function RecommendEnd() {
     }
   };
 
+  const handleCopyToClipboard = () => {
+    navigator.clipboard
+      .writeText(workspaceUUID)
+      .then(() => {
+        console.log("Workspace UUID copied to clipboard");
+        setShowCopyNotification(true);
+        setTimeout(() => {
+          setShowCopyNotification(false);
+        }, 3000); // 3 seconds
+      })
+      .catch((err) => {
+        console.error("Failed to copy workspace UUID to clipboard:", err);
+      });
+  };
+
   return (
     <div className="App">
       <Container>
@@ -76,8 +93,27 @@ function RecommendEnd() {
           <div className="-mt-10">
             <SplashLogo></SplashLogo>
           </div>
-          <div className="flex flex-col items-center mt-8">
+          <div className="flex flex-col items-center my-8">
             워크스페이스 개설이 완료되었습니다!
+          </div>
+          <div className="flex flex-col items-center text-sm">
+            <div>
+              해당 <b>URL을 복사</b>하여 팀원들에게 공유해주세요!
+            </div>
+            <div className="flex items-center">
+              <b>{workspaceUUID}</b>
+              <button
+                className="ml-2 cursor-pointer"
+                onClick={handleCopyToClipboard}
+              >
+                <img src={ClipboardIcon} alt="Copy to clipboard" />
+              </button>
+            </div>
+            {showCopyNotification && (
+              <div className="absolute top-0 mt-4 bg-gray-400 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out">
+                복사 완료되었습니다!
+              </div>
+            )}
           </div>
         </div>
         <ButtonContainer className="mb-6">
