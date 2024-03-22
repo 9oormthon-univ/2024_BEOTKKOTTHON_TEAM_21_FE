@@ -3,12 +3,13 @@ import styled from "styled-components";
 // 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div`
 `;
+
 export const Background = styled.div`
   border-radius: 0 0 20% 20%;
   background: linear-gradient(180deg, #FFD875 0%, #FFA680 100%);
+  background-size: contain;
   width: 375px;
   height: 275px;
-  background-size: contain;
   position: absolute;
   z-index: -1;
   flex-shrink: 0;
@@ -16,6 +17,7 @@ export const Background = styled.div`
   left: 50%;
   transform: translate(-50%, 0);
 `;
+
 export const PersonGrid = styled.div`
   margin: 0 auto;
   width: 90%;

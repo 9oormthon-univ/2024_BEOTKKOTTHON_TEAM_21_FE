@@ -71,8 +71,7 @@ const SecretFeedback = () => {
     };
     if (stompClient) {
       stompClient.subscribe(`/message/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
-    }
-    }, [stompClient, chatRoomId]);
+    }}, [stompClient, chatRoomId]);
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {
@@ -105,7 +104,7 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      <SecretTitle person={person} />
+      {/* <SecretTitle person={person} /> */}
       {/* 주고받은 메세지가 담긴 배열 */} 
       <div className='flex flex-col grow overflow-hidden pt-20'>
         <div className='w-full flex justify-end flex-col overflow-hidden'>
