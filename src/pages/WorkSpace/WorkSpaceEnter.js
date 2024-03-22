@@ -38,6 +38,10 @@ const BtnContainer = styled.div`
   height: 10vh;
 `;
 
+const ErrorText = styled.div`
+  color: red;
+`;
+
 function WorkSpaceEnter() {
   const navigate = useNavigate();
   const handleBack = () => {
@@ -45,6 +49,26 @@ function WorkSpaceEnter() {
   };
 
   const [url, setUrl] = useState("");
+  const [joinError, setJoinError] = useState(null);
+
+  const handleJoinWorkspace = async () => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      console.log("authToken :", authToken);
+      const response = await axios.post(`/workspaces/${url}/join`, null, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      console.log(response.data);
+
+      navigate(`/workspacehome/${url}`);   // 팀별 워크스페이스 홈으로 이동
+
+    } catch (error) {
+      console.error("Error joining workspace:", error);
+      setJoinError("URL을 정확히 입력해주세요.");
+    }
+  };
 
   return (
     <div className="App">
@@ -77,20 +101,27 @@ function WorkSpaceEnter() {
             </div>
 
             <UrlContainer className="text-sm mx-5">
-              <input
-                type="text"
-                name="url"
-                value={url}
-                onChange={(e) => setUrl(e.target.value)}
-                className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                placeholder="URL"
-              />
-              <button className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm">
+              <div>
+                <input
+                  type="text"
+                  name="url"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
+                  placeholder="URL"
+                />
+                {joinError && (
+                  <ErrorText className="mt-2">{joinError}</ErrorText>
+                )}
+              </div>
+
+              <button
+                className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm"
+                onClick={handleJoinWorkspace}
+              >
                 워크스페이스 참여
               </button>
             </UrlContainer>
-
-            {/* <BtnContainer></BtnContainer> */}
           </ContextInnerContainer>
           <div className="mx-6"></div>
         </ContextContainer>
