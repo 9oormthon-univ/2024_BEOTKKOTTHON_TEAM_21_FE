@@ -125,6 +125,31 @@ function SignUp() {
   const [idError, setIdError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isIdDuplicate, setIsIdDuplicate] = useState(false); // 아이디 중복 체크
+
+  // 아이디 중복 체크 요청 보내기
+  useEffect(() => {
+    const checkDuplicate = async () => {
+      try {
+        const response = await axios.post("/api/auth/check-duplicate", { id });
+        // 응답에서 중복 여부 확인
+        console.log(response.data);
+        const isDuplicate = response.data.data;
+        console.log(isDuplicate);
+        setIsIdDuplicate(isDuplicate);
+      } catch (error) {
+        console.error("Error checking duplicate:", error);
+      }
+    };
+
+    // 아이디 입력값이 변경될 때마다 중복 체크 요청 보내기
+    if (id.trim()) {
+      checkDuplicate();
+    } else {
+      // 아이디 입력값이 비어있는 경우 중복 여부 초기화
+      setIsIdDuplicate(false);
+    }
+  }, [id]);
 
   // 아이디 입력 변경 핸들러
   const handleIdChange = (e) => {
@@ -336,6 +361,16 @@ function SignUp() {
                         {idError && (
                           <span className="text-red-500 text-xs h-2">
                             {idError}
+                          </span>
+                        )}
+                        {id.trim() && isIdDuplicate && (
+                          <span className="text-red-500 text-xs h-2">
+                            이미 사용 중인 아이디입니다.
+                          </span>
+                        )}
+                        {id.trim() && !isIdDuplicate && (
+                          <span className="text-green-500 text-xs h-2">
+                            사용 가능한 아이디입니다.
                           </span>
                         )}
                       </div>
