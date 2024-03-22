@@ -86,7 +86,7 @@ const WorkspaceTodo = () => {
         <div>투두 완료리스트 페이지</div>
       )}
 
-      <WorkspaceBottom activeItem={"chat"} workspaceUUID={workspaceUUID} />
+      <WorkspaceBottom activeItem={"todo"} workspaceUUID={workspaceUUID} />
     </div>
   );
 };
