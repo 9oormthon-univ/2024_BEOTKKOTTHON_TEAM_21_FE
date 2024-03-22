@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import logoImage from "../../assets/logo.png";
+import Bg from "../../assets/SplashBg0.png";
 
 const SplashContainer = styled.div`
   display: flex;
@@ -10,6 +11,10 @@ const SplashContainer = styled.div`
   gap: 14px;
   min-height: 100vh;
   font-family: "Pretendard";
+
+  background: url(${Bg});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Logo = styled.div`
@@ -38,7 +43,7 @@ function Splash() {
       <SplashContainer>
         {/* <SplashLogo></SplashLogo>
         <SplashText>LOGO</SplashText> */}
-        <Logo></Logo>
+        {/* <Logo></Logo>
         <Wavestyle>
           <svg
             viewBox="0 0 320 284"
@@ -70,7 +75,7 @@ function Splash() {
               </clipPath>
             </defs>
           </svg>
-        </Wavestyle>
+        </Wavestyle> */}
       </SplashContainer>
     </SplashWrapper>
   );

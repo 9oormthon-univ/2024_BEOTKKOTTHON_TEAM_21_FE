@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,createContext, useContext } from 'react';
 import styled from "styled-components";
 import { images } from '../../utils/images';
 import WorkspaceBottom from '../../component/WorkspaceBottom';
@@ -7,12 +7,13 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { GoChevronLeft } from "react-icons/go";
 import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import { APIClient } from '../../utils/Api';
 import axios from "axios";
+
+const WorkspaceContext = createContext();
 
 const WorkSpaceHome = () => {
   const { workspaceUUID } = useParams();
-  const [workspaceUserList, setWorkspaceUserList] = useState([]);
+  const [ workspaceUserList, setWorkspaceUserList] = useState([]);
   const [teamName, setTeamName] = useState("");
 
   // 워크스페이스 참여
@@ -28,32 +29,34 @@ const WorkSpaceHome = () => {
           const workspaceUserList = data.userInfoResponseList;
           setTeamName(teamName);
           setWorkspaceUserList(workspaceUserList);
+          console.log(workspaceUserList)
       } catch (error) {
           console.error(error);
       }
     }
     JoinWorkspace();
   }, [])
-
   return (
     <>
-    <W.Background></W.Background>
-    <W.WorkSpaceHomeContainer>
-      <WorkspaceTitle />
-  
-      <div className='text-center text-white py-5'>
-        <div className='text-2xl font-bold mb-2'>{teamName}의 워크스페이스</div>
-        <div className='text-sm'>자유롭게 1:1 시크릿 메세지를 보내보세요!</div>
-      </div>
+    <WorkspaceContext.Provider value={{ workspaceUserList, setWorkspaceUserList }}>
+      <W.Background></W.Background>
+      <W.WorkSpaceHomeContainer>
+        <WorkspaceTitle />
+    
+        <div className='text-center text-white py-5'>
+          <div className='text-2xl font-bold mb-2'>{teamName}의 워크스페이스</div>
+          <div className='text-sm'>자유롭게 1:1 시크릿 메세지를 보내보세요!</div>
+        </div>
 
-      <W.PersonGrid>
-        {workspaceUserList.map(person => (
-          <PersonBox key={person.id} person={person} workspaceUUID={workspaceUUID} />
-        ))}
-      </W.PersonGrid>
-      
-      <WorkspaceBottom activeItem={'home'} workspaceUUID={workspaceUUID} />
-    </W.WorkSpaceHomeContainer>
+        <W.PersonGrid>
+          {workspaceUserList.map(person => (
+            <PersonBox key={person.id} person={person} workspaceUUID={workspaceUUID} />
+          ))}
+        </W.PersonGrid>
+        
+        <WorkspaceBottom activeItem={'home'} workspaceUUID={workspaceUUID} workspaceUserList={workspaceUserList} />
+      </W.WorkSpaceHomeContainer>
+    </WorkspaceContext.Provider>
   </>
   );
 };
@@ -72,6 +75,8 @@ const PersonBox = ({ person, workspaceUUID }) => {
     "created_at": "워크스페이스 생성 일자"
   })
   
+  const [ isWorkspace, setIsWorkspace] = useState([])
+  
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -86,7 +91,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
   const OneToOneChat = async (person) => {
     const authToken = localStorage.getItem("authToken");
-    console.log(workspaceUUID)
+    
     try {
       const response = await axios.post(`/chatRoom`, { 
           workspaceUUID: workspaceUUID,
@@ -97,6 +102,14 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
       const data = response.data.data;
       const chatRoomId = data.chatRoomId;
+
+      setIsWorkspace(prevData => [
+        ...prevData,
+        { [workspaceUUID + person.id]: chatRoomId }
+      ]);
+
+      console.log(isWorkspace)
+      
       navigate(`/secretfeedback/${chatRoomId}`, { state: { person: person, workspaceUUID: workspaceUUID} }) // 1:1 채팅방 페이지로 이동
     } catch (error) {
         console.error(error);
