@@ -93,7 +93,7 @@ function Login() {
             ></input>
           </div>
         </div>
-        <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center">
+        <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center duration-200">
           <button onClick={handleLogin}>로그인</button>
         </div>
         <div className="flex text-xs -mt-8 text-gray-400">

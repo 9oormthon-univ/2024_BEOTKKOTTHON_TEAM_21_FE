@@ -19,6 +19,7 @@ import RecommendMiddle from "./pages/Recommend/RecommendMiddle";
 import RecommendChoose from "./pages/Recommend/RecommendChoose";
 import RecommendEnd from "./pages/Recommend/RecommendEnd";
 import WorkSpaceEnter from "./pages/WorkSpace/WorkSpaceEnter";
+import { AnimatePresence } from 'framer-motion';
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -34,6 +35,7 @@ function App() {
   return (
     <div className="App">
       <Router>
+        <AnimatePresence>
         <Routes>
           <Route
             path="/"
@@ -56,6 +58,7 @@ function App() {
           <Route path="/recommendchoose" element={<RecommendChoose />} />
           <Route path="/recommendend" element={<RecommendEnd />} />
         </Routes>
+        </AnimatePresence>
       </Router>
     </div>
   );

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import MobileStepper from "@mui/material/MobileStepper";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { motion } from 'framer-motion';
 
 const SignUpContainer = styled.div`
   display: flex;
@@ -142,9 +143,34 @@ function SignUp() {
     }
   };
 
+  // 각 문장에 대한 fade 효과를 정의하는 variants
+  const sentenceVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.5,
+        duration: 0.9,
+      },
+    }),
+  };
+
   return (
     <div className="App">
       <SignUpContainer>
+        <motion.div
+            animate={activeStep === 0 ? 'enter' : 'slide'}
+            initial='initial'
+            exit='exit'
+            variants={{
+              initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+              enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+              slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+              exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+            }}
+            transition={{ type: 'tween', duration: 0.5 }} // 부드러운 전환 효과
+        >
         {/* NavBar -> Stepper 로직상 로그인이후 NavBar만 컴포넌트로 관리 */}
         <NavContainer>
           <button
@@ -192,8 +218,22 @@ function SignUp() {
             {activeStep === 0 ? (
               <div>
                 <div className="text-lg">
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={0}
+                  >
                   <p>안녕하세요!</p>
+                  </motion.div>
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={1}
+                  >
                   <p>아이디와 비밀번호를 설정해주세요.</p>
+                  </motion.div>
                 </div>
                 <div className="mx-2 my-10 flex flex-col gap-11 text-sm">
                   <input
@@ -228,10 +268,24 @@ function SignUp() {
             {activeStep === 1 ? (
               <div>
                 <div className="text-lg">
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={0}
+                  >
                   <p className="mb-2">나의 프로필을 설정해주세요.</p>
+                  </motion.div>
+                    <motion.div
+                        variants={sentenceVariants}
+                        initial="hidden"
+                        animate="visible"
+                        custom={1}
+                    >
                   <p className="text-gray-400 text-sm">
                     프로필은 언제든 변경할 수 있어요!
                   </p>
+                    </motion.div>
                 </div>
                 <div>
                   <div
@@ -396,6 +450,7 @@ function SignUp() {
         ) : (
           ""
         )}
+        </motion.div>
       </SignUpContainer>
     </div>
   );
