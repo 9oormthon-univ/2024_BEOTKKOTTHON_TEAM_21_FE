@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 // 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div`
@@ -106,4 +106,25 @@ export const wsListBox = styled.button`
   export const plusBtn = styled.button`
   border-radius: 7.759px;
   background: #EFEFEF;
+`
+
+const gradientShift = keyframes`
+  0% { background-position: 0 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+`
+
+export const GradientButton = styled.button`
+  border: none;
+  border-radius: 24px;
+  background-size: 200% 200%;
+  background-image: linear-gradient(to right, #f6d365 0%, #fda085 100%);
+  color: white;
+  font-size: 15.5px;
+  cursor: pointer;
+  animation: ${gradientShift} 3s ease infinite;
+
+  &:hover {
+    opacity: 0.9;
+  }
 `
