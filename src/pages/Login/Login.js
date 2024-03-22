@@ -28,23 +28,49 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [loginError, setLoginError] = useState("");
+
+  const instance = axios.create({
+    baseURL: "http://3.35.236.118:8080",
+  });
+
   const goToSignUp = () => {
     navigate("/signup");
   };
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
+    setUsernameError(""); // 아이디가 변경될 때 에러 메시지 초기화
+    setLoginError(""); // 로그인 에러 초기화
   };
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
+    setPasswordError(""); // 비밀번호가 변경될 때 에러 메시지 초기화
+    setLoginError(""); // 로그인 에러 초기화
   };
 
-  const instance = axios.create({
-    baseURL: "http://3.35.236.118:8080",
-  });
+  const validateInputs = () => {
+    let isValid = true;
+
+    if (!username.trim()) {
+      setUsernameError("아이디를 입력해주세요.");
+      isValid = false;
+    }
+
+    if (!password.trim()) {
+      setPasswordError("비밀번호를 입력해주세요.");
+      isValid = false;
+    }
+
+    return isValid;
+  };
 
   const handleLogin = async () => {
+    if (!validateInputs()) return;
+
     try {
       const response = await instance.post("/api/auth/signIn", {
         loginId: username,
@@ -61,6 +87,7 @@ function Login() {
       navigate("/workspacelist");
     } catch (error) {
       console.error("Error:", error.response.data);
+      setLoginError("아이디 또는 패스워드가 일치하지 않습니다.");
     }
   };
 
@@ -81,6 +108,9 @@ function Login() {
               className="mt-1 px-3 py-2 bg-white border-b shadow-sm  border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  sm:text-sm focus:ring-1"
               placeholder="아이디"
             />
+            {usernameError && (
+              <span className="text-red-500 text-xs h-2">{usernameError}</span>
+            )}
           </div>
           <div className="w-full">
             <input
@@ -91,11 +121,20 @@ function Login() {
               onChange={handlePasswordChange}
               placeholder="비밀번호"
             ></input>
+            {passwordError && (
+              <span className="text-red-500 text-xs h-2">{passwordError}</span>
+            )}
           </div>
         </div>
-        <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center duration-200">
-          <button onClick={handleLogin}>로그인</button>
+        <div className="w-full flex flex-col items-center">
+          {loginError && (
+            <span className="text-red-500 text-xs h-2 mb-5">{loginError}</span>
+          )}
+          <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center duration-200">
+            <button onClick={handleLogin}>로그인</button>
+          </div>
         </div>
+
         <div className="flex text-xs -mt-8 text-gray-400">
           <a>아이디 찾기</a>
           <div className="mx-2">|</div>
