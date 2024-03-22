@@ -101,10 +101,68 @@ function SignUp() {
   const [selectedButtonIndex, setselectedButtonIndex] = useState(null);
   const [profileid, setProfileId] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
 
+  // 각 입력의 유효성 검사 상태 변수
+  const [idError, setIdError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
+  // 아이디 입력 변경 핸들러
+  const handleIdChange = (e) => {
+    const value = e.target.value;
+    setId(value);
+    // 아이디가 비어있을 경우 오류 메시지 표시
+    if (!value.trim()) {
+      setIdError("아이디를 입력해주세요.");
+    } else {
+      setIdError(""); // 오류 메시지 초기화
+    }
+  };
+
+  // 비밀번호 입력 변경 핸들러
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    // 비밀번호가 유효하지 않을 경우 오류 메시지 표시
+    if (
+      !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,20})/)
+    ) {
+      setPasswordError(
+        "숫자, 대문자, 소문자, 특수문자를 최소 1개 이상 포함하여 8글자 이상 작성해주세요."
+      );
+    } else {
+      setPasswordError(""); // 오류 메시지 초기화
+    }
+  };
+
+  // 이메일 입력 변경 핸들러
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    // 이메일 형식이 아닌 경우 오류 메시지 표시
+    if (!value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
+      setEmailError("이메일 형식(@.com)으로 입력해주세요.");
+    } else {
+      setEmailError(""); // 오류 메시지 초기화
+    }
+  };
+
   const handleNext = () => {
-    if (activeStep < 1) {
-      // activeStep이 1보다 작을 때만 증가시킴
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    // 각 필드의 유효성 검사
+    if (!id.trim()) {
+      setIdError("아이디를 입력해주세요.");
+    } else if (
+      !password.match(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,20})/
+      )
+    ) {
+      setPasswordError(
+        "숫자, 대문자, 소문자, 특수문자를 최소 1개 이상 포함하여 8글자 이상 작성해주세요."
+      );
+    } else if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
+      setEmailError("이메일 형식(@.com)으로 입력해주세요.");
+    } else {
+      // 모든 필드가 유효한 경우 다음 단계로 이동
+      if (activeStep < 1) setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
 
@@ -123,31 +181,6 @@ function SignUp() {
   const handleButtonClick = (index) => {
     setselectedButtonIndex(index);
   };
-
-  // const goToSignEnd = () => {
-  //   navigate("/signend");
-  // };
-
-  // const sendData = async () => {
-  //   try {
-  //     const data = {
-  //       email: email,
-  //       loginId: id,
-  //       password: password,
-  //       nickName: nickname,
-  //       profileImageUrl: "", // 임시값, 나중에 선택한 프로필에따른 url로 변경해야함
-  //     };
-
-  //     const response = await axios.post("/api/auth/signUp", data);
-
-  //     console.log(response.data);
-
-  //     navigate("/signend");
-  //   } catch (error) {
-  //     // Handle errors
-  //     console.error("Error:", error);
-  //   }
-  // };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // 기본 동작 방지
@@ -270,30 +303,51 @@ function SignUp() {
                       className="flex flex-col gap-11"
                       onSubmit={handleFormSubmit}
                     >
-                      <input
-                        type="text"
-                        name="id"
-                        value={id}
-                        onChange={(e) => setId(e.target.value)}
-                        className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                        placeholder="아이디"
-                      />
-                      <input
-                        type="email"
-                        name="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                        placeholder="이메일"
-                      />
-                      <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                        placeholder="비밀번호"
-                      />
+                      <div>
+                        <input
+                          type="text"
+                          name="id"
+                          value={id}
+                          onChange={handleIdChange}
+                          className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
+                          placeholder="아이디"
+                        />
+                        {idError && (
+                          <span className="text-red-500 text-xs h-2">
+                            {idError}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={email}
+                          onChange={handleEmailChange}
+                          className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
+                          placeholder="이메일"
+                        />
+                        {emailError && (
+                          <span className="text-red-500 text-xs h-2">
+                            {emailError}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <input
+                          type="password"
+                          name="password"
+                          value={password}
+                          onChange={handlePasswordChange}
+                          className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
+                          placeholder="비밀번호"
+                        />
+                        {passwordError && (
+                          <span className="text-red-500 text-xs h-2">
+                            {passwordError}
+                          </span>
+                        )}
+                      </div>
                     </FormContainer>
                   </div>
                 </div>
