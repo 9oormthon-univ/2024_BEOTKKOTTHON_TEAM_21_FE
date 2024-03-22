@@ -36,7 +36,7 @@ const SecretFeedback = () => {
         },
       });
       const chatData = response.data.data;
-      console.log(chatData);
+      setMessages(chatData);
     } catch (error) {
       console.error(error);
     }
@@ -52,7 +52,7 @@ const SecretFeedback = () => {
       });
       const senderId = response.data.data.id;
       console.log(senderId)
-      setSenderId(senderId)
+      setSenderId(parseInt(senderId, 10)); // 정수로 변환
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +68,7 @@ const SecretFeedback = () => {
         console.log("Connected: " + frame);
         setStompClient(stomp); // stomp 클라이언트 상태 저장
         console.log(stompClient, "클라이언트 상태");
-      });
+      }, []);
     };
 
     connectWebSocket();
@@ -118,39 +118,15 @@ const SecretFeedback = () => {
     setInputMessage(""); // 보낼 메세지 input 초기화
   };
 
-  // 컴포넌트가 마운트될 때 이전 메시지를 로컬 스토리지에서 불러오는 기능
-  useEffect(() => {
-    const storedMessages = JSON.parse(
-      localStorage.getItem(`chatMessages_${chatRoomId}`)
-    );
-    if (storedMessages) {
-      setMessages(storedMessages);
-    }
-  }, []);
-
-  useEffect(() => {
-    const handleLeaveChatRoom = () => {
-      localStorage.setItem(
-        `chatMessages_${chatRoomId}`,
-        JSON.stringify(messages)
-      );
-    };
-
-    // 컴포넌트가 언마운트될 때 채팅방을 떠난 것으로 처리
-    return () => {
-      handleLeaveChatRoom();
-    };
-  }, [messages]);
-
   return (
     <F.SecretFeedback>
       <SecretTitle person={person} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
-        <div className="w-full flex justify-end flex-col overflow-hidden">
+        <div className="w-full flex justify-end flex-col overflow-auto mb-[80px]">
           {messages.map((message, index) => (
             <>
-              {message.sender === "user" ? (
+              {message.senderId === senderId ? (
                 <div className="ml-auto">
                   <F.sendChat key={index}>{message.content}</F.sendChat>
                 </div>
