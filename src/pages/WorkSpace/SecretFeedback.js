@@ -19,7 +19,8 @@ const SecretFeedback = () => {
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [inputMessage, setInputMessage] = useState("");
-  const [messages, setMessages] = useState([]); // 실시간 대화하는 메세지 저장할 곳
+  const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용 불러오는 곳
+  const [realMessages, setRealMessages] = useState([]); // 실시간 대화하는 메세지 저장할 곳
   const [senderId, setSenderId ] = useState()
 
   // 채팅방 내역
@@ -36,7 +37,7 @@ const SecretFeedback = () => {
         },
       });
       const chatData = response.data.data;
-      setMessages(chatData);
+      setSaveMessages(chatData);
     } catch (error) {
       console.error(error);
     }
@@ -51,26 +52,25 @@ const SecretFeedback = () => {
         },
       });
       const senderId = response.data.data.id;
-      console.log(senderId)
       setSenderId(parseInt(senderId, 10)); // 정수로 변환
     } catch (error) {
       console.error(error);
     }
   }
 
+  const connectWebSocket = () => {
+    const socket = new SockJS("http://3.35.236.118:8080/ws"); // WebSocket 연결 생성
+    const stomp = Stomp.over(socket); // stomp 클라이언트로 변환
+    stomp.connect({}, (frame) => {
+      // 서버와 연결 설정
+      console.log("Connected: " + frame);
+      setStompClient(stomp); // stomp 클라이언트 상태 저장
+      console.log(stompClient, "클라이언트 상태");
+    }, []);
+  };
+
   useEffect(() => {
     getUserId()
-    const connectWebSocket = () => {
-      const socket = new SockJS("http://3.35.236.118:8080/ws"); // WebSocket 연결 생성
-      const stomp = Stomp.over(socket); // stomp 클라이언트로 변환
-      stomp.connect({}, (frame) => {
-        // 서버와 연결 설정
-        console.log("Connected: " + frame);
-        setStompClient(stomp); // stomp 클라이언트 상태 저장
-        console.log(stompClient, "클라이언트 상태");
-      }, []);
-    };
-
     connectWebSocket();
     handleChatList();
 
@@ -79,17 +79,19 @@ const SecretFeedback = () => {
         stompClient.disconnect();
       }
     };
-  }, []);
+  }, [stompClient]);
+
+  // 메세지 수신
+  const handleMessage = (message) => {
+    setSaveMessages((prevMessages) => [
+      ...prevMessages,
+      { content: message.body, senderId: "other" },
+    ]);
+  };
 
   useEffect(() => {
     handleChatList();
-    // 메세지 수신
-    const handleMessage = (message) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { content: message.body, senderId: "other" },
-      ]);
-    };
+
     if (stompClient) {
       stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
     }
@@ -97,8 +99,6 @@ const SecretFeedback = () => {
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {
-    console.log(inputMessage); // 보낼 메세지
-
     const messageDto = {
       senderId: senderId, // 실제 보내는 사용자 id로 수정 필요 !
       content: inputMessage.trim(),
@@ -110,9 +110,9 @@ const SecretFeedback = () => {
         {},
         JSON.stringify(messageDto)
       ); // 서버에 보냄
-      setMessages((prevMessages) => [
+      setSaveMessages((prevMessages) => [
         ...prevMessages,
-        { content: inputMessage, sender: "user" },
+        { content: inputMessage, senderId: senderId },
       ]); // 저장함에 저장
     }
     setInputMessage(""); // 보낼 메세지 input 초기화
@@ -124,7 +124,7 @@ const SecretFeedback = () => {
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
         <div className="w-full flex justify-end flex-col overflow-auto mb-[80px]">
-          {messages.map((message, index) => (
+          {saveMessages.map((message, index) => (
             <>
               {message.senderId === senderId ? (
                 <div className="ml-auto">
