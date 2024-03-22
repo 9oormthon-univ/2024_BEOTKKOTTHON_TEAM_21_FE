@@ -25,7 +25,7 @@ const SecretFeedback = () => {
   const handleChatList = async ()=> {
     const authToken = localStorage.getItem("authToken");
     try {
-      const response = await axios.get("/message/list", {
+      const response = await axios.get("http://3.35.236.118:8080/message/list", {
         params: {
           workspaceUUID: workspaceUUID,
           chatRoomId: chatRoomId

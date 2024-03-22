@@ -51,7 +51,7 @@ function WorkSpaceEnter() {
   const handleJoin = async (url) => {
     const authToken = localStorage.getItem("authToken");
     try {
-      const response = await axios.post(`/workspaces/${url}/join`, null, { headers : {
+      const response = await axios.post(`http://3.35.236.118:8080/workspaces/${url}/join`, null, { headers : {
         Authorization: `Bearer ${authToken}`}
       });
       navigate('/workspacelist');
@@ -68,7 +68,7 @@ function WorkSpaceEnter() {
     try {
       const authToken = localStorage.getItem("authToken");
       console.log("authToken :", authToken);
-      const response = await axios.post(`/workspaces/${url}/join`, null, {
+      const response = await axios.post(`http://3.35.236.118:8080/workspaces/${url}/join`, null, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

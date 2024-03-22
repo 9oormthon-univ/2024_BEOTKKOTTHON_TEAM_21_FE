@@ -59,7 +59,7 @@ const WorkspaceList = () => {
     const authToken = localStorage.getItem("authToken");
     const spaceList = async () => {
       try {
-        const response = await axios.get("/userworkspaces", { headers : {
+        const response = await axios.get("http://3.35.236.118:8080/userworkspaces", { headers : {
           Authorization: `Bearer ${authToken}`}
         });
         const data = response.data.data;
