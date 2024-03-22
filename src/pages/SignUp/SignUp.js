@@ -316,7 +316,7 @@ function SignUp() {
                     <BtnContainer>
                       <button
                         onClick={sendData}
-                        className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm"
+                        className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                       >
                         완료
                       </button>
@@ -331,7 +331,7 @@ function SignUp() {
                 <BtnContainer>
                   <button
                     onClick={handleNext}
-                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                   >
                     다음
                   </button>
@@ -345,12 +345,13 @@ function SignUp() {
           <div>
             <NewDivContainer>
               <div className="mx-8 flex flex-col h-full justify-evenly">
-                <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center">
+                <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center hover:origin-top">
                   {/* 각 버튼별 선택된 이미지 저장 및 아이콘 어둡게 작업 필요*/}
                   {profileid.map((index) => (
                     <button
                       key={index}
                       onClick={() => handleButtonClick(index)}
+                      className="hover:animate-bounce"
                     >
                       <ProfileCircle isSelected={selectedButtonIndex === index}>
                         {selectedButtonIndex === index && (
@@ -384,7 +385,7 @@ function SignUp() {
                 <BtnContainer className="mb-5">
                   <button
                     onClick={() => setShowNewDiv(false)}
-                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                   >
                     선택
                   </button>
