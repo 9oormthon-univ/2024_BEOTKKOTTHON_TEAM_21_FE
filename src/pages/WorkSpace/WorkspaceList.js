@@ -140,6 +140,21 @@ const WorkspaceList = () => {
         </p>
         </motion.div>
       </div>
+      <div className="w-[375px] relative">
+        <button onClick={()=>{setPlusToggle(!plusToggle)}}>
+          <PlusIcon />
+        </button>
+
+        {plusToggle && (
+        <W.plusBtn className='py-1 absolute bottom-10 right-10'>
+          <div 
+            onClick={()=>{navigate('/recommendStart')}}
+            className="px-6 border-[#D7D7D7] border-solid border-b-[1px]">새로생성</div>
+          <div className="px-6" onClick={()=>{navigate('/workspaceEnter')}}>참여하기</div>
+        </W.plusBtn>
+      )}
+      </div>
+      
 
 
       <W.wsListContainer>
@@ -164,22 +179,6 @@ const WorkspaceList = () => {
           );
         })}
       </W.wsListContainer>
-      <div className="w-[375px] relative">
-        <button className="plusIcon" onClick={()=>{setPlusToggle(!plusToggle)}}>
-          <PlusIcon />
-        </button>
-
-        {plusToggle && (
-        <W.plusBtn className='py-1 absolute bottom-10 right-10'>
-          <div 
-            onClick={()=>{navigate('/recommendStart')}}
-            className="px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-yellow-500 duration-200">새로생성</div>
-          <div className="px-6 hover:text-yellow-500 duration-200" onClick={()=>{navigate('/workspaceEnter')}}>참여하기</div>
-        </W.plusBtn>
-      )}
-      </div>
-
-
     </div>
       </motion.div>
   );

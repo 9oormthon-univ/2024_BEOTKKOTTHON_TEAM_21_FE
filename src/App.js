@@ -44,13 +44,12 @@ function App() {
           <Route path="/splash" element={<Splash />} />
           <Route path="/login" element={<Login />} />
           <Route path="/workspacelist" element={<WorkspaceList />} />
+
           <Route path="/workspacehome/:workspaceUUID" element={<WorkSpaceHome />} />
           <Route path="/feedbackstorage/:workspaceUUID" element={<FeedbackStorage />} />
+          <Route path="/secretfeedback/:chatRoomId" element={<SecretFeedback />} />
+
           <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
-          <Route
-            path="/secretfeedback/:chatRoomId"
-            element={<SecretFeedback />}
-          />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/signend" element={<SignUpEnd />} />
           <Route path="/recommendstart" element={<RecommendStart />} />

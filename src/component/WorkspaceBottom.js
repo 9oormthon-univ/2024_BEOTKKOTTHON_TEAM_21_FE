@@ -16,7 +16,9 @@ const WorkspaceBottom = ({activeItem, workspaceUUID}) => {
           <span>홈</span>
         </W.BottomContent>
 
-        <W.BottomContent active={activeItem === 'chat'}  onClick={()=>{navigate(`/feedbackstorage/${workspaceUUID}`)}}>
+        <W.BottomContent active={activeItem === 'chat'}  onClick={()=>{
+          navigate(`/feedbackstorage/${workspaceUUID}`)
+          }}>
           <IoChatbubbleEllipses size={20} />
           <span>채팅</span>
         </W.BottomContent>

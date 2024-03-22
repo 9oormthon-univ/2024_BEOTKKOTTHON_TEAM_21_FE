@@ -6,7 +6,6 @@ import * as F from "../../styles/Feedback";
 import { useNavigate, useParams } from 'react-router-dom';
 import { images } from './../../utils/images';
 import mockData from '../../utils/mockData.json';
-import { APIClient } from './../../utils/Api';
 import axios from 'axios';
 
 
@@ -32,7 +31,6 @@ const FeedbackStorage = () => {
           });
           console.log(response);
           const receivedData = response.data.data;
-
         } else {
           console.log('보낸 피드백')
           const response = await axios.get("/chatRoom/sent", {
@@ -44,7 +42,7 @@ const FeedbackStorage = () => {
             }
           });
           
-            console.log(response)
+          console.log(response)
            const sendData = response.data.data;
         }
       } catch (error) {
@@ -52,7 +50,7 @@ const FeedbackStorage = () => {
       }
     }
     ShowFeedBack();
-  }, [feedbackState,WorkspaceBottom])
+  }, [feedbackState, WorkspaceBottom])
 
   return (
     <div className='relative'>
@@ -70,7 +68,7 @@ const FeedbackStorage = () => {
       <F.ReceiveFeedBack>
         {mockData.map((data)=>{
           return(
-            <Feedback receive={true} userid={data.userId} img={data.img} name={data.name} time={data.time} content={data.content}/>
+            <Feedback receive={true} chatRoomId={data.chatRoomId} workspaceUUID={workspaceUUID}/>
           )
         })}
       </F.ReceiveFeedBack> : 
@@ -78,7 +76,7 @@ const FeedbackStorage = () => {
       <F.SendFeedBack>
          {mockData.map((data)=>{
           return(
-            <Feedback receive={false} userid={data.userId} img={data.img} name={data.name} time={data.time} content={data.content}/>
+            <Feedback receive={false} chatRoomId={data.chatRoomId} workspaceUUID={workspaceUUID}/>
           )
         })}
       </F.SendFeedBack>}
@@ -106,15 +104,16 @@ export const FeedbackTitle = () => {
 
 export const Feedback = (props) => {
   const navigate = useNavigate();
+  // console.log(props)
 
   const HandleChatRoom = (props) => {
     console.log(props)
-    console.log('채팅방 입장', props.userid);
-    navigate(`/secretfeedback/${props.userid}`)
+    console.log('채팅방 입장', props.chatRoomId);
+    navigate(`/secretfeedback/${props.chatRoomId}`, { state: { workspaceUUID: props.workspaceUUID}});
   }
 
   return (
-    <F.FeedbackContainer onClick={ ()=>{HandleChatRoom(props)} }>
+    <F.FeedbackContainer onClick={ ()=>{ HandleChatRoom(props) } }>
       <F.FeedbackImg>
         <F.StyledImg src={images.cat} alt='img' active={props.receive}/>
       </F.FeedbackImg>
