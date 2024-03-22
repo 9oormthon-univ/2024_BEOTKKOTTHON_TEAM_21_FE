@@ -9,7 +9,6 @@ import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import axios from "axios";
 
-const WorkspaceContext = createContext();
 
 const WorkSpaceHome = () => {
   const { workspaceUUID } = useParams();
