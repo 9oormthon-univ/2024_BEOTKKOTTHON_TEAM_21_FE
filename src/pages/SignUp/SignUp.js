@@ -119,13 +119,12 @@ function SignUp() {
   const [showNewDiv, setShowNewDiv] = useState(false);
   const [selectedButtonIndex, setselectedButtonIndex] = useState(null);
   const [profileid, setProfileId] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  const [profileImageUrl, setProfileImageUrl] = useState("");
 
   // 각 입력의 유효성 검사 상태 변수
   const [idError, setIdError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-  const [profileImageUrl, setProfileImageUrl] = useState("");
 
   // 아이디 입력 변경 핸들러
   const handleIdChange = (e) => {
@@ -213,7 +212,7 @@ function SignUp() {
         loginId: id,
         password: password,
         nickName: nickname,
-        profileImageUrl: "", // 선택한 프로필의 url 저장 작업 필요
+        profileImageUrl: profileImageUrl, // 선택한 프로필의 url 저장 작업 필요
       };
 
       const response = await axios.post("/api/auth/signUp", data);
