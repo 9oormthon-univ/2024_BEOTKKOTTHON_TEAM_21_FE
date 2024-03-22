@@ -68,7 +68,7 @@ function Login() {
     <div className="App">
       <LoginContainer>
         {/* <div className="max-content w-20 h-20 bg-gray-200"></div> */}
-        <div className="flex justify-center items-center -mb-10">
+        <div className="flex justify-center items-center -mb-10 animate-bounce">
           <Logo></Logo>
         </div>
         <div className="flex flex-col  justify-center items-center my-5 gap-10 text-sm w-2/3">
@@ -93,7 +93,7 @@ function Login() {
             ></input>
           </div>
         </div>
-        <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center">
+        <div className="inline-grid text-sm bg-primary text-white hover:bg-yellow-500 w-2/3 rounded-full h-12 text-center duration-200">
           <button onClick={handleLogin}>로그인</button>
         </div>
         <div className="flex text-xs -mt-8 text-gray-400">
@@ -106,7 +106,7 @@ function Login() {
             <div className="text-gray-400">아직 회원이 아니신가요?</div>
             <a
               onClick={goToSignUp}
-              className="border-b border-primary text-primary cursor-pointer hover:text-sm"
+              className="border-b border-primary text-primary cursor-pointer hover:text-orange-500 duration-300"
             >
               회원가입
             </a>

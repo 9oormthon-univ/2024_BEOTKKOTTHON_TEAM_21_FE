@@ -3,6 +3,7 @@ import styled from "styled-components";
 import MobileStepper from "@mui/material/MobileStepper";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { motion } from 'framer-motion';
 
 const SignUpContainer = styled.div`
   display: flex;
@@ -142,9 +143,34 @@ function SignUp() {
     }
   };
 
+  // 각 문장에 대한 fade 효과를 정의하는 variants
+  const sentenceVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.5,
+        duration: 0.9,
+      },
+    }),
+  };
+
   return (
     <div className="App">
       <SignUpContainer>
+        <motion.div
+            animate={activeStep === 0 ? 'enter' : 'slide'}
+            initial='initial'
+            exit='exit'
+            variants={{
+              initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+              enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+              slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+              exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+            }}
+            transition={{ type: 'tween', duration: 0.5 }} // 부드러운 전환 효과
+        >
         {/* NavBar -> Stepper 로직상 로그인이후 NavBar만 컴포넌트로 관리 */}
         <NavContainer>
           <button
@@ -192,8 +218,22 @@ function SignUp() {
             {activeStep === 0 ? (
               <div>
                 <div className="text-lg">
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={0}
+                  >
                   <p>안녕하세요!</p>
+                  </motion.div>
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={1}
+                  >
                   <p>아이디와 비밀번호를 설정해주세요.</p>
+                  </motion.div>
                 </div>
                 <div className="mx-2 my-10 flex flex-col gap-11 text-sm">
                   <input
@@ -228,10 +268,24 @@ function SignUp() {
             {activeStep === 1 ? (
               <div>
                 <div className="text-lg">
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={0}
+                  >
                   <p className="mb-2">나의 프로필을 설정해주세요.</p>
+                  </motion.div>
+                    <motion.div
+                        variants={sentenceVariants}
+                        initial="hidden"
+                        animate="visible"
+                        custom={1}
+                    >
                   <p className="text-gray-400 text-sm">
                     프로필은 언제든 변경할 수 있어요!
                   </p>
+                    </motion.div>
                 </div>
                 <div>
                   <div
@@ -316,7 +370,7 @@ function SignUp() {
                     <BtnContainer>
                       <button
                         onClick={sendData}
-                        className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm"
+                        className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                       >
                         완료
                       </button>
@@ -331,7 +385,7 @@ function SignUp() {
                 <BtnContainer>
                   <button
                     onClick={handleNext}
-                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                   >
                     다음
                   </button>
@@ -345,12 +399,13 @@ function SignUp() {
           <div>
             <NewDivContainer>
               <div className="mx-8 flex flex-col h-full justify-evenly">
-                <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center">
+                <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center hover:origin-top">
                   {/* 각 버튼별 선택된 이미지 저장 및 아이콘 어둡게 작업 필요*/}
                   {profileid.map((index) => (
                     <button
                       key={index}
                       onClick={() => handleButtonClick(index)}
+                      className="hover:animate-bounce"
                     >
                       <ProfileCircle isSelected={selectedButtonIndex === index}>
                         {selectedButtonIndex === index && (
@@ -384,7 +439,7 @@ function SignUp() {
                 <BtnContainer className="mb-5">
                   <button
                     onClick={() => setShowNewDiv(false)}
-                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                    className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                   >
                     선택
                   </button>
@@ -395,6 +450,7 @@ function SignUp() {
         ) : (
           ""
         )}
+        </motion.div>
       </SignUpContainer>
     </div>
   );
