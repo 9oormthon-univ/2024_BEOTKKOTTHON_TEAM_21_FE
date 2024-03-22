@@ -14,7 +14,9 @@ const SecretFeedback = () => {
   const { chatRoomId } = useParams();
   const location = useLocation();
   const state = location.state;
-  const { person, workspaceUUID } = state;
+  // const { person, workspaceUUID } = state;
+  const person = state ? state.person : null;
+  const workspaceUUID = state ? state.workspaceUUID : null;
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [inputMessage, setInputMessage] = useState('');
@@ -50,8 +52,8 @@ const SecretFeedback = () => {
       });
     };
 
-    handleChatList();
     connectWebSocket();
+    handleChatList();
 
     return () => {
       if (stompClient) {
@@ -63,14 +65,14 @@ const SecretFeedback = () => {
 
   useEffect(() => {
     handleChatList();
-    // 메세지 수신
-  const handleMessage = message => {
-    setMessages(prevMessages => [...prevMessages, { content: message.body, sender: 'user' }]);
-  };
-  if (stompClient) {
-    stompClient.subscribe(`/message/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
-  }
-  }, [stompClient, chatRoomId]);
+      // 메세지 수신
+    const handleMessage = message => {
+      setMessages(prevMessages => [...prevMessages, { content: message.body, sender: 'other' }]);
+    };
+    if (stompClient) {
+      stompClient.subscribe(`/message/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
+    }
+    }, [stompClient, chatRoomId]);
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {

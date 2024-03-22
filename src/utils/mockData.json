@@ -1,25 +1,12 @@
 [{
-  "userId": 1,
-  "name": "미르미",
-  "img": "",
-  "time": "오전 10:00",
-  "content": "이거는 이렇게,, 저거는 저렇게,,,"
-},{
-  "userId": 2,
-  "name": "미르미2",
-  "img": "",
-  "time": "오전 10:10",
-  "content": "이거는 이렇게,, 저거는 저렇게,,,"
-},{
-  "userId": 3,
-  "name": "미르미3",
-  "img": "",
-  "time": "오전 10:20",
-  "content": "이거는 이렇게,, 저거는 저렇게,,,"
-},{
-  "userId": 4,
-  "name": "미르미4",
-  "img": "",
-  "time": "오전 10:30",
-  "content": "이거는 이렇게,, 저거는 저렇게,,,"
-}]
+        "chatRoomId": 80,
+        "workspaceUUID": "c7f839ca-c48f-43d4-9b2a-fedacc6ceabc"
+    },
+    {
+        "chatRoomId": 60,
+        "workspaceUUID": "c7f839ca-c48f-43d4-9b2a-fedacc6ceabc"
+    }, {
+        "chatRoomId": 83,
+        "workspaceUUID": "c7f839ca-c48f-43d4-9b2a-fedacc6ceabc"
+    }
+]
