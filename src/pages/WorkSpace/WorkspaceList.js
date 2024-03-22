@@ -114,8 +114,10 @@ const WorkspaceList = () => {
 
         {plusToggle && (
         <W.plusBtn className='py-1 absolute bottom-10 right-10'>
-          <div className="px-6 border-[#D7D7D7] border-solid border-b-[1px]">새로생성</div>
-          <div className="px-6">참여하기</div>
+          <div 
+            onClick={()=>{navigate('/recommendStart')}}
+            className="px-6 border-[#D7D7D7] border-solid border-b-[1px]">새로생성</div>
+          <div className="px-6" onClick={()=>{navigate('/workspaceEnter')}}>참여하기</div>
         </W.plusBtn>
       )}
       </div>
