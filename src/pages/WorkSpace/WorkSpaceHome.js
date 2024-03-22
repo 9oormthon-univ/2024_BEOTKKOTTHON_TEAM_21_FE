@@ -94,12 +94,35 @@ const PersonBox = ({ person, workspaceUUID }) => {
     setIsModalOpen(!isModalOpen);
   };
 
-  const EditProfile = async (person, data, name) => {
+  const EditProfile = async (person, name) => {
     setIsEdit(false);
     setEditProfileState((prevState) => ({
       ...prevState, // 기존 정보 그대로
       userName: name, // 바뀐 이름
     }));
+
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.patch(
+        `/users`,
+        {
+          nickName: name, // 변경된 닉네임
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+      // 변경된 닉네임을 화면에 반영
+      setName(name);
+
+      // 성공적으로 업데이트되었음을 사용자에게 표시하거나 다른 작업 수행
+      // console.log("닉네임이 성공적으로 변경되었습니다.");
+    } catch (error) {
+      console.error("닉네임 변경 중 오류가 발생했습니다:", error);
+    }
   };
 
   const OneToOneChat = async (person) => {
@@ -171,7 +194,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
             </div>
           ) : (
             <>
-              <span>{person.nickName}</span>
+              <span>{name}</span>
               <BsPencil
                 onClick={() => {
                   setIsEdit(true);
