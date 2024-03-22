@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from 'framer-motion';
 import styled from "styled-components";
 import WaveBg from "../../assets/WaveBg.png";
 import Logo from "../../assets/rabbit_krew_bg.png";
@@ -67,11 +68,25 @@ function RecommendEnd() {
     }
   };
 
+  // 화면 전환 효과
+  const transitionVariants = {
+    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+  }
+
   return (
     <div className="App">
+      <motion.div
+          initial='initial'
+          animate='enter'
+          exit='exit'
+          variants={transitionVariants}
+          transition={{ type: 'tween', duration: 0.5 }}
+      >
       <Container>
         <NavContainer></NavContainer>
-
         <div className="flex flex-col items-center w-11/12">
           <div className="-mt-10">
             <SplashLogo></SplashLogo>
@@ -89,6 +104,7 @@ function RecommendEnd() {
           </button>
         </ButtonContainer>
       </Container>
+      </motion.div>
     </div>
   );
 }
