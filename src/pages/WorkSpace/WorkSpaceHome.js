@@ -21,7 +21,7 @@ const WorkSpaceHome = () => {
     const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-          const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}`, { headers : {
+          const response = await axios.get(`/workspaces/${workspaceUUID}`, { headers : {
             Authorization: `Bearer ${authToken}`}
           });
           const data = response.data.data;
@@ -91,7 +91,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
     
     try {
-      const response = await axios.post(`http://3.35.236.118:8080/chatRoom`, {
+      const response = await axios.post(`/chatRoom`, {
           workspaceUUID: workspaceUUID,
           userIds : [person.id] },
           { headers : {

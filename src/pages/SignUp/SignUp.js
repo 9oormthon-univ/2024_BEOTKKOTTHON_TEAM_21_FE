@@ -266,7 +266,7 @@ function SignUp() {
         profileImageUrl: profileImageUrl, // 선택한 프로필의 url 저장 작업 필요
       };
 
-      const response = await axios.post("${process.env.BACK_URL}/api/auth/signUp", data);
+      const response = await axios.post("/api/auth/signUp", data);
       console.log(response.data);
 
       navigate("/signend");
