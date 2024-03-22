@@ -109,6 +109,27 @@ const BtnContainer = styled.div`
   height: 10vh;
 `;
 
+// 화면 전환 효과
+const transitionVariants = {
+  initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
+  enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+  slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+  exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
+
+// 각 문장에 대한 fade 효과
+const sentenceVariants = {
+  hidden: { opacity: 0, y: -10 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.5,
+      duration: 0.9,
+    },
+  }),
+};
+
 function SignUp() {
   const navigate = useNavigate();
   const [activeStep, setActiveStep] = React.useState(0);
@@ -250,27 +271,6 @@ function SignUp() {
     } catch (error) {
       console.error("Error:", error);
     }
-  };
-
-  // 화면 전환 효과
-  const transitionVariants = {
-    initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
-    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
-    slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
-    exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
-  };
-
-  // 각 문장에 대한 fade 효과
-  const sentenceVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (i) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        delay: i * 0.5,
-        duration: 0.9,
-      },
-    }),
   };
 
   return (

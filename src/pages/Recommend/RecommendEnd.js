@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from 'framer-motion';
+import Lottie from "lottie-react";
+import celebrateLottie from "../../assets/lottie/celebrateLottie.json";
 import styled from "styled-components";
 import WaveBg from "../../assets/WaveBg.png";
 import Logo from "../../assets/rabbit_krew_bg.png";
 import ClipboardIcon from "../../assets/clipboard.png";
+import {GradientButton} from "../../styles/WorkspaceStyle";
 
 const Container = styled.div`
   display: flex;
@@ -54,6 +57,21 @@ const NavContainer = styled.div`
   min-height: 10vh;
 `;
 
+const LottieContainer = styled.div`
+  position: absolute;
+  top: -150px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  z-index: -1;
+`;
+
+
 // 화면 전환 효과
 const transitionVariants = {
     initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
@@ -61,6 +79,19 @@ const transitionVariants = {
     slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
     exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
 }
+
+// 각 문장에 대한 fade 효과
+const sentenceVariants = {
+    hidden: { opacity: 0, y: -10 },
+    visible: (i) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+            delay: i * 0.5,
+            duration: 0.9,
+        },
+    }),
+};
 
 function RecommendEnd() {
   const navigate = useNavigate();
@@ -105,11 +136,27 @@ function RecommendEnd() {
         <NavContainer></NavContainer>
         <div className="flex flex-col items-center w-11/12">
           <div className="-mt-10">
-            <SplashLogo></SplashLogo>
+              <LottieContainer>
+                  <Lottie animationData={celebrateLottie} loop={false} speed={0.2} />
+              </LottieContainer>
+              <SplashLogo></SplashLogo>
           </div>
+            <motion.div
+                variants={sentenceVariants}
+                initial="hidden"
+                animate="visible"
+                custom={0}
+            >
           <div className="flex flex-col items-center my-8">
             워크스페이스 개설이 완료되었습니다!
           </div>
+            </motion.div>
+            <motion.div
+                variants={sentenceVariants}
+                initial="hidden"
+                animate="visible"
+                custom={1}
+            >
           <div className="flex flex-col items-center text-sm">
             <div>
               해당 <b>URL을 복사</b>하여 팀원들에게 공유해주세요!
@@ -129,14 +176,15 @@ function RecommendEnd() {
               </div>
             )}
           </div>
+            </motion.div>
         </div>
         <ButtonContainer className="mb-6">
-          <button
-            className="w-full mb-5 rounded-full h-12 border border-primary bg-gradient-to-r from-yellow-300 to-red-400 text-white text-sm"
+          <GradientButton
+            className="w-full mb-5 rounded-full h-12"
             onClick={handleHomeButtonClick}
           >
             홈으로 이동하기
-          </button>
+          </GradientButton>
         </ButtonContainer>
       </Container>
       </motion.div>
