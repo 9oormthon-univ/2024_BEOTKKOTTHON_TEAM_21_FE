@@ -38,7 +38,6 @@ const WorkSpaceHome = () => {
   }, [])
   return (
     <>
-    <WorkspaceContext.Provider value={{ workspaceUserList, setWorkspaceUserList }}>
       <W.Background></W.Background>
       <W.WorkSpaceHomeContainer>
         <WorkspaceTitle />
@@ -56,7 +55,6 @@ const WorkSpaceHome = () => {
         
         <WorkspaceBottom activeItem={'home'} workspaceUUID={workspaceUUID} workspaceUserList={workspaceUserList} />
       </W.WorkSpaceHomeContainer>
-    </WorkspaceContext.Provider>
   </>
   );
 };

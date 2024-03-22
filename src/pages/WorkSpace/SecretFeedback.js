@@ -14,7 +14,6 @@ const SecretFeedback = () => {
   const { chatRoomId } = useParams();
   const location = useLocation();
   const state = location.state;
-  // const { person, workspaceUUID } = state;
   const person = state ? state.person : null;
   const workspaceUUID = state ? state.workspaceUUID : null;
 
@@ -70,15 +69,14 @@ const SecretFeedback = () => {
       setMessages(prevMessages => [...prevMessages, { content: message.body, sender: 'other' }]);
     };
     if (stompClient) {
-      stompClient.subscribe(`/message/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
-    }
-    }, [stompClient, chatRoomId]);
+      stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
+    }}, [stompClient, chatRoomId]);
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {
     console.log(inputMessage) // 보낼 메세지
     if (stompClient && inputMessage.trim() !== '') {
-      stompClient.send(`/message/room/${chatRoomId}`, {}, JSON.stringify(inputMessage)); // 서버에 보냄
+      stompClient.send(`/pub/message/${chatRoomId}`, {}, JSON.stringify(inputMessage)); // 서버에 보냄
       setMessages(prevMessages => [...prevMessages, { content: inputMessage, sender: 'user' }]); // 저장함에 저장
     }
     setInputMessage(''); // 보낼 메세지 input 초기화

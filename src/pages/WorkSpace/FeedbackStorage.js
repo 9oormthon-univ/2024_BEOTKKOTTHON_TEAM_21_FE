@@ -5,7 +5,6 @@ import { BsSendPlus } from "react-icons/bs";
 import * as F from "../../styles/Feedback";
 import { useNavigate, useParams } from 'react-router-dom';
 import { images } from './../../utils/images';
-import mockData from '../../utils/mockData.json';
 import axios from 'axios';
 
 
@@ -13,11 +12,13 @@ const FeedbackStorage = () => {
   // true > 받은 피드백 / false > 보낸 피드백
   const [feedbackState, SetFeedbackState] = useState(true);
   const { workspaceUUID } = useParams();
+  const [sendData, setSendData] = useState();
+  const [receivedData, setReceivedData] = useState();
 
   useEffect(()=>{
     const ShowFeedBack = async () => {
       const authToken = localStorage.getItem("authToken");
-      const userUUID = localStorage.getItem("userUUID");
+
       try {
         if (feedbackState) {
           console.log('받은 피드백')
@@ -29,8 +30,9 @@ const FeedbackStorage = () => {
               Authorization: `Bearer ${authToken}`,
             }
           });
-          console.log(response);
-          const receivedData = response.data.data;
+          const ReceivedData = response.data.data;
+          setReceivedData(ReceivedData);
+          console.log('receivedData', receivedData);
         } else {
           console.log('보낸 피드백')
           const response = await axios.get("/chatRoom/sent", {
@@ -41,9 +43,9 @@ const FeedbackStorage = () => {
               Authorization: `Bearer ${authToken}`,
             }
           });
-          
-          console.log(response)
-           const sendData = response.data.data;
+          const SendData = response.data.data;
+          setSendData(SendData);
+          console.log('sendData', sendData);
         }
       } catch (error) {
           console.error(error);
@@ -57,7 +59,7 @@ const FeedbackStorage = () => {
       <FeedbackTitle />
 
       <F.ReceiveBtn 
-        onClick={()=>{SetFeedbackState(!feedbackState)}}
+        onClick={()=>{ SetFeedbackState(!feedbackState) }}
         active={feedbackState === true} >
         {feedbackState === true ? '받은 피드백' : '보낸 피드백'}
       </F.ReceiveBtn>
@@ -66,17 +68,17 @@ const FeedbackStorage = () => {
       {feedbackState === true ?
       // 받은 피드백
       <F.ReceiveFeedBack>
-        {mockData.map((data)=>{
+        {receivedData && receivedData.map((data)=> {
           return(
-            <Feedback receive={true} chatRoomId={data.chatRoomId} workspaceUUID={workspaceUUID}/>
+            <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
           )
         })}
       </F.ReceiveFeedBack> : 
       // 보낸 피드백
       <F.SendFeedBack>
-         {mockData.map((data)=>{
-          return(
-            <Feedback receive={false} chatRoomId={data.chatRoomId} workspaceUUID={workspaceUUID}/>
+         {sendData && sendData.map((data)=> {
+          return (
+            <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
           )
         })}
       </F.SendFeedBack>}
@@ -104,23 +106,26 @@ export const FeedbackTitle = () => {
 
 export const Feedback = (props) => {
   const navigate = useNavigate();
-  // console.log(props)
 
+  const person = {
+    nickName: props.data.targetUser.nickName,
+    profileImageUrl: props.data.targetUser.profileImageUrl,
+  }
+  
   const HandleChatRoom = (props) => {
-    console.log(props)
     console.log('채팅방 입장', props.chatRoomId);
-    navigate(`/secretfeedback/${props.chatRoomId}`, { state: { workspaceUUID: props.workspaceUUID}});
+    navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID} });
   }
 
   return (
     <F.FeedbackContainer onClick={ ()=>{ HandleChatRoom(props) } }>
       <F.FeedbackImg>
-        <F.StyledImg src={images.cat} alt='img' active={props.receive}/>
+        <F.StyledImg src={props.data.targetUser.profileImageUrl} alt='img' active={props.receive}/>
       </F.FeedbackImg>
 
       <F.FeedbackContent>
         <div className='flex items-center mb-1'>
-          <div>{props.name}</div>
+          <div>{props.data.targetUser.nickName}</div>
           <div className='text-[#acacac] text-[12px] ml-2'>{props.time}</div>
         </div>
         <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>

@@ -19,7 +19,8 @@ import RecommendMiddle from "./pages/Recommend/RecommendMiddle";
 import RecommendChoose from "./pages/Recommend/RecommendChoose";
 import RecommendEnd from "./pages/Recommend/RecommendEnd";
 import WorkSpaceEnter from "./pages/WorkSpace/WorkSpaceEnter";
-import { AnimatePresence } from 'framer-motion';
+import ProfileChange from "./pages/WorkSpace/ProfileChange";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -36,27 +37,37 @@ function App() {
     <div className="App">
       <Router>
         <AnimatePresence>
-        <Routes>
-          <Route
-            path="/"
-            element={showSplash ? <Splash /> : <Navigate to="/login" />}
-          />
-          <Route path="/splash" element={<Splash />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/workspacelist" element={<WorkspaceList />} />
+          <Routes>
+            <Route
+              path="/"
+              element={showSplash ? <Splash /> : <Navigate to="/login" />}
+            />
+            <Route path="/splash" element={<Splash />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/workspacelist" element={<WorkspaceList />} />
 
-          <Route path="/workspacehome/:workspaceUUID" element={<WorkSpaceHome />} />
-          <Route path="/feedbackstorage/:workspaceUUID" element={<FeedbackStorage />} />
-          <Route path="/secretfeedback/:chatRoomId" element={<SecretFeedback />} />
+            <Route
+              path="/workspacehome/:workspaceUUID"
+              element={<WorkSpaceHome />}
+            />
+            <Route
+              path="/feedbackstorage/:workspaceUUID"
+              element={<FeedbackStorage />}
+            />
+            <Route
+              path="/secretfeedback/:chatRoomId"
+              element={<SecretFeedback />}
+            />
+            <Route path="/profilechange" element={<ProfileChange />} />
 
-          <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/signend" element={<SignUpEnd />} />
-          <Route path="/recommendstart" element={<RecommendStart />} />
-          <Route path="/recommendmiddle" element={<RecommendMiddle />} />
-          <Route path="/recommendchoose" element={<RecommendChoose />} />
-          <Route path="/recommendend" element={<RecommendEnd />} />
-        </Routes>
+            <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/signend" element={<SignUpEnd />} />
+            <Route path="/recommendstart" element={<RecommendStart />} />
+            <Route path="/recommendmiddle" element={<RecommendMiddle />} />
+            <Route path="/recommendchoose" element={<RecommendChoose />} />
+            <Route path="/recommendend" element={<RecommendEnd />} />
+          </Routes>
         </AnimatePresence>
       </Router>
     </div>
