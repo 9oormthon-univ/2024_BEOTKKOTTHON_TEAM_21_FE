@@ -60,14 +60,33 @@ const NewDivContainer = styled.div`
   }
 `;
 
+// 프로필 이미지 9개 url
+const profileImageUrls = [
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage1.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage2.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage3.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage4.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage5.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage6.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage7.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage8.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage9.png",
+];
+
+const ProfileContainer = styled.div`
+  width: 100px;
+  height: 100px;
+`;
+
 const ProfileCircle = styled.div`
   display: flex;
-
   justify-content: center;
   align-items: center;
   height: 100px;
   width: 100px;
-  background: ${(props) => (props.isSelected ? "#656565" : "#ACACAC")};
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   border-radius: 100%;
   flex-shrink: 0;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
@@ -100,11 +119,37 @@ function SignUp() {
   const [showNewDiv, setShowNewDiv] = useState(false);
   const [selectedButtonIndex, setselectedButtonIndex] = useState(null);
   const [profileid, setProfileId] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+  const [profileImageUrl, setProfileImageUrl] = useState("");
 
   // 각 입력의 유효성 검사 상태 변수
   const [idError, setIdError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isIdDuplicate, setIsIdDuplicate] = useState(false); // 아이디 중복 체크
+
+  // 아이디 중복 체크 요청 보내기
+  useEffect(() => {
+    const checkDuplicate = async () => {
+      try {
+        const response = await axios.post("/api/auth/check-duplicate", { id });
+        // 응답에서 중복 여부 확인
+        console.log(response.data);
+        const isDuplicate = response.data.data;
+        console.log(isDuplicate);
+        setIsIdDuplicate(isDuplicate);
+      } catch (error) {
+        console.error("Error checking duplicate:", error);
+      }
+    };
+
+    // 아이디 입력값이 변경될 때마다 중복 체크 요청 보내기
+    if (id.trim()) {
+      checkDuplicate();
+    } else {
+      // 아이디 입력값이 비어있는 경우 중복 여부 초기화
+      setIsIdDuplicate(false);
+    }
+  }, [id]);
 
   // 아이디 입력 변경 핸들러
   const handleIdChange = (e) => {
@@ -180,6 +225,7 @@ function SignUp() {
 
   const handleButtonClick = (index) => {
     setselectedButtonIndex(index);
+    setProfileImageUrl(profileImageUrls[index]);
   };
 
   const handleFormSubmit = async (e) => {
@@ -191,7 +237,7 @@ function SignUp() {
         loginId: id,
         password: password,
         nickName: nickname,
-        profileImageUrl: "", // 선택한 프로필의 url 저장 작업 필요
+        profileImageUrl: profileImageUrl, // 선택한 프로필의 url 저장 작업 필요
       };
 
       const response = await axios.post("/api/auth/signUp", data);
@@ -317,6 +363,16 @@ function SignUp() {
                             {idError}
                           </span>
                         )}
+                        {id.trim() && isIdDuplicate && (
+                          <span className="text-red-500 text-xs h-2">
+                            이미 사용 중인 아이디입니다.
+                          </span>
+                        )}
+                        {id.trim() && !isIdDuplicate && (
+                          <span className="text-green-500 text-xs h-2">
+                            사용 가능한 아이디입니다.
+                          </span>
+                        )}
                       </div>
                       <div>
                         <input
@@ -376,63 +432,59 @@ function SignUp() {
                       </p>
                     </motion.div>
                   </div>
-                  <div>
-                    <div
-                      className="flex justify-center my-10 cursor-pointer"
-                      onClick={handleSvgClick}
-                    >
+                  <div className="flex justify-center my-10 cursor-pointer">
+                    <ProfileContainer onClick={handleSvgClick}>
                       {selectedButtonIndex === null && (
-                        <div>
-                          <svg
-                            width="100"
-                            height="100"
-                            viewBox="0 0 74 73"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg"
-                          >
-                            <circle
-                              cx="37"
-                              cy="36.5"
-                              r="36.149"
-                              fill="#D7D7D7"
-                              stroke="#FEC533"
-                              stroke-width="0.701923"
-                            />
-                            <circle
-                              cx="37"
-                              cy="24.8466"
-                              r="11.1201"
-                              fill="white"
-                            />
-                            <path
-                              d="M16.7222 52.6216C16.7222 44.8684 23.0074 38.5831 30.7606 38.5831H43.2393C50.9925 38.5831 57.2777 44.8684 57.2777 52.6216V54.6972C57.2777 56.6355 55.7064 58.2068 53.7681 58.2068H20.2318C18.2935 58.2068 16.7222 56.6355 16.7222 54.6972V52.6216Z"
-                              fill="white"
-                            />
-                            <circle
-                              cx="59.1106"
-                              cy="63.524"
-                              r="8.77404"
-                              fill="#FEC533"
-                              stroke="white"
-                              stroke-width="1.40385"
-                            />
-                            <path
-                              d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
-                              fill="white"
-                            />
-                          </svg>
-                        </div>
+                        <svg
+                          width="100"
+                          height="100"
+                          viewBox="0 0 74 73"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <circle
+                            cx="37"
+                            cy="36.5"
+                            r="36.149"
+                            fill="#D7D7D7"
+                            stroke="#FEC533"
+                            stroke-width="0.701923"
+                          />
+                          <circle
+                            cx="37"
+                            cy="24.8466"
+                            r="11.1201"
+                            fill="white"
+                          />
+                          <path
+                            d="M16.7222 52.6216C16.7222 44.8684 23.0074 38.5831 30.7606 38.5831H43.2393C50.9925 38.5831 57.2777 44.8684 57.2777 52.6216V54.6972C57.2777 56.6355 55.7064 58.2068 53.7681 58.2068H20.2318C18.2935 58.2068 16.7222 56.6355 16.7222 54.6972V52.6216Z"
+                            fill="white"
+                          />
+                          <circle
+                            cx="59.1106"
+                            cy="63.524"
+                            r="8.77404"
+                            fill="#FEC533"
+                            stroke="white"
+                            stroke-width="1.40385"
+                          />
+                          <path
+                            d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
+                            fill="white"
+                          />
+                        </svg>
                       )}
 
                       {selectedButtonIndex !== null && (
                         <div>
-                          {/* Render the selected profile information */}
-                          {/* For example: */}
-                          <div>선택된 사진으로 대체할 공간</div>
-                          <div>Selected Profile: {selectedButtonIndex + 1}</div>
+                          {/* 선택된 프로필 이미지 표시 */}
+                          <div>
+                            <img src={profileImageUrl} alt="Selected Profile" />
+                          </div>
+                          {/*<div>Selected Profile: {selectedButtonIndex + 1}</div> */}
                         </div>
                       )}
-                    </div>
+                    </ProfileContainer>
                   </div>
                   <div className="text-sm">
                     <FormContainer onSubmit={handleFormSubmit}>
@@ -501,6 +553,9 @@ function SignUp() {
                       >
                         <ProfileCircle
                           isSelected={selectedButtonIndex === index}
+                          style={{
+                            backgroundImage: `url(${profileImageUrls[index]})`,
+                          }}
                         >
                           {selectedButtonIndex === index && (
                             <CheckIcon
@@ -515,11 +570,11 @@ function SignUp() {
                               />
                             </CheckIcon>
                           )}
-                          <ProfileinnerText
+                          {/*<ProfileinnerText
                             isSelected={selectedButtonIndex === index}
                           >
                             프로필 {index + 1}
-                          </ProfileinnerText>
+                          </ProfileinnerText> */}
                         </ProfileCircle>
                       </button>
                     ))}
