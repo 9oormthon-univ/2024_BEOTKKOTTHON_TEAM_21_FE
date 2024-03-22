@@ -48,6 +48,19 @@ function WorkSpaceEnter() {
     navigate(-1); // 다시 로그인 페이지로 이동
   };
 
+  const handleJoin = async (url) => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.post(`/workspaces/${url}/join`, null, { headers : {
+        Authorization: `Bearer ${authToken}`}
+      });
+      navigate('/workspacelist');
+      const data = response.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const [url, setUrl] = useState("");
   const [joinError, setJoinError] = useState(null);
 

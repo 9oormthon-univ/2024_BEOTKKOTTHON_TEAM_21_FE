@@ -82,39 +82,22 @@ const PersonBox = ({ person, workspaceUUID }) => {
       ...prevState, // 기존 정보 그대로
       userName: name, // 바뀐 이름
     }));
-
-    // try {
-    //     // workspaceID에 뭐가 들어가야하는지? UUID? 사용자id?
-    //     const response = await APIClient().post(`/workspace/info/${person.id}`, editProfileState);
-    //     const data = response.data;
-    //     console.log('워크스페이스 프로필 수정')
-    // } catch (error) {
-    //     console.error(error);
-    // }
   }
 
-  const OneToOneChat = async (userId) => {
+  const OneToOneChat = async (person) => {
     const authToken = localStorage.getItem("authToken");
-    console.log(userId); // 내가 요청하고 싶은 상대방 id
     console.log(workspaceUUID)
     try {
-      // const response = await axios.post(`/chatRoom`, { 
-      //   request : {
-      //     workspaceUUID: workspaceUUID,
-      //     userIds : [userId]
-      // }}, { headers : {
-      //   Authorization: `Bearer ${authToken}`}
-      // });
-
       const response = await axios.post(`/chatRoom`, { 
           workspaceUUID: workspaceUUID,
-          userIds : [userId]}, { headers : {
-        Authorization: `Bearer ${authToken}`}
+          userIds : [person.id] },
+          { headers : {
+          Authorization: `Bearer ${authToken}`}
       });
 
       const data = response.data.data;
-      const chatRoomId = data.chatRoomId
-      navigate(`/secretfeedback/${chatRoomId}`) // 1:1 채팅방 페이지로 이동
+      const chatRoomId = data.chatRoomId;
+      navigate(`/secretfeedback/${chatRoomId}`, { state: { person: person, workspaceUUID: workspaceUUID} }) // 1:1 채팅방 페이지로 이동
     } catch (error) {
         console.error(error);
     }
@@ -144,7 +127,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
         {isModalOpen && (
         <W.Modal>
-          <button onClick={()=>{ OneToOneChat(person.id) }}>1:1 시크릿 피드백 요청하기</button>
+          <button onClick={()=>{ OneToOneChat(person);}}>1:1 시크릿 피드백 요청하기</button>
         </W.Modal>
         )}
       </W.Person>
