@@ -47,7 +47,7 @@ const NewDivContainer = styled.div`
     width: 100vw;
   }
   @media (min-height: 800px) {
-    height: 600px;
+    height: 670px;
     gap: 3rem;
   }
 `;
