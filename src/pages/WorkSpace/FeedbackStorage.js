@@ -22,7 +22,7 @@ const FeedbackStorage = () => {
       try {
         if (feedbackState) {
           console.log('받은 피드백')
-          const response = await axios.get("/chatRoom/received", { 
+          const response = await axios.get("/chatRoom/received", {
             params: {
               workspaceUUID: workspaceUUID
             },
@@ -44,7 +44,7 @@ const FeedbackStorage = () => {
             }
           });
           
-          console.log(response)
+            console.log(response)
            const sendData = response.data.data;
         }
       } catch (error) {

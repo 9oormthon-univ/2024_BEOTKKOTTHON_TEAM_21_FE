@@ -50,7 +50,7 @@ function WorkSpaceEnter() {
       const response = await axios.post(`/workspaces/${url}/join`, null, { headers : {
         Authorization: `Bearer ${authToken}`}
       });
-      console.log(response)
+      navigate('/workspacelist');
       const data = response.data.data;
     } catch (error) {
       console.error(error);
