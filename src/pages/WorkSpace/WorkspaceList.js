@@ -6,6 +6,7 @@ import { CiMenuKebab } from "react-icons/ci";
 import axios from "axios";
 import Navbar from "../../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { motion } from 'framer-motion';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaCirclePlus } from "react-icons/fa6";
 import '../../styles/workspace.css';
@@ -75,15 +76,62 @@ const WorkspaceList = () => {
     spaceList();
   }, []);
 
+  // 화면 전환 효과
+  const transitionVariants = {
+    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+  }
+
+  // 각 문장에 대한 fade 효과
+  const sentenceVariants = {
+    hidden: { opacity: 0, y: 10 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.5,
+        duration: 0.7,
+      },
+    }),
+  };
+
   return (
+      <motion.div
+          initial='initial'
+          animate='enter'
+          exit='exit'
+          variants={transitionVariants}
+          transition={{ type: 'tween', duration: 0.8 }}
+      >
     <div className="relative overflow-hidden">
       <Navbar></Navbar>
       <W.Background></W.Background>
       <div className="text-white text-2xl pb-11 mx-auto w-[90%] break-keep">
+        <motion.div
+            variants={sentenceVariants}
+            initial="hidden"
+            animate="visible"
+            custom={0}
+        >
+        <p>
         안녕하세요. {userName}님!<br />
+        </p>
+        </motion.div>
+        <motion.div
+            variants={sentenceVariants}
+            initial="hidden"
+            animate="visible"
+            custom={1}
+        >
+        <p>
         오늘은 <span className="font-bold">어떤 워크스페이스</span>에
         입장할까요?
+        </p>
+        </motion.div>
       </div>
+
 
       <W.wsListContainer>
         {workspaceList.map((workspace, index) => {
@@ -108,20 +156,21 @@ const WorkspaceList = () => {
         })}
       </W.wsListContainer>
       <div className="w-[375px] relative">
-        <button onClick={()=>{setPlusToggle(!plusToggle)}}>
+        <button className="plusIcon" onClick={()=>{setPlusToggle(!plusToggle)}}>
           <PlusIcon />
         </button>
 
         {plusToggle && (
         <W.plusBtn className='py-1 absolute bottom-10 right-10'>
-          <div className="px-6 border-[#D7D7D7] border-solid border-b-[1px]">새로생성</div>
-          <div className="px-6">참여하기</div>
+          <div className="px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-yellow-500 duration-200">새로생성</div>
+          <div className="px-6 hover:text-yellow-500 duration-200">참여하기</div>
         </W.plusBtn>
       )}
       </div>
 
-      
+
     </div>
+      </motion.div>
   );
 };
 
