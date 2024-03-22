@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import { motion } from 'framer-motion';
 import Spinner from "../../assets/Spinner2.gif";
 import axios from "axios";
 
@@ -125,9 +126,24 @@ function RecommendMiddle() {
     setKeywords({ ...keywords, [keywordName]: event.target.value });
   };
 
+  // 화면 전환 효과
+  const transitionVariants = {
+    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
+  }
+
   return (
     <div className="App">
       <Container>
+        <motion.div
+            initial='initial'
+            animate='enter'
+            exit='exit'
+            variants={transitionVariants}
+            transition={{ type: 'tween', duration: 0.5 }}
+        >
         <Navbar />
         <ContextContainer>
           <KeywordContainer>
@@ -163,13 +179,14 @@ function RecommendMiddle() {
             ) : (
               <button
                 onClick={handleNext}
-                className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm"
+                className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-yellow-400 hover:text-white duration-300"
               >
                 다음
               </button>
             )}
           </BtnContainer>
         </ContextContainer>
+        </motion.div>
       </Container>
     </div>
   );
