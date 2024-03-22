@@ -78,13 +78,15 @@ export const sendMessage = styled.div`
   left: 0;
   right: 0;
   width: 350px;
+  background-color: white;
+  z-index: 10;
 `
 
 export const sendChat = styled.div`
 border-radius: 18px 18px 0px 18px;
 background: #FFD875;
 padding: 10px;
-margin: 5px 15px;
+margin: 7px 15px;
 width: 66%;
 `
 
@@ -93,6 +95,7 @@ border-radius: 18px 18px 18px 0px;
 border: 1px solid #D7D7D7;
 padding: 10px;
 background: #FFF;
-margin: 5px 15px;
+margin: 7px 15px;
 width: 66%;
+
 `

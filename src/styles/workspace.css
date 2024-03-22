@@ -1,0 +1,19 @@
+.plusStyle {
+    fill: url(#gradient);
+}
+
+
+/* 추가적인 그림자 스타일 */
+
+.plusStyle {
+    filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.20));
+    fill: linear-gradient(180deg, #FFD875 0%, #FFA680 100%);
+    position: fixed;
+}
+
+.plusIcon {
+    position: absolute;
+    /* position: fixed; */
+    bottom: 15px;
+    right: 15px;
+}

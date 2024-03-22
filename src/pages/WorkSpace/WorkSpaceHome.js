@@ -11,7 +11,7 @@ import { APIClient } from '../../utils/Api';
 import axios from "axios";
 
 const WorkSpaceHome = () => {
-  const { UUID } = useParams();
+  const { workspaceUUID } = useParams();
   const [workspaceUserList, setWorkspaceUserList] = useState([]);
   const [teamName, setTeamName] = useState("");
 
@@ -20,7 +20,7 @@ const WorkSpaceHome = () => {
     const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-          const response = await axios.get(`/workspaces/${UUID}`, { headers : {
+          const response = await axios.get(`/workspaces/${workspaceUUID}`, { headers : {
             Authorization: `Bearer ${authToken}`}
           });
           const data = response.data.data;
@@ -48,11 +48,11 @@ const WorkSpaceHome = () => {
 
       <W.PersonGrid>
         {workspaceUserList.map(person => (
-          <PersonBox key={person.id} person={person} />
+          <PersonBox key={person.id} person={person} workspaceUUID={workspaceUUID} />
         ))}
       </W.PersonGrid>
       
-      <WorkspaceBottom activeItem={'home'} UUID={UUID} />
+      <WorkspaceBottom activeItem={'home'} workspaceUUID={workspaceUUID} />
     </W.WorkSpaceHomeContainer>
   </>
   );
@@ -60,7 +60,7 @@ const WorkSpaceHome = () => {
 
 export default WorkSpaceHome;
 
-const PersonBox = ({ person }) => {
+const PersonBox = ({ person, workspaceUUID }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 토글
   const [isEdit, setIsEdit] = useState(false); // 이름 편집 토글
@@ -93,25 +93,33 @@ const PersonBox = ({ person }) => {
     // }
   }
 
-  const OneToOneChat = async () => {
+  const OneToOneChat = async (userId) => {
     const authToken = localStorage.getItem("authToken");
-    console.log(person.id, person.nickName); // 내가 요청하고 싶은 상대방 id
-    const userId1 = person.id;
-    const userName = person.nickName
-    const userId2 = 1 // 내 아이디
+    console.log(userId); // 내가 요청하고 싶은 상대방 id
+    console.log(workspaceUUID)
     try {
-      const response = await axios.post(`/chatRoom`, null, { headers : {
+      // const response = await axios.post(`/chatRoom`, { 
+      //   request : {
+      //     workspaceUUID: workspaceUUID,
+      //     userIds : [userId]
+      // }}, { headers : {
+      //   Authorization: `Bearer ${authToken}`}
+      // });
+
+      const response = await axios.post(`/chatRoom`, { 
+          workspaceUUID: workspaceUUID,
+          userIds : [userId]}, { headers : {
         Authorization: `Bearer ${authToken}`}
       });
-      // 채팅방 id가 돌아오나?
-      // const chatRoomId = response.data;
-      const chatRoomId = 0
-      navigate(`/secretfeedback/${chatRoomId}`, {state : { userId1, userName }}) // 1:1 채팅방 페이지로 이동
+
+      const data = response.data.data;
+      const chatRoomId = data.chatRoomId
+      navigate(`/secretfeedback/${chatRoomId}`) // 1:1 채팅방 페이지로 이동
     } catch (error) {
         console.error(error);
     }
   }
-  
+
   return (
     <>
       <W.Person key={person.id}>
@@ -136,7 +144,7 @@ const PersonBox = ({ person }) => {
 
         {isModalOpen && (
         <W.Modal>
-          <button onClick={()=>{ OneToOneChat() }}>1:1 시크릿 피드백 요청하기</button>
+          <button onClick={()=>{ OneToOneChat(person.id) }}>1:1 시크릿 피드백 요청하기</button>
         </W.Modal>
         )}
       </W.Person>
