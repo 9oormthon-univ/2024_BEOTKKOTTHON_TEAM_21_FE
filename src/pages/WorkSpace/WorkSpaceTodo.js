@@ -24,7 +24,7 @@ const WorkspaceTodo = () => {
     const ShowTodo = async () => {
       const authToken = localStorage.getItem("authToken");
 
-      const response = await axios.get(`/workspaces/${workspaceUUID}/todo`, {
+      const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}/todo`, {
         params: {
           workspaceUUID: workspaceUUID,
         },
@@ -38,7 +38,7 @@ const WorkspaceTodo = () => {
       //   try {
       //     if (todoState === 0) {
       //       console.log("받은 피드백");
-      //       const response = await axios.get("/chatRoom/received", {
+      //       const response = await axios.get("http://3.35.236.118:8080/chatRoom/received", {
       //         params: {
       //           workspaceUUID: workspaceUUID,
       //         },
@@ -51,7 +51,7 @@ const WorkspaceTodo = () => {
       //       console.log("receivedData", receivedData);
       //     } else if (todoState === 1) {
       //       console.log("보낸 피드백");
-      //       const response = await axios.get("/chatRoom/sent", {
+      //       const response = await axios.get("http://3.35.236.118:8080/chatRoom/sent", {
       //         params: {
       //           workspaceUUID: workspaceUUID,
       //         },

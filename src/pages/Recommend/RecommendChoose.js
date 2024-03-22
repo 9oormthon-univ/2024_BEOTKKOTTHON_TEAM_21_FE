@@ -125,7 +125,7 @@ function RecommendChoose() {
       // 선택된 팀 이름에 대한 개설
       try {
         const response = await axios.post(
-          "/workspaces",
+          "http://3.35.236.118:8080/workspaces",
           {
             teamName: selectedTeamName,
             profileImageUrl:

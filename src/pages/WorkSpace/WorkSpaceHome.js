@@ -22,7 +22,7 @@ const WorkSpaceHome = () => {
     const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-        const response = await axios.get(`/workspaces/${workspaceUUID}`, {
+        const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -104,7 +104,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
     try {
       const response = await axios.patch(
-        `/users`,
+        `http://3.35.236.118:8080/users`,
         {
           nickName: name, // 변경된 닉네임
         },
@@ -129,7 +129,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
 
     try {
-      const response = await axios.post(`/chatRoom`, {
+      const response = await axios.post(`http://3.35.236.118:8080/chatRoom`, {
           workspaceUUID: workspaceUUID,
           userIds: [person.id],
         },
