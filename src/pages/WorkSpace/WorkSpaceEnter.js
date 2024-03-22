@@ -44,6 +44,19 @@ function WorkSpaceEnter() {
     navigate(-1); // 다시 로그인 페이지로 이동
   };
 
+  const handleJoin = async (url) => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.post(`/workspaces/${url}/join`, null, { headers : {
+        Authorization: `Bearer ${authToken}`}
+      });
+      console.log(response)
+      const data = response.data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const [url, setUrl] = useState("");
 
   return (
@@ -85,7 +98,9 @@ function WorkSpaceEnter() {
                 className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
                 placeholder="URL"
               />
-              <button className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm">
+              <button 
+                onClick={ ()=>{handleJoin(url)} }
+                className="w-full mb-5 rounded-full h-12 border border-primary bg-primary text-white text-sm">
                 워크스페이스 참여
               </button>
             </UrlContainer>

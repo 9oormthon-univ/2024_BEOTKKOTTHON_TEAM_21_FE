@@ -18,6 +18,7 @@ const FeedbackStorage = () => {
   useEffect(()=>{
     const ShowFeedBack = async () => {
       const authToken = localStorage.getItem("authToken");
+      const userUUID = localStorage.getItem("userUUID");
       try {
         if (feedbackState) {
           console.log('받은 피드백')
@@ -29,11 +30,12 @@ const FeedbackStorage = () => {
               Authorization: `Bearer ${authToken}`,
             }
           });
-          
-          console.log(response)
+          console.log(response);
+          const receivedData = response.data.data;
+
         } else {
           console.log('보낸 피드백')
-          const response = await axios.get("/chatRoom/sent", { 
+          const response = await axios.get("/chatRoom/sent", {
             params: {
               workspaceUUID: workspaceUUID
             },
@@ -43,9 +45,8 @@ const FeedbackStorage = () => {
           });
           
           console.log(response)
-
+           const sendData = response.data.data;
         }
-        //  const data = response.data;
       } catch (error) {
           console.error(error);
       }

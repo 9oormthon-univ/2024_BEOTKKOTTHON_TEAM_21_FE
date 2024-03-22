@@ -108,12 +108,13 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
       const response = await axios.post(`/chatRoom`, { 
           workspaceUUID: workspaceUUID,
-          userIds : [userId]}, { headers : {
-        Authorization: `Bearer ${authToken}`}
+          userIds : [userId] },
+          { headers : {
+          Authorization: `Bearer ${authToken}`}
       });
 
       const data = response.data.data;
-      const chatRoomId = data.chatRoomId
+      const chatRoomId = data.chatRoomId;
       navigate(`/secretfeedback/${chatRoomId}`) // 1:1 채팅방 페이지로 이동
     } catch (error) {
         console.error(error);

@@ -16,7 +16,7 @@ const SecretFeedback = () => {
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [inputMessage, setInputMessage] = useState('');
-  const [messages, setMessages] = useState([]); // 실시간을 대화하는 메세지 저장할 곳
+  const [messages, setMessages] = useState([]); // 실시간 대화하는 메세지 저장할 곳
 
   useEffect(() => {
     const connectWebSocket = () => {
@@ -47,7 +47,7 @@ const SecretFeedback = () => {
       content: message.body,
       sender: 'server' // 서버가 보낸 메시지임을 표시
     };
-    setMessages(prevMessages => [...prevMessages, newMessage]);
+    setMessages(prevMessages => [...prevMessages, { content: message.body, sender: 'user' }]);
   };
   if (stompClient) {
     stompClient.subscribe(`/message`, handleMessage);
@@ -63,7 +63,7 @@ const SecretFeedback = () => {
         sender: 'user' // 사용자가 보낸 메시지임을 표시
       };
       stompClient.send('/message', {}, inputMessage); // 서버의 @MessageMapping("/message")으로 메시지 전송
-      setMessages(prevMessages => [...prevMessages, inputMessage]);
+      setMessages(prevMessages => [...prevMessages, { content: inputMessage, sender: 'user' }]);
     }
     setInputMessage(''); // 보낼 메세지 input 초기화
   };
@@ -76,9 +76,13 @@ const SecretFeedback = () => {
         <div className='w-full flex justify-end flex-col overflow-hidden'>
         {messages.map((message, index) => (
           <>
-          {message.sender === 'user' ? 
-          <F.sendChat key={index}>{message}</F.sendChat> :
-          <F.ReceiveChat key={index}>{message}</F.ReceiveChat>}
+          {message.sender === 'user' ?
+          <div className='ml-auto'>
+            <F.sendChat key={index}>{message.content}</F.sendChat>
+          </div> :
+          <div className='mr-auto'>
+            <F.ReceiveChat key={index}>{message.content}</F.ReceiveChat>
+          </div>}
           </>
         ))}
         </div>
