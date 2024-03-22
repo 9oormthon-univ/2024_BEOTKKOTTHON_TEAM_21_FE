@@ -129,9 +129,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
 
     try {
-      const response = await axios.post(
-        `/chatRoom`,
-        {
+      const response = await axios.post(`/chatRoom`, {
           workspaceUUID: workspaceUUID,
           userIds: [person.id],
         },
