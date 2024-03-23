@@ -25,10 +25,12 @@ const MyTodo = ({workspaceUUID}) => {
       const responseData = response.data.data.todoInfoResponseList;
       setShowTodo(responseData);
       console.log(showTodo);
+      console.log(responseData);
     };
-
+  
     ShowTodo();
-  }, [todoState, WorkspaceBottom]);
+  }, []); // 초기 렌더링시 목록 반환
+
 
   const handleChatList = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -44,35 +46,31 @@ const MyTodo = ({workspaceUUID}) => {
         },
       });
       const chatData = response.data.data;
-      console.log(chatData, 'todo');
+      // console.log(chatData, 'todo');
     } catch (error) {
       console.error(error);
     }
   };
 
-  useEffect(()=>{
-    handleChatList();
-  }, [])
+
 
   return (
     <div className='pt-3 relative '>
       <div className='grow-0'>
         {/* 이 안에 모든 todo 구현 */}
-
-        {showTodo.map((todo)=>{
-          console.log(todo)
+        {/* {showTodo && showTodo.map((todo) => {
+          console.log(todo);
           return (
-            <div className='flex items-center px-4 py-3'>
+            <div className='flex items-center px-4 py-3' key={todo.id}>
               <input 
                 type="checkbox" 
                 className='checkboxStyle mr-2 w-[30px]' 
-                checked={todo.completed} // 상태에 따라 체크 상태 설정
-                onChange={console.log('gd')} // 변경 핸들러 설정
+                onChange={() => checkComplete(todo.id)}
               />
-              <input type="text" value={todo.content} onChange={(e)=>{setTodo(e.target.value)}}/>
+              <input type="text" value={todo.content} onChange={(e) => {setTodo(e.target.value)}}/>
             </div>
-          )
-        })}
+          );
+        })} */}
       </div>
       
       {/* btn 위치 하단으로 수정 필요 */}

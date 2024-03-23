@@ -21,8 +21,6 @@ const WorkspaceTodo = () => {
     SetToDoState(state); // todoState 상태 변경
   };
 
-  
-
   return (
     <div className="relative">
       <FeedbackTitle toggleToDoState={toggleToDoState} />
