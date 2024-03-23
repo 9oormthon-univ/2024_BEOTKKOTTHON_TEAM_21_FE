@@ -142,6 +142,7 @@ export const FeedbackTitle = ({ workspaceUUID }) => {
     <F.FeedbackTitleBox>
       <div className="flex items-center">
         <GoChevronLeft
+          className="cursor-pointer"
           size={20}
           onClick={() => {
             navigate(-1);
