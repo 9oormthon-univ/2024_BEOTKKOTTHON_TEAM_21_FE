@@ -19,8 +19,7 @@ const SecretFeedback = () => {
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [inputMessage, setInputMessage] = useState("");
-  const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용 불러오는 곳
-  const [realMessages, setRealMessages] = useState([]); // 실시간 대화하는 메세지 저장할 곳
+  const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용
   const [senderId, setSenderId ] = useState()
 
 
@@ -73,7 +72,6 @@ const SecretFeedback = () => {
     }, []);
   };
   
-
   useEffect(() => {
     getUserId()
     connectWebSocket();
