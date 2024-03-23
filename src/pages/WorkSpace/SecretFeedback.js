@@ -16,13 +16,12 @@ const SecretFeedback = () => {
   const state = location.state;
   const person = state ? state.person : null;
   const workspaceUUID = state ? state.workspaceUUID : null;
+  const receive = state ? state.receive : null;
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [inputMessage, setInputMessage] = useState("");
-  const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용 불러오는 곳
-  const [realMessages, setRealMessages] = useState([]); // 실시간 대화하는 메세지 저장할 곳
+  const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용
   const [senderId, setSenderId ] = useState()
-
 
   // 채팅방 내역
   const handleChatList = async () => {
@@ -38,16 +37,28 @@ const SecretFeedback = () => {
         },
       });
       const chatData = response.data.data;
-      setSaveMessages(chatData);
+      console.log(chatData, 'message/list')
+      setSaveMessages(chatData.messageResponseList);
+      // if (Array.isArray(chatData)) {
+      // } else {
+      //   console.error("Received data is not an array:", chatData);
+      // }
+      // setSaveMessages(chatData, ''); // 배열로 설정
+      // console.log(chatData)
     } catch (error) {
       console.error(error);
     }
   };
 
+  // 테스트 코드
+  useEffect(() => {
+    console.log('받은 채팅 내역, useState에 저장', saveMessages);
+  }, [saveMessages]);
+
   const getUserId = async () => {
     const authToken = localStorage.getItem("authToken");
     try {
-      const response = await axios.get("/users", {
+      const response = await axios.get("http://3.35.236.118:8080/users", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -67,11 +78,13 @@ const SecretFeedback = () => {
       // 서버와 연결 설정
       console.log("Connected: " + frame);
       setStompClient(stomp); // stomp 클라이언트 상태 저장
-      console.log(stompClient, "클라이언트 상태");
+
+      console.log(stomp, "클라이언트 상태");
+      console.log(saveMessages, '수신 SENDERID ㅠㅠ', senderId);
+      console.log(`오는거 :${saveMessages.senderId} , 유저ID: ${senderId}`)
     }, []);
   };
   
-
   useEffect(() => {
     getUserId()
     connectWebSocket();
@@ -86,9 +99,11 @@ const SecretFeedback = () => {
 
   // 메세지 수신
   const handleMessage = (message) => {
+    console.log(message)
+    console.log('이 콜백함수가 실행이 안되는 것 같은데?')
     setSaveMessages((prevMessages) => [
       ...prevMessages,
-      { content: message.body, senderId: "other" },
+      { content: message.content, senderId: message.senderId },
     ]);
   };
 
@@ -96,14 +111,15 @@ const SecretFeedback = () => {
     handleChatList();
 
     if (stompClient) {
-      stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage); // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
+      // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
+      stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage);
     }
   }, [stompClient]);
 
   // 메세지 송신
   const sendMessage = (inputMessage) => {
     const messageDto = {
-      senderId: senderId, // 실제 보내는 사용자 id로 수정 필요 !
+      senderId: senderId, // 실제 보내는 사용자 id
       content: inputMessage.trim(),
     };
 
@@ -113,6 +129,7 @@ const SecretFeedback = () => {
         {},
         JSON.stringify(messageDto)
       ); // 서버에 보냄
+
       setSaveMessages((prevMessages) => [
         ...prevMessages,
         { content: inputMessage, senderId: senderId },
@@ -123,21 +140,23 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      <SecretTitle person={person} />
+      <SecretTitle person={person} receive={receive} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
         <div  
           className="w-[95%] flex justify-end flex-col overflow-auto mb-[80px] mx-auto">
-          {saveMessages.map((message, index) => {
+            {/* saveMessages.length > 0 &&  */}
+            {saveMessages.map((message, index) => {
             // 메시지의 createdAt에서 시간 정보 추출
             // const time = message.createdAt.split("T")[1].split(":").slice(0, 2).join(":");
 
             return (
               <>
+              {/* saveMessages.length > 0 &&  */}
                 {message.senderId === senderId ? (
                   <div className="ml-auto flex flex-row-reverse items-end" key={index}>
                     <F.sendChat>{message.content}</F.sendChat>
-                    <div className="text-xs text-[#ACACAC] mb-3 text-end">{message.createdAt}</div> {/* 시간 정보 표시 */}
+                    <div className="text-xs text-[#ACACAC] mb-3 text-end">{message.dateTime}</div> {/* 시간 정보 표시 */}
                   </div>
                 ) : (
                   <div className="mr-auto flex items-center" key={index}>
@@ -146,7 +165,7 @@ const SecretFeedback = () => {
                       <div className='text-xs mt-1 mr-1'>{person.nickName}</div>
                     </div> */}
                     <F.ReceiveChat key={index}>{message.content}</F.ReceiveChat>
-                    <div className="text-xs text-[#ACACAC] mb-3 self-end">{message.createdAt}</div> {/* 시간 정보 표시 */}
+                    <div className="text-xs text-[#ACACAC] mb-3 self-end">{message.dateTime}</div> {/* 시간 정보 표시 */}
                   </div>
                 )}
               </>
@@ -180,7 +199,7 @@ const SecretFeedback = () => {
 
 export default SecretFeedback;
 
-export const SecretTitle = ({ person }) => {
+export const SecretTitle = ({ person, receive }) => {
   const navigate = useNavigate();
 
   return (
@@ -193,8 +212,8 @@ export const SecretTitle = ({ person }) => {
           }}
         />
         <div className="ml-2 flex items-center">
-          <img src={person.profileImageUrl} className="w-[28px] mr-1" />
-          <div>{person.nickName}</div>
+          <img src={receive ? images.unKnown : person.profileImageUrl} className="w-[28px] mr-1" />
+          <div>{receive ? '익명' : person.nickName}</div>
         </div>
       </div>
       {/* <BsSendPlus onClick={()=>{navigate('/')}}/> */}

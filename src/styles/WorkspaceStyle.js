@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes, css } from "styled-components";
 import YellowPlusBg from "../assets/plus-yellow.png";
 //import workspaceListBg1 from "../assets/workspaceListBg1.png";
 //import workspaceListBg2 from "../assets/workspaceListBg2.png";
@@ -214,3 +214,24 @@ export const YellowPlusButton = styled.button`
   border: none;
   cursor: pointer;
 `;
+
+
+export const PersonSelectEffect = styled.button`
+  ${(props) => props.isSelected && css`
+  box-shadow: 4px 3px 10px 0px rgba(0, 0, 0, 0.20);
+  padding: 10px;
+  border-radius: 10px;
+  `}  
+`
+
+export const AddGroupBtn = styled.button`
+  border-radius: 20.5px;
+  background: linear-gradient(91deg, #FFD875 -2.04%, #FFA680 100%);
+  text-align: center;
+  padding: 10px 20px;
+  color: white;
+  margin: 0 auto;
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  `
