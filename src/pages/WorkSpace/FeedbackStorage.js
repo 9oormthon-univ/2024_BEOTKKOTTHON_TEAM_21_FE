@@ -3,9 +3,18 @@ import WorkspaceBottom from "../../component/WorkspaceBottom";
 import { GoChevronLeft } from "react-icons/go";
 import { BsSendPlus } from "react-icons/bs";
 import * as F from "../../styles/Feedback";
-import { useNavigate, useParams } from "react-router-dom";
-import { images } from "./../../utils/images";
-import axios from "axios";
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import { motion } from "framer-motion";
+import { images } from './../../utils/images';
+
+// 화면 전환 효과
+const transitionVariants = {
+  initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
+  enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+  slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+  exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
 
 const FeedbackStorage = () => {
   // true > 받은 피드백 / false > 보낸 피드백
@@ -65,7 +74,14 @@ const FeedbackStorage = () => {
   }, [sendData]);
 
   return (
-    <div className="relative">
+    <div className='relative'>
+      <motion.div
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={transitionVariants}
+          transition={{ type: "tween", duration: 0.5 }}
+      >
       <FeedbackTitle workspaceUUID={workspaceUUID} />
 
       <F.ReceiveBtn
@@ -93,37 +109,26 @@ const FeedbackStorage = () => {
     </F.FeedbackContainer> */}
 
       {/* 피드백 리스트 */}
-      {feedbackState === true ? (
-        // 받은 피드백
-        <F.ReceiveFeedBack>
-          {receivedData &&
-            receivedData.map((data) => {
-              return (
-                <Feedback
-                  receive={true}
-                  data={data}
-                  workspaceUUID={workspaceUUID}
-                />
-              );
-            })}
-        </F.ReceiveFeedBack>
-      ) : (
-        // 보낸 피드백
-        <F.SendFeedBack>
-          {sendData &&
-            sendData.map((data) => {
-              return (
-                <Feedback
-                  receive={false}
-                  data={data}
-                  workspaceUUID={workspaceUUID}
-                />
-              );
-            })}
-        </F.SendFeedBack>
-      )}
-
-      <WorkspaceBottom activeItem={"chat"} workspaceUUID={workspaceUUID} />
+      {feedbackState === true ?
+      // 받은 피드백
+      <F.ReceiveFeedBack>
+        {receivedData && receivedData.map((data)=> {
+          return(
+            <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
+          )
+        })}
+      </F.ReceiveFeedBack> : 
+      // 보낸 피드백
+      <F.SendFeedBack>
+         {sendData && sendData.map((data)=> {
+          return (
+            <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
+          )
+        })}
+      </F.SendFeedBack>}
+      </motion.div>
+      
+      <WorkspaceBottom activeItem={'chat'} workspaceUUID={workspaceUUID} />
     </div>
   );
 };

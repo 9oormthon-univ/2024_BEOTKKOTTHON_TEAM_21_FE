@@ -27,8 +27,8 @@ const sentenceVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      delay: i * 0.5,
-      duration: 1,
+      delay: i * 0.3,
+      duration: 0.9,
     },
   }),
 };
@@ -97,18 +97,18 @@ const WorkSpaceHome = () => {
   }, []);
 
   return (
-      <motion.div
-          initial="initial"
-          animate="enter"
-          exit="exit"
-          variants={transitionVariants}
-          transition={{ type: "tween", duration: 0.5 }}
-      >
     <>
       <W.Background2
           initial="hidden"
           animate="visible"
           variants={containerVariants}>
+        <motion.div
+            initial="initial"
+            animate="enter"
+            exit="exit"
+            variants={transitionVariants}
+            transition={{ type: "tween", duration: 0.5 }}
+        >
         <W.WorkSpaceHomeContainer>
           <WorkspaceTitle />
 
@@ -144,17 +144,16 @@ const WorkSpaceHome = () => {
               />
             ))}
           </W.PersonGrid>
-
-          <WorkspaceBottom
-            activeItem={"home"}
-            workspaceUUID={workspaceUUID}
-            workspaceUserList={workspaceUserList}
-          />
         </W.WorkSpaceHomeContainer>
+      </motion.div>
       </W.Background2>
+      <WorkspaceBottom
+          activeItem={"home"}
+          workspaceUUID={workspaceUUID}
+          workspaceUserList={workspaceUserList}
+      />
       {/*<W.Background></W.Background> */}
     </>
-      </motion.div>
   );
 };
 
