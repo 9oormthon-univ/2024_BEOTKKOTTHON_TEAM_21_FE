@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import WorkspaceBottom from '../../component/WorkspaceBottom';
+import React, { useEffect, useState } from "react";
+import WorkspaceBottom from "../../component/WorkspaceBottom";
 import { GoChevronLeft } from "react-icons/go";
 import { BsSendPlus } from "react-icons/bs";
 import * as F from "../../styles/Feedback";
-import { useNavigate, useParams } from 'react-router-dom';
-import { images } from './../../utils/images';
-import axios from 'axios';
-
+import { useNavigate, useParams } from "react-router-dom";
+import { images } from "./../../utils/images";
+import axios from "axios";
 
 const FeedbackStorage = () => {
   // true > 받은 피드백 / false > 보낸 피드백
@@ -15,58 +14,67 @@ const FeedbackStorage = () => {
   const [sendData, setSendData] = useState([]);
   const [receivedData, setReceivedData] = useState([]);
 
-  useEffect(()=>{
+  useEffect(() => {
     const ShowFeedBack = async () => {
       const authToken = localStorage.getItem("authToken");
 
       try {
         if (feedbackState) {
-          console.log('받은 피드백')
-          const response = await axios.get("http://3.35.236.118:8080/chatRoom/received", {
-            params: {
-              workspaceUUID: workspaceUUID
-            },
-            headers: {
-              Authorization: `Bearer ${authToken}`,
+          console.log("받은 피드백");
+          const response = await axios.get(
+            "http://3.35.236.118:8080/chatRoom/received",
+            {
+              params: {
+                workspaceUUID: workspaceUUID,
+              },
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
             }
-          });
+          );
           const ReceivedData = response.data.data.chatRooms;
-          console.log(ReceivedData)
+          console.log(ReceivedData);
           setReceivedData(ReceivedData);
-          console.log('receivedData', receivedData);
+          console.log("receivedData", receivedData);
         } else {
-          console.log('보낸 피드백')
-          const response = await axios.get("http://3.35.236.118:8080/chatRoom/sent", {
-            params: {
-              workspaceUUID: workspaceUUID
-            },
-            headers: {
-              Authorization: `Bearer ${authToken}`,
+          console.log("보낸 피드백");
+          const response = await axios.get(
+            "http://3.35.236.118:8080/chatRoom/sent",
+            {
+              params: {
+                workspaceUUID: workspaceUUID,
+              },
+              headers: {
+                Authorization: `Bearer ${authToken}`,
+              },
             }
-          });
+          );
           const SendData = response.data.data.chatRooms;
           setSendData(SendData);
         }
       } catch (error) {
-          console.error(error);
+        console.error(error);
       }
-    }
+    };
     ShowFeedBack();
-  }, [feedbackState, WorkspaceBottom])
+  }, [feedbackState, WorkspaceBottom]);
 
   // 테스트 코드
   useEffect(() => {
-    console.log('sendData', sendData);
+    console.log("sendData", sendData);
   }, [sendData]);
 
   return (
-    <div className='relative'>
+    <div className="relative">
       <FeedbackTitle workspaceUUID={workspaceUUID} />
 
-      <F.ReceiveBtn 
-        onClick={()=>{ SetFeedbackState(!feedbackState) }}
-        active={feedbackState === true} >
-        {feedbackState === true ? '받은 피드백' : '보낸 피드백'}
+      <F.ReceiveBtn
+        onClick={() => {
+          SetFeedbackState(!feedbackState);
+        }}
+        active={feedbackState === true}
+      >
+        {feedbackState === true ? "받은 피드백" : "보낸 피드백"}
       </F.ReceiveBtn>
 
       {/* 단체 채팅방 구현 중단 ... */}
@@ -85,44 +93,61 @@ const FeedbackStorage = () => {
     </F.FeedbackContainer> */}
 
       {/* 피드백 리스트 */}
-      {feedbackState === true ?
-      // 받은 피드백
-      <F.ReceiveFeedBack>
-        {receivedData && receivedData.map((data)=> {
-          return(
-            <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
-          )
-        })}
-      </F.ReceiveFeedBack> : 
-      // 보낸 피드백
-      <F.SendFeedBack>
-         {sendData && sendData.map((data)=> {
-          return (
-            <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
-          )
-        })}
-      </F.SendFeedBack>}
-      
-      <WorkspaceBottom activeItem={'chat'} workspaceUUID={workspaceUUID} />
+      {feedbackState === true ? (
+        // 받은 피드백
+        <F.ReceiveFeedBack>
+          {receivedData &&
+            receivedData.map((data) => {
+              return (
+                <Feedback
+                  receive={true}
+                  data={data}
+                  workspaceUUID={workspaceUUID}
+                />
+              );
+            })}
+        </F.ReceiveFeedBack>
+      ) : (
+        // 보낸 피드백
+        <F.SendFeedBack>
+          {sendData &&
+            sendData.map((data) => {
+              return (
+                <Feedback
+                  receive={false}
+                  data={data}
+                  workspaceUUID={workspaceUUID}
+                />
+              );
+            })}
+        </F.SendFeedBack>
+      )}
+
+      <WorkspaceBottom activeItem={"chat"} workspaceUUID={workspaceUUID} />
     </div>
   );
 };
 
 export default FeedbackStorage;
 
-export const FeedbackTitle = ({workspaceUUID}) => {
+export const FeedbackTitle = ({ workspaceUUID }) => {
   const navigate = useNavigate();
 
   return (
     <F.FeedbackTitleBox>
-      <div className='flex items-center'>
-        <GoChevronLeft size={20} onClick={()=>{navigate(-1)}}/>
-        <div className='ml-2'>피드백 보관함</div>
+      <div className="flex items-center">
+        <GoChevronLeft
+          size={20}
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
+        <div className="ml-2">피드백 보관함</div>
       </div>
-      <BsSendPlus onClick={()=>{navigate(`/addGroupChat/${workspaceUUID}`)}}/>
+      {/* <BsSendPlus onClick={()=>{navigate(`/addGroupChat/${workspaceUUID}`)}}/> */}
     </F.FeedbackTitleBox>
-  )
-}
+  );
+};
 
 export const Feedback = (props) => {
   const navigate = useNavigate();
@@ -130,26 +155,44 @@ export const Feedback = (props) => {
   const person = {
     nickName: props.data.targetUsers.userInfoList.nickName,
     profileImageUrl: props.data.targetUsers.userInfoList.profileImageUrl,
-  }
+  };
 
   const HandleChatRoom = (props) => {
-    console.log('채팅방 입장', props.chatRoomId);
-    navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID, receive: props.receive} });
-  }
+    console.log("채팅방 입장", props.chatRoomId);
+    navigate(`/secretfeedback/${props.data.chatRoomId}`, {
+      state: {
+        person: person,
+        workspaceUUID: props.workspaceUUID,
+        receive: props.receive,
+      },
+    });
+  };
 
   return (
-    <F.FeedbackContainer onClick={ ()=>{ HandleChatRoom(props) } }>
+    <F.FeedbackContainer
+      onClick={() => {
+        HandleChatRoom(props);
+      }}
+    >
       <F.FeedbackImg>
-        <F.StyledImg src={props.receive ? images.unKnown : person.profileImageUrl} alt='img' active={props.receive}/>
+        <F.StyledImg
+          src={props.receive ? images.unKnown : person.profileImageUrl}
+          alt="img"
+          active={props.receive}
+        />
       </F.FeedbackImg>
 
       <F.FeedbackContent>
-        <div className='flex items-center mb-1'>
-          <div>{props.receive ? '익명' : props.data.chatRoomUserId }</div>
-          <div className='text-[#acacac] text-[12px] ml-2'>{props.data.chatRoomId}</div>
+        <div className="flex items-center mb-1">
+          <div>{props.receive ? "익명" : props.data.chatRoomUserId}</div>
+          <div className="text-[#acacac] text-[12px] ml-2">
+            {props.data.chatRoomId}
+          </div>
         </div>
-        <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>
+        <div className="text-[#acacac] text-[15px] text-start">
+          {props.content}
+        </div>
       </F.FeedbackContent>
     </F.FeedbackContainer>
-  )
-}
+  );
+};
