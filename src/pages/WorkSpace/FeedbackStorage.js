@@ -163,16 +163,17 @@ export const Feedback = (props) => {
     profileImageUrl: props.data.targetUsers?.userInfoList[0]?.profileImageUrl,
     chatRoomUserId: props.data.chatRoomUserId,
   }
-  
+
   // sendUserId
   const sendChatRoomUserId = async() => {
     const authToken = localStorage.getItem("authToken");
     try {
-      const response = await axios.post(`http://3.35.236.118:8080/check/${person.chatRoomUserId}`, null, {
+      const response = await axios.post(`http://3.35.236.118:8080/chatRoomUser/check/${person.chatRoomUserId}`, null, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         }
       });
+      console.log(response, '갔니?')
     } catch (error) {
       console.error(error);
     }
