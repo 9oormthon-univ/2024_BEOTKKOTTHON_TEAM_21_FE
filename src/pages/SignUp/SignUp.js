@@ -147,14 +147,22 @@ function SignUp() {
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [isIdDuplicate, setIsIdDuplicate] = useState(false); // 아이디 중복 체크
+  // 닉네임 및 프로필 이미지 선택 여부를 나타내는 상태 변수
+  const [nicknameError, setNicknameError] = useState("");
+  const [profileError, setProfileError] = useState("");
+  // const [isNicknameEntered, setIsNicknameEntered] = useState(false);
+  // const [isProfileImageSelected, setIsProfileImageSelected] = useState(false);
 
   // 아이디 중복 체크 요청 보내기
   useEffect(() => {
     const checkDuplicate = async () => {
       try {
-        const response = await axios.post("http://3.35.236.118:8080/api/auth/check-duplicate", {
-          loginId: id,
-        });
+        const response = await axios.post(
+          "http://3.35.236.118:8080/api/auth/check-duplicate",
+          {
+            loginId: id,
+          }
+        );
         // 응답에서 중복 여부 확인
         console.log("id:", id);
         console.log("id 타입:", typeof id);
@@ -252,10 +260,17 @@ function SignUp() {
   const handleButtonClick = (index) => {
     setselectedButtonIndex(index);
     setProfileImageUrl(profileImageUrls[index]);
+    setProfileError("");
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault(); // 기본 동작 방지
+    if (!nickname.trim() || !profileImageUrl.trim()) {
+      if (!nickname.trim()) setNicknameError("닉네임을 입력해주세요.");
+      if (!profileImageUrl.trim())
+        setProfileError("프로필 이미지를 선택해주세요.");
+      return;
+    }
 
     try {
       const data = {
@@ -266,7 +281,10 @@ function SignUp() {
         profileImageUrl: profileImageUrl, // 선택한 프로필의 url 저장 작업 필요
       };
 
-      const response = await axios.post("http://3.35.236.118:8080/api/auth/signUp", data);
+      const response = await axios.post(
+        "http://3.35.236.118:8080/api/auth/signUp",
+        data
+      );
       console.log(response.data);
 
       navigate("/signend");
@@ -437,47 +455,49 @@ function SignUp() {
                       </p>
                     </motion.div>
                   </div>
-                  <div className="flex justify-center my-10 cursor-pointer">
+                  <div className="flex flex-col items-center justify-center my-10 cursor-pointer">
                     <ProfileContainer onClick={handleSvgClick}>
                       {selectedButtonIndex === null && (
-                        <svg
-                          width="100"
-                          height="100"
-                          viewBox="0 0 74 73"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <circle
-                            cx="37"
-                            cy="36.5"
-                            r="36.149"
-                            fill="#D7D7D7"
-                            stroke="#FEC533"
-                            stroke-width="0.701923"
-                          />
-                          <circle
-                            cx="37"
-                            cy="24.8466"
-                            r="11.1201"
-                            fill="white"
-                          />
-                          <path
-                            d="M16.7222 52.6216C16.7222 44.8684 23.0074 38.5831 30.7606 38.5831H43.2393C50.9925 38.5831 57.2777 44.8684 57.2777 52.6216V54.6972C57.2777 56.6355 55.7064 58.2068 53.7681 58.2068H20.2318C18.2935 58.2068 16.7222 56.6355 16.7222 54.6972V52.6216Z"
-                            fill="white"
-                          />
-                          <circle
-                            cx="59.1106"
-                            cy="63.524"
-                            r="8.77404"
-                            fill="#FEC533"
-                            stroke="white"
-                            stroke-width="1.40385"
-                          />
-                          <path
-                            d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
-                            fill="white"
-                          />
-                        </svg>
+                        <div>
+                          <svg
+                            width="100"
+                            height="100"
+                            viewBox="0 0 74 73"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <circle
+                              cx="37"
+                              cy="36.5"
+                              r="36.149"
+                              fill="#D7D7D7"
+                              stroke="#FEC533"
+                              stroke-width="0.701923"
+                            />
+                            <circle
+                              cx="37"
+                              cy="24.8466"
+                              r="11.1201"
+                              fill="white"
+                            />
+                            <path
+                              d="M16.7222 52.6216C16.7222 44.8684 23.0074 38.5831 30.7606 38.5831H43.2393C50.9925 38.5831 57.2777 44.8684 57.2777 52.6216V54.6972C57.2777 56.6355 55.7064 58.2068 53.7681 58.2068H20.2318C18.2935 58.2068 16.7222 56.6355 16.7222 54.6972V52.6216Z"
+                              fill="white"
+                            />
+                            <circle
+                              cx="59.1106"
+                              cy="63.524"
+                              r="8.77404"
+                              fill="#FEC533"
+                              stroke="white"
+                              stroke-width="1.40385"
+                            />
+                            <path
+                              d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
+                              fill="white"
+                            />
+                          </svg>
+                        </div>
                       )}
 
                       {selectedButtonIndex !== null && (
@@ -490,17 +510,32 @@ function SignUp() {
                         </div>
                       )}
                     </ProfileContainer>
+                    {profileError && (
+                      <span className="mt-2 text-red-500 text-xs h-2">
+                        {profileError}
+                      </span>
+                    )}
                   </div>
                   <div className="text-sm">
                     <FormContainer onSubmit={handleFormSubmit}>
-                      <input
-                        type="text"
-                        name="nickname"
-                        value={nickname}
-                        onChange={(e) => setNickName(e.target.value)}
-                        className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
-                        placeholder="닉네임"
-                      />
+                      <div>
+                        <input
+                          type="text"
+                          name="nickname"
+                          value={nickname}
+                          onChange={(e) => {
+                            setNickName(e.target.value);
+                            setNicknameError("");
+                          }}
+                          className="mt-1 px-3 py-2 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full  xs:text-sm focus:ring-1"
+                          placeholder="닉네임"
+                        />
+                        {nicknameError && (
+                          <span className="mt-2 text-red-500 text-xs h-2">
+                            {nicknameError}
+                          </span>
+                        )}
+                      </div>
                     </FormContainer>
                   </div>
                 </div>
@@ -590,7 +625,7 @@ function SignUp() {
                 >
                   선택
                 </button> */}
-                  <BtnContainer className="mb-5">
+                  <BtnContainer className="mb-5 w-full">
                     <button
                       onClick={() => setShowNewDiv(false)}
                       className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
