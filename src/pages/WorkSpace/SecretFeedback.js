@@ -23,8 +23,7 @@ const SecretFeedback = () => {
   const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용
   const [senderId, setSenderId ] = useState()
 
-  // sendUserId
-  const sendChatRoomUserId = async() => {
+  const sendChatRoomUserId = async () => {
     const authToken = localStorage.getItem("authToken");
     try {
       const response = await axios.post(`http://3.35.236.118:8080/check/${person.chatRoomUserId}`, null, {
@@ -219,6 +218,21 @@ const SecretFeedback = () => {
 export default SecretFeedback;
 
 export const SecretTitle = ({ person, receive }) => {
+  // sendUserId
+  const sendChatRoomUserId = async () => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.post(`http://3.35.236.118:8080/check/${person.chatRoomUserId}`, null, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+
   const navigate = useNavigate();
 
   return (
