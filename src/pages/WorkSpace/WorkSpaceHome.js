@@ -8,6 +8,7 @@ import { GoChevronLeft } from "react-icons/go";
 import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import YellowPlusBtn from "../../assets/plus-yellow.png";
+import { IoIosLink } from "react-icons/io";
 import axios from "axios";
 
 const WorkSpaceHome = () => {
@@ -246,9 +247,30 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
 export const WorkspaceTitle = () => {
   const navigate = useNavigate();
+  const { workspaceUUID } = useParams();
+  const [showCopyNotification, setShowCopyNotification] = useState(false);
+
+  const handleCopyToClipboard = () => {
+    // 클립보드에 복사할 텍스트 선택
+    const textToCopy = workspaceUUID;
+    // 클립보드에 복사할 텍스트를 선택
+    const textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.select();
+    // 복사 명령 실행
+    document.execCommand("copy");
+    // 임시 textarea 제거
+    document.body.removeChild(textArea);
+    // 복사 알림 표시
+    setShowCopyNotification(true);
+    setTimeout(() => {
+      setShowCopyNotification(false);
+    }, 3000); // 3초 후 알림 숨김
+  };
 
   return (
-    <div className="flex p-[20px] text-[18px] text-white">
+    <div className="flex p-[20px] text-[18px] text-white justify-between">
       <div className="flex items-center cursor-pointer">
         <GoChevronLeft
           size={20}
@@ -257,6 +279,16 @@ export const WorkspaceTitle = () => {
           }}
         />
       </div>
+      <IoIosLink
+        size={20}
+        className="cursor-pointer"
+        onClick={handleCopyToClipboard}
+      />
+      {showCopyNotification && (
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out text-sm">
+          워크스페이스 URL 복사 완료!
+        </div>
+      )}
     </div>
   );
 };
