@@ -23,6 +23,20 @@ const SecretFeedback = () => {
   const [saveMessages, setSaveMessages] = useState([]); // 채팅 내용
   const [senderId, setSenderId ] = useState()
 
+  // sendUserId
+  const sendChatRoomUserId = async() => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.post(`http://3.35.236.118:8080/check/${person.chatRoomUserId}`, null, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // 채팅방 내역
   const handleChatList = async () => {
     const authToken = localStorage.getItem("authToken");
@@ -39,12 +53,6 @@ const SecretFeedback = () => {
       const chatData = response.data.data;
       console.log(chatData, 'message/list')
       setSaveMessages(chatData.messageResponseList);
-      // if (Array.isArray(chatData)) {
-      // } else {
-      //   console.error("Received data is not an array:", chatData);
-      // }
-      // setSaveMessages(chatData, ''); // 배열로 설정
-      // console.log(chatData)
     } catch (error) {
       console.error(error);
     }
@@ -89,6 +97,7 @@ const SecretFeedback = () => {
     getUserId()
     connectWebSocket();
     handleChatList();
+    // sendChatRoomUserId();
 
     return () => {
       if (stompClient) {
@@ -98,18 +107,29 @@ const SecretFeedback = () => {
   }, [stompClient]);
 
   // 메세지 수신
-  const handleMessage = (message) => {
+  const handleMessage = async (message) => {
     console.log(message)
     console.log('이 콜백함수가 실행이 안되는 것 같은데?')
     setSaveMessages((prevMessages) => [
       ...prevMessages,
       { content: message.content, senderId: message.senderId },
     ]);
+
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.post(`http://3.35.236.118:8080/check/${person.chatRoomUserId}`, null, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
-    handleChatList();
-
+    // handleChatList();
+ 
     if (stompClient) {
       // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
       stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage);
@@ -140,7 +160,7 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      <SecretTitle person={person} receive={receive} />
+      <SecretTitle person={person} receive={receive} sendChatRoomUserId={sendChatRoomUserId} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
         <div  
@@ -171,7 +191,6 @@ const SecretFeedback = () => {
               </>
             );
           })}
-
         </div>
       </div>
 
@@ -208,6 +227,7 @@ export const SecretTitle = ({ person, receive }) => {
         <GoChevronLeft
           size={20}
           onClick={() => {
+            sendChatRoomUserId();
             navigate(-1);
           }}
         />
