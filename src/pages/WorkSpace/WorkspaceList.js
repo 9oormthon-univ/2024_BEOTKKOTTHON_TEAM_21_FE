@@ -13,7 +13,9 @@ import "../../styles/workspace.css";
 
 const WorkspaceList = () => {
   const PlusIcon = () => (
-    <svg
+    <motion.svg
+        whileHover={{ rotate: 360, transition: { duration: 0.5 } }}
+        transition={{ type: "spring", stiffness: 300, damping: 10 }}
       className="plusIcon"
       width="45"
       viewBox="0 0 40 40"
@@ -32,7 +34,7 @@ const WorkspaceList = () => {
         size={40}
         style={{ color: "white" }}
       />
-    </svg>
+    </motion.svg>
   );
 
   const navigate = useNavigate();
@@ -174,12 +176,12 @@ const WorkspaceList = () => {
                 onClick={() => {
                   navigate("/recommendStart");
                 }}
-                className="px-6 border-[#D7D7D7] border-solid border-b-[1px]"
+                className="px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-yellow-500 duration-200"
               >
                 새로생성
               </div>
               <div
-                className="px-6"
+                className="px-6 hover:text-yellow-500 duration-200"
                 onClick={() => {
                   navigate("/workspaceEnter");
                 }}
