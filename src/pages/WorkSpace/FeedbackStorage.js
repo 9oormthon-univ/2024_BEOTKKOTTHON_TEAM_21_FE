@@ -88,7 +88,7 @@ const FeedbackStorage = () => {
       {feedbackState === true ?
       // 받은 피드백
       <F.ReceiveFeedBack>
-        {receivedData && receivedData.map((data)=> {
+        {receivedData && receivedData.slice().reverse().map((data)=> {
           return(
             <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
           )
@@ -96,7 +96,7 @@ const FeedbackStorage = () => {
       </F.ReceiveFeedBack> : 
       // 보낸 피드백
       <F.SendFeedBack>
-         {sendData && sendData.map((data)=> {
+         {sendData && sendData.slice().reverse().map((data)=> {
           return (
             <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
           )
@@ -128,10 +128,10 @@ export const Feedback = (props) => {
   const navigate = useNavigate();
 
   const person = {
-    nickName: props.data.targetUsers.userInfoList.nickName,
-    profileImageUrl: props.data.targetUsers.userInfoList.profileImageUrl,
+    nickName: props.data.targetUsers?.userInfoList[0]?.nickName,
+    profileImageUrl: props.data.targetUsers?.userInfoList[0]?.profileImageUrl,
   }
-
+  
   const HandleChatRoom = (props) => {
     console.log('채팅방 입장', props.chatRoomId);
     navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID, receive: props.receive} });
@@ -145,10 +145,10 @@ export const Feedback = (props) => {
 
       <F.FeedbackContent>
         <div className='flex items-center mb-1'>
-          <div>{props.receive ? '익명' : props.data.chatRoomUserId }</div>
-          <div className='text-[#acacac] text-[12px] ml-2'>{props.data.chatRoomId}</div>
+          <div>{props.receive ? '익명' : person.nickName }</div>
+          <div className='text-[#acacac] text-[12px] ml-2'>{props.data.lastMessage?.dateTime}</div>
         </div>
-        <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>
+        <div className='text-[#acacac] text-[15px] text-start'>{props.data.lastMessage?.content}</div>
       </F.FeedbackContent>
     </F.FeedbackContainer>
   )
