@@ -76,7 +76,7 @@ function Login() {
       //   loginId: username,
       //   password: password,
       // });
-      const response = await axios.post("/api/auth/signIn", {
+      const response = await axios.post("${process.env.BACK_URL}/api/auth/signIn", {
         loginId: username,
         password: password,
       });

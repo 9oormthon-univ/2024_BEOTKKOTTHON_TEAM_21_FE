@@ -26,6 +26,17 @@ const Profile = styled.div`
   overflow: hidden;
 `;
 
+const Profile2 = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
 const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
@@ -33,8 +44,8 @@ const ProfileImage = styled.img`
 `;
 
 const ProfileImage2 = styled.img`
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   object-fit: cover;
 `;
 
@@ -178,12 +189,12 @@ const Navbar = () => {
                     />
                   </svg>
                 </button>
-                <div className="flex px-4 py-5">
-                  <Profile>
+                <div className="flex px-4 py-5 items-center">
+                  <Profile2>
                     {profileImgUrl && (
                       <ProfileImage src={profileImgUrl} alt="Profile" />
                     )}
-                  </Profile>
+                  </Profile2>
                   <div className="mx-3 text-white">
                     <div className="text-lg">{nickname}</div>
                     <div className="text-sm text-white">{email}</div>
