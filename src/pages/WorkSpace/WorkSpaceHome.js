@@ -10,7 +10,6 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import YellowPlusBtn from "../../assets/plus-yellow.png";
 import axios from "axios";
 
-
 const WorkSpaceHome = () => {
   const { workspaceUUID } = useParams();
   const [workspaceUserList, setWorkspaceUserList] = useState([]);
@@ -21,11 +20,14 @@ const WorkSpaceHome = () => {
     const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-        const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+        const response = await axios.get(
+          `http://3.35.236.118:8080/workspaces/${workspaceUUID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
         const data = response.data.data;
         const teamName = data.teamName;
         const workspaceUserList = data.userInfoResponseList;
@@ -128,7 +130,9 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
 
     try {
-      const response = await axios.post(`http://3.35.236.118:8080/chatRoom`, {
+      const response = await axios.post(
+        `http://3.35.236.118:8080/chatRoom`,
+        {
           workspaceUUID: workspaceUUID,
           userIds: [person.id],
         },
