@@ -95,7 +95,7 @@ const SecretFeedback = () => {
         stompClient.disconnect();
       }
     };
-  }, [sendMessage, stompClient]);
+  }, [stompClient]);
 
   // 메세지 수신
   const handleMessage = (message) => {
