@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { images } from "../../utils/images";
-import WorkspaceBottom from "../../component/WorkspaceBottom";
+import { useNavigate, useParams } from 'react-router-dom';
 import * as W from "../../styles/WorkspaceStyle";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import { GoChevronLeft } from "react-icons/go";
 import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
-import YellowPlusBtn from "../../assets/plus-yellow.png";
-import axios from "axios";
+import WorkspaceBottom from "../../component/WorkspaceBottom";
 
-const WorkSpaceHome = () => {
+const AddGroupChat = () => {
   const { workspaceUUID } = useParams();
   const [workspaceUserList, setWorkspaceUserList] = useState([]);
   const [teamName, setTeamName] = useState("");
@@ -20,14 +17,11 @@ const WorkSpaceHome = () => {
     const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-        const response = await axios.get(
-          `http://3.35.236.118:8080/workspaces/${workspaceUUID}`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
+        const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
         const data = response.data.data;
         const teamName = data.teamName;
         const workspaceUserList = data.userInfoResponseList;
@@ -41,42 +35,48 @@ const WorkSpaceHome = () => {
     JoinWorkspace();
   }, []);
 
+
   return (
     <>
-      <W.Background></W.Background> 
-      <W.WorkSpaceHomeContainer>
+     <W.WorkSpaceHomeContainer>
         <WorkspaceTitle />
 
-        <div className="text-center text-white py-5">
+        <div className="text-center text-black py-5">
           <div className="text-2xl font-bold mb-2">
-            {teamName}의 워크스페이스
+            단체 채팅방 개설
           </div>
           <div className="text-sm">
-            자유롭게 1:1 시크릿 메세지를 보내보세요!
+            자유롭게 단체 채팅 시크릿 메세지를 보내보세요!
           </div>
         </div>
 
         <W.PersonGrid>
           {workspaceUserList.map((person) => (
-            <PersonBox
-              key={person.id}
-              person={person}
-              workspaceUUID={workspaceUUID}
-            />
+            // 단체 채팅방 개설할 팀원 선택 btn
+            <button 
+              className="w-1/2 mb-5"
+              onClick={()=>{console.log('선택')}}>
+              <PersonBox
+                key={person.id}
+                person={person}
+                workspaceUUID={workspaceUUID}
+              />
+            </button>
           ))}
         </W.PersonGrid>
 
         <WorkspaceBottom
-          activeItem={"home"}
+          activeItem={"chat"}
           workspaceUUID={workspaceUUID}
           workspaceUserList={workspaceUserList}
         />
-      </W.WorkSpaceHomeContainer>
+      </W.WorkSpaceHomeContainer> 
     </>
   );
 };
 
-export default WorkSpaceHome;
+export default AddGroupChat;
+
 
 const PersonBox = ({ person, workspaceUUID }) => {
   const navigate = useNavigate();
@@ -91,20 +91,6 @@ const PersonBox = ({ person, workspaceUUID }) => {
   });
 
   const [isWorkspace, setIsWorkspace] = useState([]);
-
-  // ---------- 사용자 인식하여 편집부여 권한 ----------
-  const userUUID = localStorage.getItem("userUUID");
-  useEffect(() => {
-    console.log("person :", person);
-    console.log(person.userUUID);
-    // 로컬 스토리지의 토큰과 사용자의 userUUID를 비교하여 일치하면 버튼을 표시
-    if (userUUID === person.userUUID) {
-      setIsWorkspace(true);
-    } else {
-      setIsWorkspace(false);
-    }
-  }, [userUUID, person.userUUID]);
-  // --------------------------------------------
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -145,9 +131,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
 
     try {
-      const response = await axios.post(
-        `http://3.35.236.118:8080/chatRoom`,
-        {
+      const response = await axios.post(`http://3.35.236.118:8080/chatRoom`, {
           workspaceUUID: workspaceUUID,
           userIds: [person.id],
         },
@@ -177,15 +161,14 @@ const PersonBox = ({ person, workspaceUUID }) => {
   };
 
   const goToProfileEdit = () => {
-    navigate("/profilechange", { state: { workspaceUUID: workspaceUUID } });
+    navigate("/profilechange");
   };
 
   return (
     <>
-      <W.Person key={person.id}>
+      <div key={person.id}>
         <W.PersonImg onClick={toggleModal}>
           <img className="p-5" src={person.profileImageUrl} alt="" />
-          {isWorkspace && <W.YellowPlusButton onClick={goToProfileEdit} />}
         </W.PersonImg>
 
         <div className="flex items-center justify-center">
@@ -211,31 +194,10 @@ const PersonBox = ({ person, workspaceUUID }) => {
           ) : (
             <>
               <span>{name}</span>
-              {isWorkspace && (
-                <BsPencil
-                  onClick={() => {
-                    setIsEdit(true);
-                  }}
-                  size={13}
-                  className="ml-2"
-                />
-              )}
             </>
           )}
         </div>
-
-        {isModalOpen && (
-          <W.Modal>
-            <button
-              onClick={() => {
-                OneToOneChat(person);
-              }}
-            >
-              1:1 시크릿 피드백 요청하기
-            </button>
-          </W.Modal>
-        )}
-      </W.Person>
+      </div>
     </>
   );
 };

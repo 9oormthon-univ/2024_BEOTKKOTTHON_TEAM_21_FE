@@ -56,7 +56,7 @@ const FeedbackStorage = () => {
 
   return (
     <div className='relative'>
-      <FeedbackTitle />
+      <FeedbackTitle workspaceUUID={workspaceUUID} />
 
       <F.ReceiveBtn 
         onClick={()=>{ SetFeedbackState(!feedbackState) }}
@@ -90,7 +90,7 @@ const FeedbackStorage = () => {
 
 export default FeedbackStorage;
 
-export const FeedbackTitle = () => {
+export const FeedbackTitle = ({workspaceUUID}) => {
   const navigate = useNavigate();
 
   return (
@@ -99,7 +99,7 @@ export const FeedbackTitle = () => {
         <GoChevronLeft size={20} onClick={()=>{navigate(-1)}}/>
         <div className='ml-2'>피드백 보관함</div>
       </div>
-      <BsSendPlus onClick={()=>{navigate('/')}}/>
+      <BsSendPlus onClick={()=>{navigate(`/addGroupChat/${workspaceUUID}`)}}/>
     </F.FeedbackTitleBox>
   )
 }
