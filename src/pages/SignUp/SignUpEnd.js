@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import Navbar from "../../components/Navbar";
 import { motion } from "framer-motion";
-import styles from "../Recommend/RecommendStart.module.css"; // CSS 모듈 import
 import CloudBackground from "../../assets/CloudBg.png";
 import {GradientButton} from "../../styles/WorkspaceStyle";
 
@@ -68,7 +67,8 @@ const TeamnameContainer1 = styled.div`
   filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.25));
 `;
 
-const TeamnameBox = styled.div`
+
+const TeamnameBoxMotion = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -79,12 +79,41 @@ const TeamnameBox = styled.div`
   background: #fff;
 `;
 
+// 박스 바운스 효과
+const animations = [
+  {
+    y: [0, 10, 0, 20, 0],
+    transition: { duration: 3, repeat: Infinity, repeatType: "reverse", delay: 0.1 },
+  },
+  {
+    y: [0, 10, 0, 20, 0],
+    transition: { duration: 3, repeat: Infinity, repeatType: "reverse", delay: 0.4 },
+  },
+  {
+    y: [0, 10, 0, 20, 0],
+    transition: { duration: 3, repeat: Infinity, repeatType: "reverse", delay: 0.7 },
+  },
+];
+
 // 화면 전환 효과
 const transitionVariants = {
   initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
   enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
   slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
   exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
+
+// 각 문장에 대한 fade 효과
+const sentenceVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.2,
+      duration: 0.9,
+    },
+  }),
 };
 
 function SignUpEnd() {
@@ -108,8 +137,22 @@ function SignUpEnd() {
             <ContextContainer>
               <TextContainer>
                 <div className="text-xl mb-2">
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={0}
+                  >
                   <p className="mb-1">환영합니다!</p>
+                  </motion.div>
+                  <motion.div
+                      variants={sentenceVariants}
+                      initial="hidden"
+                      animate="visible"
+                      custom={1}
+                  >
                   <p className="mb-3">회원가입이 완료 되었습니다.</p>
+                  </motion.div>
                   <p className="text-sm text-yellow-700">TEAMKREWS와 함께 작업해요!</p>
                 </div>
               </TextContainer>
@@ -117,9 +160,13 @@ function SignUpEnd() {
                 <div className="flex flex-col items-center justify-between">
                   <div>
                     <TeamnameContainer1 className="text-xs">
-                      <TeamnameBox>팀 이름 빌딩</TeamnameBox>
-                      <TeamnameBox>시크릿 피드백</TeamnameBox>
-                      <TeamnameBox>TO DO LIST</TeamnameBox>
+                      {animations.map((animation, index) => (
+                          <TeamnameBoxMotion key={index} animate={animation} transition={animation.transition}>
+                            {index === 0 && "팀 이름 빌딩"}
+                            {index === 1 && "시크릿 피드백"}
+                            {index === 2 && "TO DO LIST"}
+                          </TeamnameBoxMotion>
+                      ))}
                     </TeamnameContainer1>
                   </div>
                   <ButtonContainer className="mb-6">
