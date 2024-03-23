@@ -37,6 +37,25 @@ const BtnContainer = styled.div`
   height: 10vh;
 `;
 
+const KeywordInput = styled.input`
+  /* 입력 필드에 포커스가 있을 때 placeholder 색상 변경 */
+  color: black;
+  transition: color 0.1s ease;
+
+  &:focus {
+    color: #FEC533;
+    border-color: #FEC533;
+
+    &::placeholder {
+      color: #FEC533;
+      transition: color 0.2s ease;
+    }
+  }
+
+  /* 에러 상태일 때의 스타일 */
+  border-color: ${(props) => (props.hasError ? "red" : "gray")};
+`;
+
 function RecommendMiddle() {
   // mockdata
   const response2 = {
@@ -134,6 +153,19 @@ function RecommendMiddle() {
     exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
   };
 
+  // 각 문장에 대한 fade 효과
+  const sentenceVariants = {
+    hidden: { opacity: 0.5, y: 5 },
+    visible: (i) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.1,
+        duration: 0.4,
+      },
+    }),
+  };
+
   return (
     <div className="App">
       <Container>
@@ -147,10 +179,17 @@ function RecommendMiddle() {
           <Navbar />
           <ContextContainer>
             <KeywordContainer>
+              <motion.div
+                  variants={sentenceVariants}
+                  initial="hidden"
+                  animate="visible"
+                  custom={0}
+              >
               <div className="ml-8">팀의 키워드를 입력해주세요.</div>
+              </motion.div>
               <div className="text-sm mx-10 flex flex-col gap-1/4">
                 {Object.keys(keywords).map((keywordName, index) => (
-                  <input
+                  <KeywordInput
                     key={index}
                     type="text"
                     name={keywordName}

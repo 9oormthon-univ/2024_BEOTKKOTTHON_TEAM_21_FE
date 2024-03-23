@@ -117,7 +117,7 @@ const transitionVariants = {
 
 // 각 문장에 대한 fade 효과
 const sentenceVariants = {
-  hidden: { opacity: 0, x: -30 },
+  hidden: { opacity: 0.5, x: -30 },
   visible: (i) => ({
     opacity: 1,
     x: 0,
