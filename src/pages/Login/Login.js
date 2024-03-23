@@ -155,11 +155,11 @@ function Login() {
           </div>
         </div>
 
-        <div className="flex text-xs -mt-8 text-gray-400">
-          <a>아이디 찾기</a>
-          <div className="mx-2">|</div>
-          <a>비밀번호 찾기</a>
-        </div>
+        {/*<div className="flex text-xs -mt-8 text-gray-400">*/}
+        {/*  <a>아이디 찾기</a>*/}
+        {/*  <div className="mx-2">|</div>*/}
+        {/*  <a>비밀번호 찾기</a>*/}
+        {/*</div>*/}
         <div>
           <div className="flex text-xs gap-10">
             <div className="text-gray-400">아직 회원이 아니신가요?</div>
