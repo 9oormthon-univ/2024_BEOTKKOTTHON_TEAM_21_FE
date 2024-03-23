@@ -115,6 +115,19 @@ const transitionVariants = {
   exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
 };
 
+// 각 문장에 대한 fade 효과
+const sentenceVariants = {
+  hidden: { opacity: 0.5, x: -30 },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.7,
+    },
+  }),
+};
+
 function RecommendStart() {
   const navigate = useNavigate();
 
@@ -135,12 +148,26 @@ function RecommendStart() {
           <Navbar></Navbar>
           <ContextContainer>
             <TextContainer>
+              <motion.div
+                  variants={sentenceVariants}
+                  initial="hidden"
+                  animate="visible"
+                  custom={0}
+              >
               <div className="text-lg mb-2">
                 <b>센스있는 팀명을 추천</b>해드릴게요!
               </div>
-              <div className="text-sm text-gray-400">
+              </motion.div>
+              <motion.div
+                  variants={sentenceVariants}
+                  initial="hidden"
+                  animate="visible"
+                  custom={1}
+              >
+              <div className="text-sm text-black/50">
                 팀명은 언제든지 수정할 수 있어요.
               </div>
+              </motion.div>
             </TextContainer>
             <GradientContainer>
               <div className="flex flex-col items-center justify-between">

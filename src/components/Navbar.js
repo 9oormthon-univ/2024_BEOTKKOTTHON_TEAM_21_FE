@@ -40,13 +40,13 @@ const Profile2 = styled.div`
 const ProfileImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  //object-fit: cover;
 `;
 
 const ProfileImage2 = styled.img`
   width: 35px;
   height: 35px;
-  object-fit: cover;
+  //object-fit: cover;
 `;
 
 const Modal = styled.div`
