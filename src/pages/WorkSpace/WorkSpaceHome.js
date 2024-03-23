@@ -43,35 +43,37 @@ const WorkSpaceHome = () => {
 
   return (
     <>
-      <W.Background></W.Background>
-      <W.WorkSpaceHomeContainer>
-        <WorkspaceTitle />
+      <W.Background2>
+        <W.WorkSpaceHomeContainer>
+          <WorkspaceTitle />
 
-        <div className="text-center text-white py-5">
-          <div className="text-2xl font-bold mb-2">
-            {teamName}의 워크스페이스
+          <div className="text-center text-white py-5">
+            <div className="text-2xl font-bold mb-2">
+              {teamName}의 워크스페이스
+            </div>
+            <div className="text-sm">
+              자유롭게 1:1 시크릿 메세지를 보내보세요!
+            </div>
           </div>
-          <div className="text-sm">
-            자유롭게 1:1 시크릿 메세지를 보내보세요!
-          </div>
-        </div>
 
-        <W.PersonGrid>
-          {workspaceUserList.map((person) => (
-            <PersonBox
-              key={person.id}
-              person={person}
-              workspaceUUID={workspaceUUID}
-            />
-          ))}
-        </W.PersonGrid>
+          <W.PersonGrid>
+            {workspaceUserList.map((person) => (
+              <PersonBox
+                key={person.id}
+                person={person}
+                workspaceUUID={workspaceUUID}
+              />
+            ))}
+          </W.PersonGrid>
 
-        <WorkspaceBottom
-          activeItem={"home"}
-          workspaceUUID={workspaceUUID}
-          workspaceUserList={workspaceUserList}
-        />
-      </W.WorkSpaceHomeContainer>
+          <WorkspaceBottom
+            activeItem={"home"}
+            workspaceUUID={workspaceUUID}
+            workspaceUserList={workspaceUserList}
+          />
+        </W.WorkSpaceHomeContainer>
+      </W.Background2>
+      {/*<W.Background></W.Background> */}
     </>
   );
 };
