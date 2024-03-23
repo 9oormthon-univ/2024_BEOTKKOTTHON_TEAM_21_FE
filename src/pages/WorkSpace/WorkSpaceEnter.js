@@ -79,7 +79,7 @@ function WorkSpaceEnter() {
 
     } catch (error) {
       console.error("Error joining workspace:", error);
-      setJoinError("URL을 정확히 입력해주세요.");
+      setJoinError("초대코드를 정확히 입력해주세요.");
     }
   };
 
@@ -110,7 +110,7 @@ function WorkSpaceEnter() {
           <ContextInnerContainer>
             <div className="text-lg mt-5">
               <p>워크스페이스 참여를 위해</p>
-              <p>URL를 입력해주세요.</p>
+              <p>초대코드를 입력해주세요.</p>
             </div>
 
             <UrlContainer className="text-sm mx-5">
