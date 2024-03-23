@@ -249,7 +249,7 @@ export const WorkspaceTitle = () => {
 
   return (
     <div className="flex p-[20px] text-[18px] text-white">
-      <div className="flex items-center">
+      <div className="flex items-center cursor-pointer">
         <GoChevronLeft
           size={20}
           onClick={() => {
