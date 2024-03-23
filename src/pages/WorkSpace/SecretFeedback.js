@@ -128,7 +128,7 @@ const SecretFeedback = () => {
   };
 
   useEffect(() => {
-    handleChatList();
+    // handleChatList();
 
     if (stompClient) {
       // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
