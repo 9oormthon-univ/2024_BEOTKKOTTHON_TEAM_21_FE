@@ -166,7 +166,7 @@ function RecommendEnd() {
             >
               <div className="flex flex-col items-center text-sm">
                 <div>
-                  해당 <b>URL을 복사</b>하여 팀원들에게 공유해주세요!
+                  해당 <b>초대코드를 복사</b>하여 팀원들에게 공유해주세요!
                 </div>
                 <div className="flex items-center">
                   <b>{workspaceUUID}</b>

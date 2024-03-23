@@ -365,7 +365,7 @@ export const WorkspaceTitle = () => {
       </IconContainer>
       {showCopyNotification && (
         <div className="absolute top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-500 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out text-sm">
-          워크스페이스 URL 복사 완료!
+          워크스페이스 초대코드 복사 완료!
         </div>
       )}
     </div>
