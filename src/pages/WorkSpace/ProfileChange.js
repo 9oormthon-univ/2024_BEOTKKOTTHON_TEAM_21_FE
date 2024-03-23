@@ -144,13 +144,13 @@ function ProfileChange() {
 
   // 각 문장에 대한 fade 효과
   const sentenceVariants = {
-    hidden: { opacity: 0, y: -10 },
+    hidden: { opacity: 0.5, y: -10 },
     visible: (i) => ({
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.5,
-        duration: 0.9,
+        delay: i * 0.1,
+        duration: 0.7,
       },
     }),
   };

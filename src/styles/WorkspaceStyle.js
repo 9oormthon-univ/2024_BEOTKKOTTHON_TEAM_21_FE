@@ -3,6 +3,7 @@ import YellowPlusBg from "../assets/plus-yellow.png";
 //import workspaceListBg1 from "../assets/workspaceListBg1.png";
 //import workspaceListBg2 from "../assets/workspaceListBg2.png";
 import CircleBg from "../assets/CircleBg.png";
+import { motion } from "framer-motion";
 
 // 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div``;
@@ -80,11 +81,11 @@ export const Background2 = styled.div`
 */
 }
 
-export const Background2 = styled.div`
+export const Background2 = styled(motion.div)`
   background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
   height: 275px;
   width: 100%;
-  border-radius: 0 0 20% 20%;
+  border-radius: 0 0 50% 50%;
 `;
 
 export const PersonGrid = styled.div`
