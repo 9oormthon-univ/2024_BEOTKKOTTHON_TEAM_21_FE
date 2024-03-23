@@ -38,22 +38,12 @@ const BtnContainer = styled.div`
 `;
 
 const KeywordInput = styled.input`
-  /* 입력 필드에 포커스가 있을 때 placeholder 색상 변경 */
   color: black;
-  transition: color 0.1s ease;
-
-  &:focus {
-    color: #FEC533;
-    border-color: #FEC533;
-
-    &::placeholder {
-      color: #FEC533;
-      transition: color 0.2s ease;
-    }
+  transition: color 0.05s ease;
+  
+  &:focus::placeholder {
+    color: transparent;
   }
-
-  /* 에러 상태일 때의 스타일 */
-  border-color: ${(props) => (props.hasError ? "red" : "gray")};
 `;
 
 function RecommendMiddle() {
