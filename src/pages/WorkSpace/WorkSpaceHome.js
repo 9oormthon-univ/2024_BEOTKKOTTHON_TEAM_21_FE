@@ -109,7 +109,9 @@ const PersonBox = ({ person, workspaceUUID }) => {
   // --------------------------------------------
 
   const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
+    if (userUUID !== person.userUUID) {
+      setIsModalOpen(!isModalOpen); // 다른 경우에만 모달 토글
+    }
   };
 
   const EditProfile = async (person, name) => {

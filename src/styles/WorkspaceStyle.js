@@ -1,12 +1,15 @@
 import styled, { keyframes, css } from "styled-components";
 import YellowPlusBg from "../assets/plus-yellow.png";
+//import workspaceListBg1 from "../assets/workspaceListBg1.png";
+//import workspaceListBg2 from "../assets/workspaceListBg2.png";
+import CircleBg from "../assets/CircleBg.png";
 
 // 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div``;
 
 export const Background = styled.div`
   border-radius: 0 0 20% 20%;
-  background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
+  background: linear-gradient(180deg, #ffa680 0%, #ffd875 100%);
   background-size: contain;
   width: 100%;
   height: 275px;
@@ -16,7 +19,66 @@ export const Background = styled.div`
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
+  overflow: hidden;
 `;
+
+export const CircleBackground = styled.div`
+  background: url(${CircleBg});
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+`;
+
+{
+  /*
+export const Background1 = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  flex-shrink: 0;
+  background-image: url(${workspaceListBg1});
+  background-size: 50%;
+  background-repeat: no-repeat;
+`;
+*/
+}
+
+{
+  /*
+export const Background2 = styled.div`
+  width: 100%;
+  height: 100%;
+  margin-left: 200px;
+  position: absolute;
+  z-index: -1;
+  flex-shrink: 0;
+  top: 0px;
+  background-image: url(${workspaceListBg2});
+  background-size: 50%;
+  background-repeat: no-repeat;
+`;
+*/
+}
+{
+  /*
+export const Background2 = styled.div`
+  width: 100%;
+  height: 100%;
+  margin-left: 200px;
+  position: absolute;
+  z-index: -1;
+  flex-shrink: 0;
+  top: 0px;
+  background-image: url(${workspaceListBg2});
+  background-size: 50%;
+  background-repeat: no-repeat;
+`;
+
+*/
+}
 
 export const Background2 = styled.div`
   background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);

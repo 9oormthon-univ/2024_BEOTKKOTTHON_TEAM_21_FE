@@ -107,8 +107,8 @@ const WorkspaceList = () => {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.5,
-        duration: 0.7,
+        delay: i * 0.2,
+        duration: 0.9,
       },
     }),
   };
@@ -120,18 +120,24 @@ const WorkspaceList = () => {
       exit="exit"
       variants={transitionVariants}
       transition={{ type: "tween", duration: 0.8 }}
+      className="overflow-hidden"
     >
-      <div className="relative overflow-hidden">
+      <div className="relative">
         <Navbar showBackButton={false}></Navbar>
-        <W.Background></W.Background>
-        <div className="text-white text-2xl pb-11 mx-auto w-[90%] break-keep">
+        <W.Background>
+          <W.CircleBackground></W.CircleBackground>
+          {/*<W.Background1></W.Background1>*/}
+          {/*<W.Background2></W.Background2>*/}
+        </W.Background>
+
+        <div className="text-black text-xl pb-11 mx-auto w-[90%] break-keep">
           <motion.div
             variants={sentenceVariants}
             initial="hidden"
             animate="visible"
             custom={0}
           >
-            <p>
+            <p className="mb-1">
               안녕하세요. {userName}님!
               <br />
             </p>
@@ -142,7 +148,7 @@ const WorkspaceList = () => {
             animate="visible"
             custom={1}
           >
-            <p>
+            <p className="mb-1">
               오늘은 <span className="font-bold">어떤 워크스페이스</span>에
             </p>
           </motion.div>
