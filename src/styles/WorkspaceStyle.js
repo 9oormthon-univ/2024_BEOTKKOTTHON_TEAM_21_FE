@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 import YellowPlusBg from "../assets/plus-yellow.png";
-import workspaceListBg1 from "../assets/workspaceListBg1.png";
-import workspaceListBg2 from "../assets/workspaceListBg2.png";
+//import workspaceListBg1 from "../assets/workspaceListBg1.png";
+//import workspaceListBg2 from "../assets/workspaceListBg2.png";
 
 // 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div``;
@@ -18,9 +18,10 @@ export const Background = styled.div`
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
-  overflow: hidden;
+  //overflow: hidden;
 `;
-
+{
+  /*
 export const Background1 = styled.div`
   width: 100%;
   height: 100%;
@@ -31,7 +32,11 @@ export const Background1 = styled.div`
   background-size: 50%;
   background-repeat: no-repeat;
 `;
+*/
+}
 
+{
+  /*
 export const Background2 = styled.div`
   width: 100%;
   height: 100%;
@@ -43,6 +48,32 @@ export const Background2 = styled.div`
   background-image: url(${workspaceListBg2});
   background-size: 50%;
   background-repeat: no-repeat;
+`;
+*/
+}
+{
+  /*
+export const Background2 = styled.div`
+  width: 100%;
+  height: 100%;
+  margin-left: 200px;
+  position: absolute;
+  z-index: -1;
+  flex-shrink: 0;
+  top: 0px;
+  background-image: url(${workspaceListBg2});
+  background-size: 50%;
+  background-repeat: no-repeat;
+`;
+
+*/
+}
+
+export const Background2 = styled.div`
+  background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
+  height: 275px;
+  width: 100%;
+  border-radius: 0 0 20% 20%;
 `;
 
 export const PersonGrid = styled.div`
