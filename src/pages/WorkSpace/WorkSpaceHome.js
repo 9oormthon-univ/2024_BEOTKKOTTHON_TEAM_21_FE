@@ -27,8 +27,8 @@ const sentenceVariants = {
     opacity: 1,
     x: 0,
     transition: {
-      delay: i * 0.5,
-      duration: 1,
+      delay: i * 0.3,
+      duration: 0.9,
     },
   }),
 };
