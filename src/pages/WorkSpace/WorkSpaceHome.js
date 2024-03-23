@@ -91,6 +91,20 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
   const [isWorkspace, setIsWorkspace] = useState([]);
 
+  // ---------- 사용자 인식하여 편집부여 권한 ----------
+  const userUUID = localStorage.getItem("userUUID");
+  useEffect(() => {
+    console.log("person :", person);
+    console.log(person.userUUID);
+    // 로컬 스토리지의 토큰과 사용자의 userUUID를 비교하여 일치하면 버튼을 표시
+    if (userUUID === person.userUUID) {
+      setIsWorkspace(true);
+    } else {
+      setIsWorkspace(false);
+    }
+  }, [userUUID, person.userUUID]);
+  // --------------------------------------------
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -170,7 +184,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
       <W.Person key={person.id}>
         <W.PersonImg onClick={toggleModal}>
           <img className="p-5" src={person.profileImageUrl} alt="" />
-          <W.YellowPlusButton onClick={goToProfileEdit} />
+          {isWorkspace && <W.YellowPlusButton onClick={goToProfileEdit} />}
         </W.PersonImg>
 
         <div className="flex items-center justify-center">
@@ -196,13 +210,15 @@ const PersonBox = ({ person, workspaceUUID }) => {
           ) : (
             <>
               <span>{name}</span>
-              <BsPencil
-                onClick={() => {
-                  setIsEdit(true);
-                }}
-                size={13}
-                className="ml-2"
-              />
+              {isWorkspace && (
+                <BsPencil
+                  onClick={() => {
+                    setIsEdit(true);
+                  }}
+                  size={13}
+                  className="ml-2"
+                />
+              )}
             </>
           )}
         </div>
