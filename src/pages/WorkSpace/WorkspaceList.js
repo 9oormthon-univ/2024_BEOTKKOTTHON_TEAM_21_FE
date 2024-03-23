@@ -21,11 +21,17 @@ const WorkspaceList = () => {
     >
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style={{ stopColor: "#FFD875" }} />
-          <stop offset="100%" style={{ stopColor: "#FFA680" }} />
+          <stop offset="0%" style={{ stopColor: "#ffffff" }} />
+          <stop offset="100%" style={{ stopColor: "#ffffff" }} />
         </linearGradient>
+
+        {/* <rect x="0" y="0" width="40" height="40" fill="white" /> */}
       </defs>
-      <FaCirclePlus className="plusStyle" size={40} />
+      <FaCirclePlus
+        className="plusStyle"
+        size={40}
+        style={{ color: "white" }}
+      />
     </svg>
   );
 
@@ -149,7 +155,7 @@ const WorkspaceList = () => {
             <p>입장할까요?</p>
           </motion.div>
         </div>
-        <div className="w-[375px] relative">
+        <div className="w-[350px] relative">
           <button
             onClick={() => {
               setPlusToggle(!plusToggle);
