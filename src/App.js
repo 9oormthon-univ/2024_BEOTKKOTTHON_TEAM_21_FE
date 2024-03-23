@@ -59,7 +59,6 @@ function App() {
               path="/secretfeedback/:chatRoomId"
               element={<SecretFeedback />}
             />
-            <Route path="/todo/:workspaceUUID" element={<WorkspaceTodo />} />
             <Route path="/addGroupChat/:workspaceUUID" element={<AddGroupChat />} />
             <Route path="/profilechange" element={<ProfileChange />} />
             <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
@@ -69,6 +68,8 @@ function App() {
             <Route path="/recommendmiddle" element={<RecommendMiddle />} />
             <Route path="/recommendchoose" element={<RecommendChoose />} />
             <Route path="/recommendend" element={<RecommendEnd />} />
+            <Route path="/todo/:workspaceUUID" element={<WorkspaceTodo />} />
+            {/* <Route path="/todo/:workspaceUUID" element={<Todo />} /> */}
           </Routes>
         </AnimatePresence>
       </Router>

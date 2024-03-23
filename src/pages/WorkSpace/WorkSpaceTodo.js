@@ -8,70 +8,20 @@ import * as T from "../../styles/Todo";
 import { useNavigate, useParams } from "react-router-dom";
 import { images } from "./../../utils/images";
 import axios from "axios";
+import CompleteTodo from "../Todo/CompleteTodo";
+import TeamTodo from "../Todo/TeamTodo";
+import MyTodo from "../Todo/MyTodo";
 
 const WorkspaceTodo = () => {
   // 0 -> MYTODO / 1 -> TEAM / 2-> 완료
   const [todoState, SetToDoState] = useState(0);
   const { workspaceUUID } = useParams();
-  const [sendData, setSendData] = useState();
-  const [receivedData, setReceivedData] = useState();
 
   const toggleToDoState = (state) => {
     SetToDoState(state); // todoState 상태 변경
   };
 
-  useEffect(() => {
-    const ShowTodo = async () => {
-      const authToken = localStorage.getItem("authToken");
-
-      const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}/todo`, {
-        params: {
-          workspaceUUID: workspaceUUID,
-        },
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-
-      console.log(response.data);
-
-      //   try {
-      //     if (todoState === 0) {
-      //       console.log("받은 피드백");
-      //       const response = await axios.get("http://3.35.236.118:8080/chatRoom/received", {
-      //         params: {
-      //           workspaceUUID: workspaceUUID,
-      //         },
-      //         headers: {
-      //           Authorization: `Bearer ${authToken}`,
-      //         },
-      //       });
-      //       const ReceivedData = response.data.data;
-      //       setReceivedData(ReceivedData);
-      //       console.log("receivedData", receivedData);
-      //     } else if (todoState === 1) {
-      //       console.log("보낸 피드백");
-      //       const response = await axios.get("http://3.35.236.118:8080/chatRoom/sent", {
-      //         params: {
-      //           workspaceUUID: workspaceUUID,
-      //         },
-      //         headers: {
-      //           Authorization: `Bearer ${authToken}`,
-      //         },
-      //       });
-      //       const SendData = response.data.data;
-      //       setSendData(SendData);
-      //       console.log("sendData", sendData);
-      //     } else if (todoState === 2) {
-      //       // 새로운 상태에 따른 처리
-      //       console.log(2);
-      //     }
-      //   } catch (error) {
-      //     console.error(error);
-      //   }
-    };
-    ShowTodo();
-  }, [todoState, WorkspaceBottom]);
+  
 
   return (
     <div className="relative">
@@ -83,18 +33,14 @@ const WorkspaceTodo = () => {
 
       {/* 투두 리스트 */}
       {todoState === 0 ? (
-        // 받은 피드백
-        <F.ReceiveFeedBack>
-          <div>hi! This is todolist page</div>
-        </F.ReceiveFeedBack>
+        // my todo
+        <MyTodo workspaceUUID={workspaceUUID} />
       ) : todoState === 1 ? (
-        // 보낸 피드백
-        <F.SendFeedBack>
-          <div>hi! This is todolist2 page</div>
-        </F.SendFeedBack>
+        // team todo
+        <TeamTodo workspaceUUID={workspaceUUID} />
       ) : (
-        // 새로운 상태에 따른 화면 처리
-        <div>투두 완료리스트 페이지</div>
+        // 완료
+        <CompleteTodo workspaceUUID={workspaceUUID} />
       )}
 
       <WorkspaceBottom activeItem={"todo"} workspaceUUID={workspaceUUID} />

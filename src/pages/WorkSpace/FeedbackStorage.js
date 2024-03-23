@@ -58,7 +58,6 @@ const FeedbackStorage = () => {
   useEffect(() => {
     console.log('sendData', sendData);
   }, [sendData]);
-  
 
   return (
     <div className='relative'>
