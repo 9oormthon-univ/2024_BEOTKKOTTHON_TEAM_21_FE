@@ -8,7 +8,7 @@ export const Background = styled.div`
   border-radius: 0 0 20% 20%;
   background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
   background-size: contain;
-  width: 375px;
+  width: 100%;
   height: 275px;
   position: absolute;
   z-index: -1;
@@ -16,6 +16,13 @@ export const Background = styled.div`
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
+`;
+
+export const Background2 = styled.div`
+  background: linear-gradient(180deg, #ffd875 0%, #ffa680 100%);
+  height: 275px;
+  width: 100%;
+  border-radius: 0 0 20% 20%;
 `;
 
 export const PersonGrid = styled.div`
