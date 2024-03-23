@@ -62,15 +62,15 @@ const NewDivContainer = styled.div`
 
 // 프로필 이미지 9개 url
 const profileImageUrls = [
-  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage1.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage2.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage3.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage4.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage1.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage5.png",
-  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage6.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage7.png",
-  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage8.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage9.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage6.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage8.png",
 ];
 
 const ProfileContainer = styled.div`
@@ -82,15 +82,17 @@ const ProfileCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 100%;
-  flex-shrink: 0;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
+  //border-radius: 100%;
+  border: none;
+  //border-radius: 100%;
+  //flex-shrink: 0;
+  //box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  //cursor: pointer;
 `;
 
 const CheckIcon = styled.svg`
@@ -107,6 +109,18 @@ const ProfileinnerText = styled.div`
 const BtnContainer = styled.div`
   /*width: 311px;*/
   height: 10vh;
+`;
+
+const Btn = styled.button`
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  flex-shrink: 0;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  fill: #fff;
+  stroke-width: 1px;
+  stroke: #d7d7d7;
 `;
 
 // 화면 전환 효과
@@ -202,11 +216,9 @@ function SignUp() {
     const value = e.target.value;
     setPassword(value);
     // 비밀번호가 유효하지 않을 경우 오류 메시지 표시
-    if (
-      !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,20})/)
-    ) {
+    if (!value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*()])(?=.{8,20})/)) {
       setPasswordError(
-        "숫자, 대문자, 소문자, 특수문자를 최소 1개 이상 포함하여 8글자 이상 작성해주세요."
+        "숫자, 소문자, 특수문자 각 1개 이상 포함하여 8글자 이상<br />(특수문자는 !@#$%^&*() 만 허용됩니다.)"
       );
     } else {
       setPasswordError(""); // 오류 메시지 초기화
@@ -230,12 +242,10 @@ function SignUp() {
     if (!id.trim()) {
       setIdError("아이디를 입력해주세요.");
     } else if (
-      !password.match(
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,20})/
-      )
+      !password.match(/^(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*()])(?=.{8,20})/)
     ) {
       setPasswordError(
-        "숫자, 대문자, 소문자, 특수문자를 최소 1개 이상 포함하여 8글자 이상 작성해주세요."
+        "숫자, 소문자, 특수문자를 최소 1개 이상 포함하여 8글자 이상 작성해주세요."
       );
     } else if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
       setEmailError("이메일 형식(@.com)으로 입력해주세요.");
@@ -423,7 +433,14 @@ function SignUp() {
                         />
                         {passwordError && (
                           <span className="text-red-500 text-xs h-2">
-                            {passwordError}
+                            {passwordError
+                              .split("<br />")
+                              .map((line, index) => (
+                                <span key={index}>
+                                  {line}
+                                  <br />
+                                </span>
+                              ))}
                           </span>
                         )}
                       </div>
@@ -586,15 +603,16 @@ function SignUp() {
                   <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center hover:origin-top">
                     {/* 각 버튼별 선택된 이미지 저장 및 아이콘 어둡게 작업 필요*/}
                     {profileid.map((index) => (
-                      <button
+                      <Btn
                         key={index}
                         onClick={() => handleButtonClick(index)}
-                        className="hover:animate-bounce"
+                        className="hover:animate-bounce flex justify-center items-center"
                       >
                         <ProfileCircle
                           isSelected={selectedButtonIndex === index}
                           style={{
                             backgroundImage: `url(${profileImageUrls[index]})`,
+                            backgroundSize: "contain",
                           }}
                         >
                           {selectedButtonIndex === index && (
@@ -616,7 +634,7 @@ function SignUp() {
                             프로필 {index + 1}
                           </ProfileinnerText> */}
                         </ProfileCircle>
-                      </button>
+                      </Btn>
                     ))}
                   </div>
                   {/* <button

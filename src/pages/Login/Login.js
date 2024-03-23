@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
 import logoImage from "../../assets/logo.png";
+import logoImage2 from "../../assets/Logo2.png";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -17,6 +18,16 @@ const Logo = styled.div`
   width: 202px;
   height: 100px;
   background-image: url(${logoImage});
+
+  background-size: contain; /* 100x100으로 크기 조정 */
+  background-repeat: no-repeat;
+  background-position: center;
+`;
+
+const Logo2 = styled.div`
+  width: 202px;
+  height: 100px;
+  background-image: url(${logoImage2});
 
   background-size: contain; /* 100x100으로 크기 조정 */
   background-repeat: no-repeat;
@@ -76,10 +87,13 @@ function Login() {
       //   loginId: username,
       //   password: password,
       // });
-      const response = await axios.post("http://3.35.236.118:8080/api/auth/signIn", {
-        loginId: username,
-        password: password,
-      });
+      const response = await axios.post(
+        "http://3.35.236.118:8080/api/auth/signIn",
+        {
+          loginId: username,
+          password: password,
+        }
+      );
       console.log("Response:", response.data);
       // 로그인 토큰 저장 및 유저UUID 저장
       const { authToken, userUUID } = response.data.data;
@@ -99,8 +113,10 @@ function Login() {
     <div className="App">
       <LoginContainer>
         {/* <div className="max-content w-20 h-20 bg-gray-200"></div> */}
-        <div className="flex justify-center items-center -mb-10 animate-bounce">
-          <Logo></Logo>
+        <div className="flex justify-center items-center -mb-10">
+          {" "}
+          {/* animate-bounce 삭제*/}
+          <Logo2></Logo2>
         </div>
         <div className="flex flex-col  justify-center items-center my-5 gap-10 text-sm w-2/3">
           <div className="w-full">

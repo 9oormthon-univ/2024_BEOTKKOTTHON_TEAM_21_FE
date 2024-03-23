@@ -72,13 +72,15 @@ const ProfileCircle = styled.div`
   align-items: center;
   height: 80px;
   width: 80px;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 100%;
-  flex-shrink: 0;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
+  //border-radius: 100%;
+  border: none;
+  //border-radius: 100%;
+  //flex-shrink: 0;
+  //box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  //cursor: pointer;
 `;
 
 const CheckIcon = styled.svg`
@@ -91,6 +93,18 @@ const CheckIcon = styled.svg`
 const BtnContainer = styled.div`
   /*width: 311px;*/
   height: 10vh;
+`;
+
+const Btn = styled.button`
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  flex-shrink: 0;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  fill: #fff;
+  stroke-width: 1px;
+  stroke: #d7d7d7;
 `;
 
 function ProfileChange() {
@@ -214,15 +228,16 @@ function ProfileChange() {
               <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center hover:origin-top">
                 {/* 각 버튼별 선택된 이미지 저장 및 아이콘 어둡게 작업 필요*/}
                 {profileid.map((index) => (
-                  <button
+                  <Btn
                     key={index}
                     onClick={() => handleButtonClick(index)}
-                    className="hover:animate-bounce"
+                    className="hover:animate-bounce flex justify-center items-center"
                   >
                     <ProfileCircle
                       isSelected={selectedButtonIndex === index}
                       style={{
                         backgroundImage: `url(${profileImageUrls[index]})`,
+                        backgroundSize: "contain",
                       }}
                     >
                       {selectedButtonIndex === index && (
@@ -238,8 +253,13 @@ function ProfileChange() {
                           />
                         </CheckIcon>
                       )}
+                      {/*<ProfileinnerText
+                      isSelected={selectedButtonIndex === index}
+                    >
+                      프로필 {index + 1}
+                    </ProfileinnerText> */}
                     </ProfileCircle>
-                  </button>
+                  </Btn>
                 ))}
               </div>
               <BtnContainer className="mb-5">

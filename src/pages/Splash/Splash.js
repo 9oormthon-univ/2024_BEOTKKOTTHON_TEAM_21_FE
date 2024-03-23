@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import logoImage from "../../assets/logo.png";
-import Bg from "../../assets/SplashBg0.png";
+// import logoImage from "../../assets/logo.png";
+// import Bg from "../../assets/SplashBg0.png";
+import Logo from "../../assets/Logo3.png";
+import WaveBg from "../../assets/WaveBg3x.png";
+import Circle1 from "../../assets/Circle1.png";
+import Circle2 from "../../assets/Circle2.png";
+import Circle3 from "../../assets/Circle3.png";
+import Circle4 from "../../assets/Circle4.png";
 
 const SplashContainer = styled.div`
   display: flex;
@@ -12,23 +18,94 @@ const SplashContainer = styled.div`
   min-height: 100vh;
   font-family: "Pretendard";
 
-  background: url(${Bg});
+  background: url(${WaveBg});
   background-size: cover;
   background-position: center;
-`;
 
-const Logo = styled.div`
-  width: 239px;
-  height: 79px;
-  z-index: 999;
-  flex-shrink: 0;
-  background-image: url(${logoImage});
+  z-index: -1;
 `;
 
 const SplashWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100vh; /* Set the height to fill the viewport */
+  overflow: hidden;
+`;
+
+const LogoImg = styled.div`
+  width: 225px;
+  height: 250px;
+  z-index: 999;
+  flex-shrink: 0;
+  background-image: url(${Logo});
+  background-size: cover;
+  background-position: center;
+
+  z-index: 10;
+`;
+
+const CircleContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+  right: 0; /* 화면의 오른쪽으로 정렬 */
+`;
+
+const Circle1Img = styled.div`
+  width: 120px;
+  height: 170px;
+  background-image: url(${Circle1});
+  background-size: cover;
+  background-position: center;
+
+  z-index: 5;
+  align-self: flex-end; /* 화면의 오른쪽에 정렬 */
+  bottom: 0;
+  position: absolute;
+`;
+
+const Circle2Img = styled.div`
+  width: 180px;
+  height: 310px;
+  background-image: url(${Circle2});
+  background-size: cover;
+  background-position: center;
+
+  z-index: 5;
+  align-self: flex-start; /* 화면의 왼쪽에 정렬 */
+  top: 55%;
+  position: absolute;
+`;
+
+const Circle3Img = styled.div`
+  width: 110px;
+  height: 160px;
+  background-image: url(${Circle3});
+  background-size: cover;
+  background-position: center;
+
+  z-index: 5;
+  align-self: flex-end; /* 화면의 오른쪽에 정렬 */
+  top: 15%;
+  position: absolute;
+`;
+
+const Circle4Img = styled.div`
+  width: 170px;
+  height: 179px;
+  background-image: url(${Circle4});
+  background-size: cover;
+  background-position: center;
+
+  z-index: 5;
+  align-self: flex-start; /* 화면의 왼쪽에 정렬 */
+  top: 0;
+  position: absolute;
 `;
 
 const Wavestyle = styled.div`
@@ -41,6 +118,14 @@ function Splash() {
   return (
     <SplashWrapper className="App font-bold">
       <SplashContainer>
+        <LogoImg></LogoImg>
+        <CircleContainer>
+          <Circle4Img></Circle4Img>
+          <Circle3Img></Circle3Img>
+          <Circle2Img></Circle2Img>
+          <Circle1Img></Circle1Img>
+        </CircleContainer>
+
         {/* <SplashLogo></SplashLogo>
         <SplashText>LOGO</SplashText> */}
         {/* <Logo></Logo>
