@@ -70,6 +70,21 @@ const FeedbackStorage = () => {
         {feedbackState === true ? '받은 피드백' : '보낸 피드백'}
       </F.ReceiveBtn>
 
+      {/* 단체 채팅방 구현 중단 ... */}
+      {/* <F.FeedbackContainer onClick={ ()=>{ console.log('단체 채팅방 입장') } }>
+      <F.FeedbackImg>
+        <F.StyledImg src={images.unKnown} alt='img' />
+      </F.FeedbackImg>
+
+      <F.FeedbackContent>
+        <div className='flex items-center mb-1'>
+          <div>단체 채팅방</div>
+          <div className='text-[#acacac] text-[12px] ml-2'>시간</div>
+        </div>
+        <div className='text-[#acacac] text-[15px] text-start'>내용</div>
+      </F.FeedbackContent>
+    </F.FeedbackContainer> */}
+
       {/* 피드백 리스트 */}
       {feedbackState === true ?
       // 받은 피드백

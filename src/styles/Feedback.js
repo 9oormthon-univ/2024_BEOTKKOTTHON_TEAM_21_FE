@@ -46,11 +46,11 @@ export const SendFeedBack = styled.div`
   `
 export const ReceiveBtn = styled.button`
   width: 100px;
-  height: 30px;
+  height: 35px;
   flex-shrink: 0;
   color: white;
   position: absolute;
-  top: 55px;
+  top: 50px;
   right: 20px;
   
   ${props => props.active === true
