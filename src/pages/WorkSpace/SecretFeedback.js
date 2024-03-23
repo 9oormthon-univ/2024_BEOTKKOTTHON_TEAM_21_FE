@@ -47,7 +47,7 @@ const SecretFeedback = () => {
   const getUserId = async () => {
     const authToken = localStorage.getItem("authToken");
     try {
-      const response = await axios.get("/users", {
+      const response = await axios.get("http://3.35.236.118:8080/users", {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -68,6 +68,8 @@ const SecretFeedback = () => {
       console.log("Connected: " + frame);
       setStompClient(stomp); // stomp 클라이언트 상태 저장
       console.log(stompClient, "클라이언트 상태");
+      console.log(saveMessages, '수신 SENDERID ㅠㅠ', senderId);
+      console.log(`오는거 :${saveMessages.senderId} , 유저ID: ${senderId}`)
     }, []);
   };
   
@@ -86,6 +88,7 @@ const SecretFeedback = () => {
 
   // 메세지 수신
   const handleMessage = (message) => {
+    console.log('이 콜백함수가 실행이 안되는 것 같은데?')
     setSaveMessages((prevMessages) => [
       ...prevMessages,
       { content: message.body, senderId: "other" },
