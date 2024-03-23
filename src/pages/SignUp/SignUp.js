@@ -62,15 +62,15 @@ const NewDivContainer = styled.div`
 
 // 프로필 이미지 9개 url
 const profileImageUrls = [
-  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage1.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage2.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage3.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage4.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage1.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage5.png",
-  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage6.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage7.png",
-  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage8.png",
   "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage9.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage6.png",
+  "https://teamkrewsbucket.s3.ap-northeast-2.amazonaws.com/TeamKrewsProfileImage/TeamKewsProfileImage8.png",
 ];
 
 const ProfileContainer = styled.div`
@@ -82,15 +82,17 @@ const ProfileCircle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  width: 100px;
+  height: 80px;
+  width: 80px;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 100%;
-  flex-shrink: 0;
-  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
+  //border-radius: 100%;
+  border: none;
+  //border-radius: 100%;
+  //flex-shrink: 0;
+  //box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  //cursor: pointer;
 `;
 
 const CheckIcon = styled.svg`
@@ -107,6 +109,18 @@ const ProfileinnerText = styled.div`
 const BtnContainer = styled.div`
   /*width: 311px;*/
   height: 10vh;
+`;
+
+const Btn = styled.button`
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  flex-shrink: 0;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  fill: #fff;
+  stroke-width: 1px;
+  stroke: #d7d7d7;
 `;
 
 // 화면 전환 효과
@@ -589,15 +603,16 @@ function SignUp() {
                   <div className="mt-5 h-full grid grid-cols-3 gap-x-5 items-center justify-items-center hover:origin-top">
                     {/* 각 버튼별 선택된 이미지 저장 및 아이콘 어둡게 작업 필요*/}
                     {profileid.map((index) => (
-                      <button
+                      <Btn
                         key={index}
                         onClick={() => handleButtonClick(index)}
-                        className="hover:animate-bounce"
+                        className="hover:animate-bounce flex justify-center items-center"
                       >
                         <ProfileCircle
                           isSelected={selectedButtonIndex === index}
                           style={{
                             backgroundImage: `url(${profileImageUrls[index]})`,
+                            backgroundSize: "contain",
                           }}
                         >
                           {selectedButtonIndex === index && (
@@ -619,7 +634,7 @@ function SignUp() {
                             프로필 {index + 1}
                           </ProfileinnerText> */}
                         </ProfileCircle>
-                      </button>
+                      </Btn>
                     ))}
                   </div>
                   {/* <button
