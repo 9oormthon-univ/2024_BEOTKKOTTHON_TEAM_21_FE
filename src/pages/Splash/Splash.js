@@ -29,6 +29,7 @@ const SplashWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100vh; /* Set the height to fill the viewport */
+  overflow: hidden;
 `;
 
 const LogoImg = styled.div`
