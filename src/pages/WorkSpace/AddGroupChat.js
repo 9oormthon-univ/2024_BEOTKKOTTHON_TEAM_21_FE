@@ -11,6 +11,7 @@ const AddGroupChat = () => {
   const { workspaceUUID } = useParams();
   const [workspaceUserList, setWorkspaceUserList] = useState([]);
   const [teamName, setTeamName] = useState("");
+  const [collectUserId, setCollectUserId] = useState([]);
 
   // 워크스페이스 참여
   useEffect(() => {
@@ -27,7 +28,6 @@ const AddGroupChat = () => {
         const workspaceUserList = data.userInfoResponseList;
         setTeamName(teamName);
         setWorkspaceUserList(workspaceUserList);
-        console.log(workspaceUserList);
       } catch (error) {
         console.error(error);
       }
@@ -53,17 +53,39 @@ const AddGroupChat = () => {
         <W.PersonGrid>
           {workspaceUserList.map((person) => (
             // 단체 채팅방 개설할 팀원 선택 btn
-            <button 
+            <W.PersonSelectEffect 
+              isSelected={collectUserId.includes(person.id)}
               className="w-1/2 mb-5"
-              onClick={()=>{console.log('선택')}}>
+              onClick={() => {
+                // 단체 채팅방 개설한 팀원 선택된 배열
+                setCollectUserId((prevIds) => {
+                  if (prevIds.includes(person.id)) {
+                    // 이미 배열에 포함된 경우 해당 아이디 제거
+                    return prevIds.filter((id) => id !== person.id);
+                  } else {
+                    // 배열에 포함되지 않은 경우 해당 아이디 추가
+                    return [...prevIds, person.id];
+                  }
+                });
+              }}
+              >
               <PersonBox
                 key={person.id}
                 person={person}
                 workspaceUUID={workspaceUUID}
+                collectUserId={collectUserId}
               />
-            </button>
+            </W.PersonSelectEffect>
           ))}
         </W.PersonGrid>
+
+        <div className="w-full">
+          <W.AddGroupBtn 
+            onClick={()=>{console.log('생성하기 클릭 ')}}>
+              단체 채팅방 생성하기
+          </W.AddGroupBtn>
+        </div>
+
 
         <WorkspaceBottom
           activeItem={"chat"}
@@ -78,7 +100,7 @@ const AddGroupChat = () => {
 export default AddGroupChat;
 
 
-const PersonBox = ({ person, workspaceUUID }) => {
+const PersonBox = ({ person, workspaceUUID, collectUserId }) => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달창 토글
   const [isEdit, setIsEdit] = useState(false); // 이름 편집 토글
@@ -127,13 +149,14 @@ const PersonBox = ({ person, workspaceUUID }) => {
     }
   };
 
-  const OneToOneChat = async (person) => {
+  // 생성하러 가기에 함수 추가
+  const GroupChat = async (person) => {
     const authToken = localStorage.getItem("authToken");
 
     try {
       const response = await axios.post(`http://3.35.236.118:8080/chatRoom`, {
           workspaceUUID: workspaceUUID,
-          userIds: [person.id],
+          userIds: collectUserId,
         },
         {
           headers: {
