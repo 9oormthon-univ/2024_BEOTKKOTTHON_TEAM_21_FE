@@ -2,6 +2,7 @@ import styled, { keyframes } from "styled-components";
 import YellowPlusBg from "../assets/plus-yellow.png";
 //import workspaceListBg1 from "../assets/workspaceListBg1.png";
 //import workspaceListBg2 from "../assets/workspaceListBg2.png";
+import CircleBg from "../assets/CircleBg.png";
 
 // 워크스페이스 홈
 export const WorkSpaceHomeContainer = styled.div``;
@@ -18,8 +19,18 @@ export const Background = styled.div`
   top: 0;
   left: 50%;
   transform: translate(-50%, 0);
-  //overflow: hidden;
+  overflow: hidden;
 `;
+
+export const CircleBackground = styled.div`
+  background: url(${CircleBg});
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+`;
+
 {
   /*
 export const Background1 = styled.div`

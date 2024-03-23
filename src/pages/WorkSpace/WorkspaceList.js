@@ -122,9 +122,10 @@ const WorkspaceList = () => {
       transition={{ type: "tween", duration: 0.8 }}
       className="overflow-hidden"
     >
-      <div className="relative overflow-hidden">
+      <div className="relative">
         <Navbar showBackButton={false}></Navbar>
         <W.Background>
+          <W.CircleBackground></W.CircleBackground>
           {/*<W.Background1></W.Background1>*/}
           {/*<W.Background2></W.Background2>*/}
         </W.Background>
