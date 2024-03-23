@@ -133,7 +133,6 @@ const WorkspaceList = () => {
       exit="exit"
       variants={transitionVariants}
       transition={{ type: "tween", duration: 0.8 }}
-      className="overflow-hidden"
     >
       <div className="relative">
         <Navbar showBackButton={false}></Navbar>
