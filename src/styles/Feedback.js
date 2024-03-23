@@ -21,6 +21,7 @@ export const FeedbackImg = styled.div`
   margin-right: 15px;
 `
 export const StyledImg = styled.img`
+  padding: 8px;
   width: 70px;
   height: 70px;
   border-radius: 50%;

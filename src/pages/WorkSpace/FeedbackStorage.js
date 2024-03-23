@@ -12,8 +12,8 @@ const FeedbackStorage = () => {
   // true > 받은 피드백 / false > 보낸 피드백
   const [feedbackState, SetFeedbackState] = useState(true);
   const { workspaceUUID } = useParams();
-  const [sendData, setSendData] = useState();
-  const [receivedData, setReceivedData] = useState();
+  const [sendData, setSendData] = useState([]);
+  const [receivedData, setReceivedData] = useState([]);
 
   useEffect(()=>{
     const ShowFeedBack = async () => {
@@ -30,7 +30,8 @@ const FeedbackStorage = () => {
               Authorization: `Bearer ${authToken}`,
             }
           });
-          const ReceivedData = response.data.data;
+          const ReceivedData = response.data.data.chatRooms;
+          console.log(ReceivedData)
           setReceivedData(ReceivedData);
           console.log('receivedData', receivedData);
         } else {
@@ -43,9 +44,8 @@ const FeedbackStorage = () => {
               Authorization: `Bearer ${authToken}`,
             }
           });
-          const SendData = response.data.data;
+          const SendData = response.data.data.chatRooms;
           setSendData(SendData);
-          console.log('sendData', sendData);
         }
       } catch (error) {
           console.error(error);
@@ -53,6 +53,12 @@ const FeedbackStorage = () => {
     }
     ShowFeedBack();
   }, [feedbackState, WorkspaceBottom])
+
+  // 테스트 코드
+  useEffect(() => {
+    console.log('sendData', sendData);
+  }, [sendData]);
+  
 
   return (
     <div className='relative'>
@@ -120,12 +126,12 @@ export const Feedback = (props) => {
   return (
     <F.FeedbackContainer onClick={ ()=>{ HandleChatRoom(props) } }>
       <F.FeedbackImg>
-        <F.StyledImg src={props.data.targetUser.profileImageUrl} alt='img' active={props.receive}/>
+        <F.StyledImg src={props.receive ? images.unKnown : props.data.targetUser.profileImageUrl} alt='img' active={props.receive}/>
       </F.FeedbackImg>
 
       <F.FeedbackContent>
         <div className='flex items-center mb-1'>
-          <div>{props.data.targetUser.nickName}</div>
+          <div>{props.receive ? '익명' : props.data.targetUser.nickName}</div>
           <div className='text-[#acacac] text-[12px] ml-2'>{props.data.chatRoomId}</div>
         </div>
         <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>
