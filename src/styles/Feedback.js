@@ -88,7 +88,7 @@ export const sendChat = styled.div`
 border-radius: 18px 18px 0px 18px;
 background: #FFD875;
 padding: 10px;
-margin: 7px 15px;
+margin: 7px 7px 7px 4px;
 `
 
 export const ReceiveChat = styled.div`
@@ -96,6 +96,6 @@ border-radius: 18px 18px 18px 0px;
 border: 1px solid #D7D7D7;
 padding: 10px;
 background: #FFF;
-margin: 7px 15px;
+margin: 7px 4px 7px 7px;
 
 `
