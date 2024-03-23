@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import axios from "axios";
+import { motion } from "framer-motion";
 import logoImage from "../../assets/logo.png";
 import logoImage2 from "../../assets/Logo2.png";
 
@@ -33,6 +34,14 @@ const Logo2 = styled.div`
   background-repeat: no-repeat;
   background-position: center;
 `;
+
+// 화면 전환 효과
+const transitionVariants = {
+  initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
+  enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+  slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+  exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
 
 function Login() {
   const navigate = useNavigate();
@@ -111,6 +120,13 @@ function Login() {
 
   return (
     <div className="App">
+      <motion.div
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={transitionVariants}
+          transition={{ type: "tween", duration: 0.5 }}
+      >
       <LoginContainer>
         {/* <div className="max-content w-20 h-20 bg-gray-200"></div> */}
         <div className="flex justify-center items-center -mb-10">
@@ -172,6 +188,7 @@ function Login() {
           </div>
         </div>
       </LoginContainer>
+      </motion.div>
     </div>
   );
 }
