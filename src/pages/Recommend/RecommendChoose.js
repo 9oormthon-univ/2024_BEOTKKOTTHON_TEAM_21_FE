@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
+import { motion } from "framer-motion";
 import axios from "axios";
 
 const Container = styled.div`
@@ -20,11 +21,11 @@ const ContextContainer = styled.div`
   width: 100%;
   min-height: 90vh;
 
-  position: relative; /* Add relative positioning */
-  z-index: 10; /* Ensure content is above GradientContainer */
+  position: relative;
+  z-index: 10;
 `;
 
-const GradientContainer = styled.div`
+const GradientContainer = styled(motion.div)`
   position: absolute;
   bottom: 0;
   display: flex;
@@ -75,6 +76,47 @@ const BtnContainer = styled.div`
   width: 311px;
   height: 10vh;
 `;
+
+// 화면 전환 효과
+const transitionVariants = {
+  initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
+  enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+  slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+  exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
+
+// 각 문장에 대한 fade 효과
+const sentenceVariants = {
+  hidden: { opacity: 0.5, x: -30 },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.7,
+    },
+  }),
+};
+
+// 아래 그라데이션 컨테이너 바운스 효과
+const containerVariants = {
+  hidden: {
+    y: '100vh',
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 80,
+      damping: 20,
+      mass: 1,
+      duration: 1.3,
+    }
+  }
+};
+
 
 function RecommendChoose() {
   // mockdata
@@ -158,18 +200,43 @@ function RecommendChoose() {
 
   return (
     <div className="App">
+      <motion.div
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={transitionVariants}
+          transition={{ type: "tween", duration: 0.8 }}
+      >
       <Container>
         <Navbar></Navbar>
         <ContextContainer>
           {/* 만약 팀 이름 생성하는데 시간이 걸린다면,
         아래 팀추천 화면을 기다리면서 대체할 화면 필요*/}
           <TextContainer>
+            <motion.div
+                variants={sentenceVariants}
+                initial="hidden"
+                animate="visible"
+                custom={0}
+            >
             <div className="text-lg mb-2">이런 팀명은 어떠세요?</div>
+            </motion.div>
+            <motion.div
+                variants={sentenceVariants}
+                initial="hidden"
+                animate="visible"
+                custom={1}
+            >
             <div className="text-sm text-gray-400">
               팀명은 언제든지 수정할 수 있어요.
             </div>
+            </motion.div>
           </TextContainer>
-          <GradientContainer>
+          <GradientContainer
+              initial="hidden"
+              animate="visible"
+              variants={containerVariants}
+          >
             <div className="mt-8 flex flex-col items-center justify-between">
               <CardContainer className="grid grid-cols-2 gap-5">
                 {teamNames.map((teamName, index) => (
@@ -211,6 +278,7 @@ function RecommendChoose() {
           </GradientContainer>
         </ContextContainer>
       </Container>
+      </motion.div>
     </div>
   );
 }
