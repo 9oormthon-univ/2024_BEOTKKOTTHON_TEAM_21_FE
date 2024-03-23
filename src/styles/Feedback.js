@@ -13,12 +13,12 @@ export const FeedbackContainer = styled.button`
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 10px 10px 10px 30px;
+  padding: 10px 20px;
   border-bottom: 1px solid #d7d7d7;
 `
 export const FeedbackImg = styled.div`
   width: 20%;
-  margin-right: 15px;
+  margin-right: 10px;
 `
 export const StyledImg = styled.img`
   padding: 8px;
@@ -28,6 +28,7 @@ export const StyledImg = styled.img`
   border: 2px solid ${props => props.active ? '#FEC533' : '#FFA680'};
   `
 export const FeedbackContent = styled.div`
+  width: 65%;
   display: flex;
   flex-direction: column;
   flex-grow: 1;

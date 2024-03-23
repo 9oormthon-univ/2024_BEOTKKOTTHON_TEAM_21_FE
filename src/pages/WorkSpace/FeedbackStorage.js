@@ -130,6 +130,7 @@ export const Feedback = (props) => {
   const person = {
     nickName: props.data.targetUsers?.userInfoList[0]?.nickName,
     profileImageUrl: props.data.targetUsers?.userInfoList[0]?.profileImageUrl,
+    chatRoomUserId: props.data.chatRoomUserId,
   }
   
   const HandleChatRoom = (props) => {
@@ -148,8 +149,9 @@ export const Feedback = (props) => {
           <div>{props.receive ? '익명' : person.nickName }</div>
           <div className='text-[#acacac] text-[12px] ml-2'>{props.data.lastMessage?.dateTime}</div>
         </div>
-        <div className='text-[#acacac] text-[15px] text-start'>{props.data.lastMessage?.content}</div>
+        <div className='text-[#acacac] text-[15px] text-start w-[85%] truncate '>{props.data.lastMessage?.content}</div>
       </F.FeedbackContent>
+      {props.data.isNew && <div className='w-[10px] h-[10px] rounded-2xl bg-[red]'></div>}
     </F.FeedbackContainer>
   )
 }
