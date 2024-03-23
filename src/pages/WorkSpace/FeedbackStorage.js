@@ -66,7 +66,6 @@ const FeedbackStorage = () => {
   useEffect(() => {
     console.log('sendData', sendData);
   }, [sendData]);
-  
 
   return (
     <div className='relative'>
@@ -104,7 +103,7 @@ const FeedbackStorage = () => {
       {feedbackState === true ?
       // 받은 피드백
       <F.ReceiveFeedBack>
-        {receivedData && receivedData.slice().reverse().map((data)=> {
+        {receivedData && receivedData.map((data)=> {
           return(
             <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
           )
@@ -112,7 +111,7 @@ const FeedbackStorage = () => {
       </F.ReceiveFeedBack> : 
       // 보낸 피드백
       <F.SendFeedBack>
-         {sendData && sendData.slice().reverse().map((data)=> {
+         {sendData && sendData.map((data)=> {
           return (
             <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
           )
@@ -145,8 +144,8 @@ export const Feedback = (props) => {
   const navigate = useNavigate();
 
   const person = {
-    nickName: props.data.targetUser.nickName,
-    profileImageUrl: props.data.targetUser.profileImageUrl,
+    nickName: props.data.targetUsers.userInfoList.nickName,
+    profileImageUrl: props.data.targetUsers.userInfoList.profileImageUrl,
   }
 
   const HandleChatRoom = (props) => {
@@ -157,12 +156,12 @@ export const Feedback = (props) => {
   return (
     <F.FeedbackContainer onClick={ ()=>{ HandleChatRoom(props) } }>
       <F.FeedbackImg>
-        <F.StyledImg src={props.receive ? images.unKnown : props.data.targetUser.profileImageUrl} alt='img' active={props.receive}/>
+        <F.StyledImg src={props.receive ? images.unKnown : person.profileImageUrl} alt='img' active={props.receive}/>
       </F.FeedbackImg>
 
       <F.FeedbackContent>
         <div className='flex items-center mb-1'>
-          <div>{props.receive ? '익명' : props.data.targetUser.nickName}</div>
+          <div>{props.receive ? '익명' : props.data.chatRoomUserId }</div>
           <div className='text-[#acacac] text-[12px] ml-2'>{props.data.chatRoomId}</div>
         </div>
         <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>

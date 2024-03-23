@@ -5,40 +5,43 @@
 /* responsive style */
 
 @font-face {
-    font-family: "Pretendard-Regular";
-    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff") format("woff");
-    font-weight: 400;
-    font-style: normal;
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-weight: 400;
+  font-style: normal;
 }
 
 @font-face {
-    font-family: "Pretendard";
-    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff") format("woff");
-    font-weight: 500;
+  font-family: "Pretendard";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff")
+    format("woff");
+  font-weight: 500;
 }
 
 @font-face {
-    font-family: "Pretendard-SB";
-    src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff") format("woff");
-    font-weight: 600;
+  font-family: "Pretendard-SB";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff")
+    format("woff");
+  font-weight: 600;
 }
 
 @media (min-width: 375px) {
-    .App,
-    .Nav {
-        width: 375px;
-    }
+  .App,
+  .Nav {
+    width: 375px;
+  }
 }
 
 @media (max-width: 500px) {
-    .App,
-    .Nav {
-        width: 100vw;
-    }
+  .App,
+  .Nav {
+    width: 100vw;
+  }
 }
 
 #root {
-    box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
+  box-shadow: rgba(100, 100, 111, 0.5) 0px 7px 29px 0px;
 }
 
 .App {
@@ -47,10 +50,10 @@
 }
 
 body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Pretendard-Regular';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  font-family: "Pretendard-Regular";
 }

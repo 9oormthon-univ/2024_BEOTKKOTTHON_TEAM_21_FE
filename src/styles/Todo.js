@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const ReceiveBtn = styled.button`
   width: 100px;
-  height: 30px;
+  height: 35px;
   flex-shrink: 0;
   color: white;
   position: absolute;
-  top: 55px;
+  top: 50px;
   right: 20px;
   cursor: auto; // 클릭 해제
 
