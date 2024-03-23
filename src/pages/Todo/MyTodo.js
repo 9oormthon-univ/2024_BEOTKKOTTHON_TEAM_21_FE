@@ -155,7 +155,6 @@ const MyTodo = ({ workspaceUUID }) => {
                   value={todo.content}
                   onChange={(e) => {
                     setTodo(e.target.value);
-                    CompleteTodo(todo.id);
                   }}
                 />
               </div>
