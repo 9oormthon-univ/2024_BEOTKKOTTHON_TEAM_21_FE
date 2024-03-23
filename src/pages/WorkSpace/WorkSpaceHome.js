@@ -10,7 +10,6 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import YellowPlusBtn from "../../assets/plus-yellow.png";
 import axios from "axios";
 
-
 const WorkSpaceHome = () => {
   const { workspaceUUID } = useParams();
   const [workspaceUserList, setWorkspaceUserList] = useState([]);
@@ -21,11 +20,14 @@ const WorkSpaceHome = () => {
     const authToken = localStorage.getItem("authToken");
     const JoinWorkspace = async () => {
       try {
-        const response = await axios.get(`http://3.35.236.118:8080/workspaces/${workspaceUUID}`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
+        const response = await axios.get(
+          `http://3.35.236.118:8080/workspaces/${workspaceUUID}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
         const data = response.data.data;
         const teamName = data.teamName;
         const workspaceUserList = data.userInfoResponseList;
@@ -90,6 +92,20 @@ const PersonBox = ({ person, workspaceUUID }) => {
 
   const [isWorkspace, setIsWorkspace] = useState([]);
 
+  // ---------- 사용자 인식하여 편집부여 권한 ----------
+  const userUUID = localStorage.getItem("userUUID");
+  useEffect(() => {
+    console.log("person :", person);
+    console.log(person.userUUID);
+    // 로컬 스토리지의 토큰과 사용자의 userUUID를 비교하여 일치하면 버튼을 표시
+    if (userUUID === person.userUUID) {
+      setIsWorkspace(true);
+    } else {
+      setIsWorkspace(false);
+    }
+  }, [userUUID, person.userUUID]);
+  // --------------------------------------------
+
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
@@ -129,7 +145,9 @@ const PersonBox = ({ person, workspaceUUID }) => {
     const authToken = localStorage.getItem("authToken");
 
     try {
-      const response = await axios.post(`http://3.35.236.118:8080/chatRoom`, {
+      const response = await axios.post(
+        `http://3.35.236.118:8080/chatRoom`,
+        {
           workspaceUUID: workspaceUUID,
           userIds: [person.id],
         },
@@ -167,7 +185,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
       <W.Person key={person.id}>
         <W.PersonImg onClick={toggleModal}>
           <img className="p-5" src={person.profileImageUrl} alt="" />
-          <W.YellowPlusButton onClick={goToProfileEdit} />
+          {isWorkspace && <W.YellowPlusButton onClick={goToProfileEdit} />}
         </W.PersonImg>
 
         <div className="flex items-center justify-center">
@@ -193,13 +211,15 @@ const PersonBox = ({ person, workspaceUUID }) => {
           ) : (
             <>
               <span>{name}</span>
-              <BsPencil
-                onClick={() => {
-                  setIsEdit(true);
-                }}
-                size={13}
-                className="ml-2"
-              />
+              {isWorkspace && (
+                <BsPencil
+                  onClick={() => {
+                    setIsEdit(true);
+                  }}
+                  size={13}
+                  className="ml-2"
+                />
+              )}
             </>
           )}
         </div>

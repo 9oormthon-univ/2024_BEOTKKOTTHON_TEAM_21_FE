@@ -31,12 +31,17 @@ export const Person = styled.div`
   margin: 15px 0 15px 0;
 `;
 export const PersonImg = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin: 0 auto;
   width: 130px;
   height: 130px;
   border-radius: 50%;
   border: 1px solid #d9d9d9;
   margin-bottom: 10px;
+  background-color: white;
+  background-position: center;
 `;
 export const Modal = styled.div`
   position: absolute;
@@ -134,7 +139,7 @@ export const YellowPlusButton = styled.button`
   bottom: 40px;
   right: 20px;
   width: 30px;
-  height: 30px;
+  height: 35px;
   background-image: url(${YellowPlusBg});
   background-size: cover;
   border: none;
