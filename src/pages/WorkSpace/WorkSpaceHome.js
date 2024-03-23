@@ -10,7 +10,6 @@ import { IoCheckmarkSharp } from "react-icons/io5";
 import YellowPlusBtn from "../../assets/plus-yellow.png";
 import axios from "axios";
 
-const WorkspaceContext = createContext();
 
 const WorkSpaceHome = () => {
   const { workspaceUUID } = useParams();

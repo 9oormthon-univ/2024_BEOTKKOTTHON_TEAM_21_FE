@@ -68,7 +68,7 @@ const FeedbackStorage = () => {
       {feedbackState === true ?
       // 받은 피드백
       <F.ReceiveFeedBack>
-        {receivedData && receivedData.map((data)=> {
+        {receivedData && receivedData.slice().reverse().map((data)=> {
           return(
             <Feedback receive={true} data={data} workspaceUUID={workspaceUUID} />
           )
@@ -76,7 +76,7 @@ const FeedbackStorage = () => {
       </F.ReceiveFeedBack> : 
       // 보낸 피드백
       <F.SendFeedBack>
-         {sendData && sendData.map((data)=> {
+         {sendData && sendData.slice().reverse().map((data)=> {
           return (
             <Feedback receive={false} data={data} workspaceUUID={workspaceUUID} />
           )
@@ -111,7 +111,7 @@ export const Feedback = (props) => {
     nickName: props.data.targetUser.nickName,
     profileImageUrl: props.data.targetUser.profileImageUrl,
   }
-  
+
   const HandleChatRoom = (props) => {
     console.log('채팅방 입장', props.chatRoomId);
     navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID} });
@@ -126,7 +126,7 @@ export const Feedback = (props) => {
       <F.FeedbackContent>
         <div className='flex items-center mb-1'>
           <div>{props.data.targetUser.nickName}</div>
-          <div className='text-[#acacac] text-[12px] ml-2'>{props.time}</div>
+          <div className='text-[#acacac] text-[12px] ml-2'>{props.data.chatRoomId}</div>
         </div>
         <div className='text-[#acacac] text-[15px] text-start'>{props.content}</div>
       </F.FeedbackContent>
