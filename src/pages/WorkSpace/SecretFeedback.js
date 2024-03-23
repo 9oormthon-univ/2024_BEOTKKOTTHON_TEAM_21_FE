@@ -129,7 +129,7 @@ const SecretFeedback = () => {
 
   useEffect(() => {
     // handleChatList();
-
+ 
     if (stompClient) {
       // 구독한 엔드포인드에서 온 메시지 handleMessage로 저장함에 저장
       stompClient.subscribe(`/sub/message/room/${chatRoomId}`, handleMessage);
@@ -160,7 +160,7 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      <SecretTitle person={person} receive={receive} />
+      <SecretTitle person={person} receive={receive} sendChatRoomUserId={sendChatRoomUserId} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
         <div  
@@ -191,7 +191,6 @@ const SecretFeedback = () => {
               </>
             );
           })}
-
         </div>
       </div>
 
@@ -228,6 +227,7 @@ export const SecretTitle = ({ person, receive }) => {
         <GoChevronLeft
           size={20}
           onClick={() => {
+            sendChatRoomUserId();
             navigate(-1);
           }}
         />
