@@ -112,12 +112,13 @@ const Navbar = () => {
     const fetchUserData = async () => {
       try {
         const authToken = localStorage.getItem("authToken");
-        const response = await axios.get("/users", {
+        console.log(authToken);
+        const response = await axios.get("http://3.35.236.118:8080/users", {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
         });
-        // console.log(response.data);
+        console.log(response.data);
         if (response.status === 200) {
           setUserData(response.data);
 
