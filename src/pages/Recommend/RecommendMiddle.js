@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import Navbar from "../../components/Navbar";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import Spinner from "../../assets/Spinner2.gif";
 import axios from "axios";
 
@@ -128,64 +128,68 @@ function RecommendMiddle() {
 
   // 화면 전환 효과
   const transitionVariants = {
-    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
+    initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
     enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
-    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
-    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
-  }
+    slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+    exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+  };
 
   return (
     <div className="App">
       <Container>
         <motion.div
-            initial='initial'
-            animate='enter'
-            exit='exit'
-            variants={transitionVariants}
-            transition={{ type: 'tween', duration: 0.5 }}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={transitionVariants}
+          transition={{ type: "tween", duration: 0.5 }}
         >
-        <Navbar />
-        <ContextContainer>
-          <KeywordContainer>
-            <div className="ml-8">팀의 키워드를 입력해주세요.</div>
-            <div className="text-sm mx-10 flex flex-col gap-1/4">
-              {Object.keys(keywords).map((keywordName, index) => (
-                <input
-                  key={index}
-                  type="text"
-                  name={keywordName}
-                  value={keywords[keywordName]}
-                  onChange={(e) => handleKeywordChange(e, keywordName)}
-                  className={`my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full xs:text-sm focus:ring-1 ${
-                    error && !keywords[keywordName].trim()
-                      ? "border-red-500"
-                      : ""
-                  }`}
-                  placeholder={`키워드 ${index + 1}`}
-                  required
+          <Navbar />
+          <ContextContainer>
+            <KeywordContainer>
+              <div className="ml-8">팀의 키워드를 입력해주세요.</div>
+              <div className="text-sm mx-10 flex flex-col gap-1/4">
+                {Object.keys(keywords).map((keywordName, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    name={keywordName}
+                    value={keywords[keywordName]}
+                    onChange={(e) => handleKeywordChange(e, keywordName)}
+                    className={`my-5 px-3 py-2 h-12 bg-white border-b border-b-gray-500 shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full xs:text-sm focus:ring-1 ${
+                      error && !keywords[keywordName].trim()
+                        ? "border-red-500"
+                        : ""
+                    }`}
+                    placeholder={`키워드 ${index + 1}${
+                      index < 3 ? " (필수)" : " (선택)"
+                    }`}
+                    required
+                  />
+                ))}
+              </div>
+              {error && (
+                <div className="text-red-500 ml-8 text-sm">{error}</div>
+              )}
+            </KeywordContainer>
+            <BtnContainer>
+              {loading ? ( // loading이 true이면 Spinner를, 아니면 "다음" 버튼을 표시
+                <img
+                  src={Spinner}
+                  alt="Spinner"
+                  width="150px"
+                  className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 />
-              ))}
-            </div>
-            {error && <div className="text-red-500 ml-8 text-sm">{error}</div>}
-          </KeywordContainer>
-          <BtnContainer>
-            {loading ? ( // loading이 true이면 Spinner를, 아니면 "다음" 버튼을 표시
-              <img
-                src={Spinner}
-                alt="Spinner"
-                width="150px"
-                className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              />
-            ) : (
-              <button
-                onClick={handleNext}
-                className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-yellow-400 hover:text-white duration-300"
-              >
-                다음
-              </button>
-            )}
-          </BtnContainer>
-        </ContextContainer>
+              ) : (
+                <button
+                  onClick={handleNext}
+                  className="mb-5 w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-yellow-400 hover:text-white duration-300"
+                >
+                  다음
+                </button>
+              )}
+            </BtnContainer>
+          </ContextContainer>
         </motion.div>
       </Container>
     </div>

@@ -82,7 +82,7 @@ const SecretFeedback = () => {
         stompClient.disconnect();
       }
     };
-  }, []);
+  }, [stompClient]);
 
   // 메세지 수신
   const handleMessage = (message) => {
@@ -131,6 +131,7 @@ const SecretFeedback = () => {
           {saveMessages.map((message, index) => {
             // 메시지의 createdAt에서 시간 정보 추출
             // const time = message.createdAt.split("T")[1].split(":").slice(0, 2).join(":");
+
             return (
               <>
                 {message.senderId === senderId ? (

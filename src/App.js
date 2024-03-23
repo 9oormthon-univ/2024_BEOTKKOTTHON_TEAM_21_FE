@@ -22,6 +22,7 @@ import WorkSpaceEnter from "./pages/WorkSpace/WorkSpaceEnter";
 import ProfileChange from "./pages/WorkSpace/ProfileChange";
 import WorkspaceTodo from "./pages/WorkSpace/WorkSpaceTodo";
 import { AnimatePresence } from "framer-motion";
+import AddGroupChat from "./pages/WorkSpace/AddGroupChat";
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
@@ -46,7 +47,6 @@ function App() {
             <Route path="/splash" element={<Splash />} />
             <Route path="/login" element={<Login />} />
             <Route path="/workspacelist" element={<WorkspaceList />} />
-
             <Route
               path="/workspacehome/:workspaceUUID"
               element={<WorkSpaceHome />}
@@ -60,8 +60,8 @@ function App() {
               element={<SecretFeedback />}
             />
             <Route path="/todo/:workspaceUUID" element={<WorkspaceTodo />} />
+            <Route path="/addGroupChat/:workspaceUUID" element={<AddGroupChat />} />
             <Route path="/profilechange" element={<ProfileChange />} />
-
             <Route path="/workspaceenter" element={<WorkSpaceEnter />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/signend" element={<SignUpEnd />} />

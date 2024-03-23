@@ -68,7 +68,7 @@ const Modal = styled.div`
   z-index: 9999;
 `;
 
-const Navbar = () => {
+const Navbar = ({ showBackButton = true }) => {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [userData, setUserData] = useState("");
@@ -229,20 +229,29 @@ const Navbar = () => {
         </div>
       </div>
       <NavContainer>
-        <button
-          className="flex justify-center items-center ml-2 w-10 rounded "
-          onClick={goToBack}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="9"
-            height="13"
-            viewBox="0 0 9 13"
-            fill="none"
+        {!showBackButton && (
+          <div className="flex justify-center items-center ml-2 w-10 rounded "></div>
+        )}
+        {showBackButton && (
+          <button
+            className="flex justify-center items-center ml-2 w-10 rounded "
+            onClick={goToBack}
           >
-            <path d="M8 1L1 6.5L8 12" stroke="#878787" stroke-linecap="round" />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="9"
+              height="13"
+              viewBox="0 0 9 13"
+              fill="none"
+            >
+              <path
+                d="M8 1L1 6.5L8 12"
+                stroke="#878787"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        )}
         <button
           className="mr-4"
           id="open-sidebar"
