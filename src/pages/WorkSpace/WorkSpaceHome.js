@@ -4,12 +4,66 @@ import { images } from "../../utils/images";
 import WorkspaceBottom from "../../component/WorkspaceBottom";
 import * as W from "../../styles/WorkspaceStyle";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import { GoChevronLeft } from "react-icons/go";
 import { BsPencil } from "react-icons/bs";
 import { IoCheckmarkSharp } from "react-icons/io5";
 import YellowPlusBtn from "../../assets/plus-yellow.png";
 import { IoIosLink } from "react-icons/io";
 import axios from "axios";
+
+// 화면 전환 효과
+const transitionVariants = {
+  initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
+  enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+  slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+  exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
+
+// 각 문장에 대한 fade 효과
+const sentenceVariants = {
+  hidden: { opacity: 0.5, x: -30 },
+  visible: (i) => ({
+    opacity: 1,
+    x: 0,
+    transition: {
+      delay: i * 0.5,
+      duration: 1,
+    },
+  }),
+};
+
+const IconContainer = styled.div`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 25%;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(111, 106, 103, 0.39);
+  }
+`;
+
+const containerVariants = {
+  hidden: {
+    y: '-10vh',
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: 'spring',
+      stiffness: 80,
+      damping: 20,
+      mass: 1,
+      duration: 1.3,
+    }
+  }
+};
 
 const WorkSpaceHome = () => {
   const { workspaceUUID } = useParams();
@@ -43,18 +97,42 @@ const WorkSpaceHome = () => {
   }, []);
 
   return (
+      <motion.div
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          variants={transitionVariants}
+          transition={{ type: "tween", duration: 0.5 }}
+      >
     <>
-      <W.Background2>
+      <W.Background2
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}>
         <W.WorkSpaceHomeContainer>
           <WorkspaceTitle />
 
           <div className="text-center text-white py-5">
-            <div className="text-2xl font-bold mb-2">
-              {teamName}의 워크스페이스
+            <motion.div
+                variants={sentenceVariants}
+                initial="hidden"
+                animate="visible"
+                custom={0}
+            >
+            <div className="text-xl font-bold mb-2">
+              {teamName} 팀의 워크스페이스
             </div>
+            </motion.div>
+            <motion.div
+                variants={sentenceVariants}
+                initial="hidden"
+                animate="visible"
+                custom={1}
+            >
             <div className="text-sm">
               자유롭게 1:1 시크릿 메세지를 보내보세요!
             </div>
+            </motion.div>
           </div>
 
           <W.PersonGrid>
@@ -76,6 +154,7 @@ const WorkSpaceHome = () => {
       </W.Background2>
       {/*<W.Background></W.Background> */}
     </>
+      </motion.div>
   );
 };
 
@@ -279,13 +358,14 @@ export const WorkspaceTitle = () => {
           }}
         />
       </div>
-      <IoIosLink
-        size={20}
-        className="cursor-pointer"
-        onClick={handleCopyToClipboard}
-      />
+      <IconContainer onClick={handleCopyToClipboard}>
+        <IoIosLink
+          size={20}
+          className="cursor-pointer"
+        />
+      </IconContainer>
       {showCopyNotification && (
-        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-400 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out text-sm">
+        <div className="absolute top-10 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-500 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out text-sm">
           워크스페이스 URL 복사 완료!
         </div>
       )}
