@@ -64,6 +64,19 @@ const WorkspaceList = () => {
   const [userName, setUserName] = useState("");
 
   const [plusToggle, setPlusToggle] = useState(false);
+  //const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [dropdownStates, setDropdownStates] = useState({});
+
+  //const handleDropdownToggle = () => {
+  //  setIsDropdownOpen(!isDropdownOpen);
+  //};
+
+  const handleDropdownToggle = (index) => {
+    setDropdownStates((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
+  };
 
   useEffect(() => {
     // 내 워크스페이스 목록 반환
@@ -196,21 +209,34 @@ const WorkspaceList = () => {
           {workspaceList.map((workspace, index) => {
             const randomStyle = styles[index % styles.length]; // 랜덤 색상 변경
             return (
-              <W.wsListBox
-                onClick={() => {
-                  navigate(`/workspacehome/${workspace.workspaceUUID}`);
-                }}
-                key={workspace.workspaceUUID}
-                style={randomStyle}
-              >
-                <div className="flex justify-between items-center w-full">
-                  <div>{workspace.teamName}</div>
-                  <button>
-                    <GiHamburgerMenu />
-                  </button>
-                </div>
-                <div className="text-start">{workspace.explanation}</div>
-              </W.wsListBox>
+              <div key={workspace.workspaceUUID}>
+                <W.wsListBox
+                  onClick={() => {
+                    navigate(`/workspacehome/${workspace.workspaceUUID}`);
+                  }}
+                  key={workspace.workspaceUUID}
+                  style={randomStyle}
+                >
+                  {dropdownStates[index] && (
+                    <W.plusBtn className="py-1 absolute text-black">
+                      <div className="px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-primary">
+                        퇴장
+                      </div>
+                      <div className="px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-primary">
+                        알림끄기
+                      </div>
+                      <div className="px-6 hover:text-primary">수정</div>
+                    </W.plusBtn>
+                  )}
+                  <div className="flex justify-between items-center w-full">
+                    <div>{workspace.teamName}</div>
+                    {/* <button onClick={() => handleDropdownToggle(index)}>
+                      <GiHamburgerMenu />
+                    </button> */}
+                  </div>
+                  <div className="text-start">{workspace.explanation}</div>
+                </W.wsListBox>
+              </div>
             );
           })}
         </W.wsListContainer>
