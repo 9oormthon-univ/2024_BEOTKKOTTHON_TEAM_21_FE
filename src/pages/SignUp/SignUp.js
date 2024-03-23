@@ -202,11 +202,9 @@ function SignUp() {
     const value = e.target.value;
     setPassword(value);
     // 비밀번호가 유효하지 않을 경우 오류 메시지 표시
-    if (
-      !value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])(?=.{8,20})/)
-    ) {
+    if (!value.match(/^(?=.*\d)(?=.*[a-z])(?=.*[!@#$%^&*()])(?=.{8,20})/)) {
       setPasswordError(
-        "숫자, 대문자, 소문자, 특수문자를 최소 1개 이상 포함하여 8글자 이상 작성해주세요."
+        "숫자, 소문자, 특수문자 각 1개 이상 포함하여 8글자 이상<br />(특수문자는 !@#$%^&*() 만 허용됩니다.)"
       );
     } else {
       setPasswordError(""); // 오류 메시지 초기화
@@ -423,7 +421,14 @@ function SignUp() {
                         />
                         {passwordError && (
                           <span className="text-red-500 text-xs h-2">
-                            {passwordError}
+                            {passwordError
+                              .split("<br />")
+                              .map((line, index) => (
+                                <span key={index}>
+                                  {line}
+                                  <br />
+                                </span>
+                              ))}
                           </span>
                         )}
                       </div>
