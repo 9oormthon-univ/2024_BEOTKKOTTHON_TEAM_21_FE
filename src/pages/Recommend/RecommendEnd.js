@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { motion } from 'framer-motion';
+import { motion } from "framer-motion";
 import Lottie from "lottie-react";
 import celebrateLottie from "../../assets/lottie/celebrateLottie.json";
 import styled from "styled-components";
 import WaveBg from "../../assets/WaveBg.png";
 import Logo from "../../assets/rabbit_krew_bg.png";
 import ClipboardIcon from "../../assets/clipboard.png";
-import {GradientButton} from "../../styles/WorkspaceStyle";
+import { GradientButton } from "../../styles/WorkspaceStyle";
 
 const Container = styled.div`
   display: flex;
@@ -67,30 +67,29 @@ const LottieContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  
+
   z-index: -1;
 `;
 
-
 // 화면 전환 효과
 const transitionVariants = {
-    initial: { x: '-0.3vw' }, // 처음 상태를 화면 왼쪽 밖으로 설정
-    enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
-    slide: { x: '0.3vw' }, // 두 번째 단계에서는 화면 오른쪽으로 이동
-    exit: { x: '-0.3vw' } // 페이지를 떠날 때 왼쪽으로 슬라이드
-}
+  initial: { x: "-0.3vw" }, // 처음 상태를 화면 왼쪽 밖으로 설정
+  enter: { x: 0 }, // 첫 번째 단계에서는 화면 중앙으로 이동
+  slide: { x: "0.3vw" }, // 두 번째 단계에서는 화면 오른쪽으로 이동
+  exit: { x: "-0.3vw" }, // 페이지를 떠날 때 왼쪽으로 슬라이드
+};
 
 // 각 문장에 대한 fade 효과
 const sentenceVariants = {
-    hidden: { opacity: 0, y: -10 },
-    visible: (i) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-            delay: i * 0.5,
-            duration: 0.9,
-        },
-    }),
+  hidden: { opacity: 0, y: -10 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.5,
+      duration: 0.9,
+    },
+  }),
 };
 
 function RecommendEnd() {
@@ -109,84 +108,92 @@ function RecommendEnd() {
     }
   };
   const handleCopyToClipboard = () => {
-    navigator.clipboard
-      .writeText(workspaceUUID)
-      .then(() => {
-        console.log("Workspace UUID copied to clipboard");
-        setShowCopyNotification(true);
-        setTimeout(() => {
-          setShowCopyNotification(false);
-        }, 3000); // 3 seconds
-      })
-      .catch((err) => {
-        console.error("Failed to copy workspace UUID to clipboard:", err);
-      });
+    // 클립보드에 복사할 텍스트 선택
+    const textToCopy = workspaceUUID;
+    // 클립보드에 복사할 텍스트를 선택
+    const textArea = document.createElement("textarea");
+    textArea.value = textToCopy;
+    document.body.appendChild(textArea);
+    textArea.select();
+    // 복사 명령 실행
+    document.execCommand("copy");
+    // 임시 textarea 제거
+    document.body.removeChild(textArea);
+    // 복사 알림 표시
+    setShowCopyNotification(true);
+    setTimeout(() => {
+      setShowCopyNotification(false);
+    }, 3000); // 3초 후 알림 숨김
   };
 
   return (
     <div className="App">
       <motion.div
-          initial='initial'
-          animate='enter'
-          exit='exit'
-          variants={transitionVariants}
-          transition={{ type: 'tween', duration: 0.5 }}
+        initial="initial"
+        animate="enter"
+        exit="exit"
+        variants={transitionVariants}
+        transition={{ type: "tween", duration: 0.5 }}
       >
-      <Container>
-        <NavContainer></NavContainer>
-        <div className="flex flex-col items-center w-11/12">
-          <div className="-mt-10">
+        <Container>
+          <NavContainer></NavContainer>
+          <div className="flex flex-col items-center w-11/12">
+            <div className="-mt-10">
               <LottieContainer>
-                  <Lottie animationData={celebrateLottie} loop={false} speed={0.2} />
+                <Lottie
+                  animationData={celebrateLottie}
+                  loop={false}
+                  speed={0.2}
+                />
               </LottieContainer>
               <SplashLogo></SplashLogo>
-          </div>
-            <motion.div
-                variants={sentenceVariants}
-                initial="hidden"
-                animate="visible"
-                custom={0}
-            >
-          <div className="flex flex-col items-center my-8">
-            워크스페이스 개설이 완료되었습니다!
-          </div>
-            </motion.div>
-            <motion.div
-                variants={sentenceVariants}
-                initial="hidden"
-                animate="visible"
-                custom={1}
-            >
-          <div className="flex flex-col items-center text-sm">
-            <div>
-              해당 <b>URL을 복사</b>하여 팀원들에게 공유해주세요!
             </div>
-            <div className="flex items-center">
-              <b>{workspaceUUID}</b>
-              <button
-                className="ml-2 cursor-pointer"
-                onClick={handleCopyToClipboard}
-              >
-                <img src={ClipboardIcon} alt="Copy to clipboard" />
-              </button>
-            </div>
-            {showCopyNotification && (
-              <div className="absolute top-0 mt-4 bg-gray-400 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out">
-                복사 완료되었습니다!
+            <motion.div
+              variants={sentenceVariants}
+              initial="hidden"
+              animate="visible"
+              custom={0}
+            >
+              <div className="flex flex-col items-center my-8">
+                워크스페이스 개설이 완료되었습니다!
               </div>
-            )}
-          </div>
             </motion.div>
-        </div>
-        <ButtonContainer className="mb-6">
-          <GradientButton
-            className="w-full mb-5 rounded-full h-12"
-            onClick={handleHomeButtonClick}
-          >
-            홈으로 이동하기
-          </GradientButton>
-        </ButtonContainer>
-      </Container>
+            <motion.div
+              variants={sentenceVariants}
+              initial="hidden"
+              animate="visible"
+              custom={1}
+            >
+              <div className="flex flex-col items-center text-sm">
+                <div>
+                  해당 <b>URL을 복사</b>하여 팀원들에게 공유해주세요!
+                </div>
+                <div className="flex items-center">
+                  <b>{workspaceUUID}</b>
+                  <button
+                    className="ml-2 cursor-pointer"
+                    onClick={handleCopyToClipboard}
+                  >
+                    <img src={ClipboardIcon} alt="Copy to clipboard" />
+                  </button>
+                </div>
+                {showCopyNotification && (
+                  <div className="absolute top-0 mt-4 bg-gray-400 text-white py-2 px-4 rounded-md transition-opacity duration-500 ease-in-out">
+                    복사 완료되었습니다!
+                  </div>
+                )}
+              </div>
+            </motion.div>
+          </div>
+          <ButtonContainer className="mb-6">
+            <GradientButton
+              className="w-full mb-5 rounded-full h-12"
+              onClick={handleHomeButtonClick}
+            >
+              홈으로 이동하기
+            </GradientButton>
+          </ButtonContainer>
+        </Container>
       </motion.div>
     </div>
   );
