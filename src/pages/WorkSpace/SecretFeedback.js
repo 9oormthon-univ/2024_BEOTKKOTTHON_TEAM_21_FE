@@ -16,6 +16,7 @@ const SecretFeedback = () => {
   const state = location.state;
   const person = state ? state.person : null;
   const workspaceUUID = state ? state.workspaceUUID : null;
+  const receive = state ? state.receive : null;
 
   const [stompClient, setStompClient] = useState(null); //서버와 통신하는 데 필요한 모든 기능을 포함
   const [inputMessage, setInputMessage] = useState("");
@@ -77,8 +78,8 @@ const SecretFeedback = () => {
       // 서버와 연결 설정
       console.log("Connected: " + frame);
       setStompClient(stomp); // stomp 클라이언트 상태 저장
-      
-      console.log(stompClient, "클라이언트 상태");
+
+      console.log(stomp, "클라이언트 상태");
       console.log(saveMessages, '수신 SENDERID ㅠㅠ', senderId);
       console.log(`오는거 :${saveMessages.senderId} , 유저ID: ${senderId}`)
     }, []);
@@ -94,7 +95,7 @@ const SecretFeedback = () => {
         stompClient.disconnect();
       }
     };
-  }, []);
+  }, [sendMessage, stompClient]);
 
   // 메세지 수신
   const handleMessage = (message) => {
@@ -131,7 +132,7 @@ const SecretFeedback = () => {
 
       setSaveMessages((prevMessages) => [
         ...prevMessages,
-        { content: `보낸거 저장하는거${inputMessage}`, senderId: senderId },
+        { content: inputMessage, senderId: senderId },
       ]); // 저장함에 저장
     }
     setInputMessage(""); // 보낼 메세지 input 초기화
@@ -139,7 +140,7 @@ const SecretFeedback = () => {
 
   return (
     <F.SecretFeedback>
-      <SecretTitle person={person} />
+      <SecretTitle person={person} receive={receive} />
       {/* 주고받은 메세지가 담긴 배열 */}
       <div className="flex flex-col grow overflow-hidden pt-20">
         <div  
@@ -198,7 +199,7 @@ const SecretFeedback = () => {
 
 export default SecretFeedback;
 
-export const SecretTitle = ({ person }) => {
+export const SecretTitle = ({ person, receive }) => {
   const navigate = useNavigate();
 
   return (
@@ -211,8 +212,8 @@ export const SecretTitle = ({ person }) => {
           }}
         />
         <div className="ml-2 flex items-center">
-          <img src={person.profileImageUrl} className="w-[28px] mr-1" />
-          <div>{person.nickName}</div>
+          <img src={receive ? images.unKnown : person.profileImageUrl} className="w-[28px] mr-1" />
+          <div>{receive ? '익명' : person.nickName}</div>
         </div>
       </div>
       {/* <BsSendPlus onClick={()=>{navigate('/')}}/> */}

@@ -120,7 +120,7 @@ export const Feedback = (props) => {
 
   const HandleChatRoom = (props) => {
     console.log('채팅방 입장', props.chatRoomId);
-    navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID} });
+    navigate(`/secretfeedback/${props.data.chatRoomId}`, { state: { person: person, workspaceUUID: props.workspaceUUID, receive: props.receive} });
   }
 
   return (

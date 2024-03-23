@@ -171,7 +171,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
       console.log(isWorkspace);
 
       navigate(`/secretfeedback/${chatRoomId}`, {
-        state: { person: person, workspaceUUID: workspaceUUID },
+        state: { person: person, workspaceUUID: workspaceUUID, receive: false },
       }); // 1:1 채팅방 페이지로 이동
     } catch (error) {
       console.error(error);
