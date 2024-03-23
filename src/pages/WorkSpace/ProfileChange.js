@@ -4,6 +4,7 @@ import MobileStepper from "@mui/material/MobileStepper";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -94,12 +95,38 @@ const BtnContainer = styled.div`
 
 function ProfileChange() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [selectedButtonIndex, setselectedButtonIndex] = useState(null);
   const [profileid, setProfileId] = useState([0, 1, 2, 3, 4, 5, 6, 7, 8]);
   const [profileImageUrl, setProfileImageUrl] = useState("");
+  const authToken = localStorage.getItem("authToken");
+  const { workspaceUUID } = location.state;
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  const handleProfileChange = async () => {
+    try {
+      const response = await axios.patch(
+        "http://3.35.236.118:8080/users",
+        {
+          profileImageUrl: profileImageUrl,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+      // 성공적으로 업데이트되었음을 사용자에게 표시하거나 다른 작업 수행
+      // 다시 워크스페이스 홈으로 가는 연결 필요
+      console.log("UUID 검토 :", workspaceUUID);
+      navigate(`/workspacehome/${workspaceUUID}`);
+    } catch (error) {
+      console.error("프로필 변경 중 오류가 발생했습니다:", error);
+    }
   };
 
   const handleButtonClick = (index) => {
@@ -217,7 +244,7 @@ function ProfileChange() {
               </div>
               <BtnContainer className="mb-5">
                 <button
-                  //   onClick={}
+                  onClick={handleProfileChange}
                   className="w-full rounded-full h-12 border border-primary text-primary bg-white text-sm hover:bg-primary hover:text-white duration-300"
                 >
                   선택

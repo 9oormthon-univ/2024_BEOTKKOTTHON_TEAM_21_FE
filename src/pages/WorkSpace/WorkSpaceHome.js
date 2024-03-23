@@ -176,7 +176,7 @@ const PersonBox = ({ person, workspaceUUID }) => {
   };
 
   const goToProfileEdit = () => {
-    navigate("/profilechange");
+    navigate("/profilechange", { state: { workspaceUUID: workspaceUUID } });
   };
 
   return (
