@@ -43,7 +43,7 @@ const WorkSpaceHome = () => {
 
   return (
     <>
-      <W.Background></W.Background> 
+      <W.Background></W.Background>
       <W.WorkSpaceHomeContainer>
         <WorkspaceTitle />
 
@@ -249,7 +249,7 @@ export const WorkspaceTitle = () => {
         <GoChevronLeft
           size={20}
           onClick={() => {
-            navigate(-1);
+            navigate("/workspacelist");
           }}
         />
       </div>
