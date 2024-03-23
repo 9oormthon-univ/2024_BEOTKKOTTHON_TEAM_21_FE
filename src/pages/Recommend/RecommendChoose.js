@@ -56,7 +56,7 @@ const Card = styled.div`
   height: 120px;
   flex-shrink: 0;
   border-radius: 10px;
-  background: ${(props) => (props.isSelected ? "#656565" : "#fff")};
+  background: ${(props) => (props.isSelected ? "#a38658" : "#fff")};
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
   cursor: pointer;
 `;
@@ -69,7 +69,7 @@ const CheckIcon = styled.svg`
 `;
 
 const CardinnerText = styled.div`
-  color: ${(props) => (props.isSelected ? "#ACACAC" : "#000")};
+  color: ${(props) => (props.isSelected ? "#000000" : "#4a4a4a")};
 `;
 
 const BtnContainer = styled.div`

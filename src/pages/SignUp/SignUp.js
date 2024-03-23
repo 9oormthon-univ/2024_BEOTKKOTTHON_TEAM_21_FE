@@ -523,6 +523,20 @@ function SignUp() {
                           <div>
                             <img src={profileImageUrl} alt="Selected Profile" />
                           </div>
+                          <circle
+                              width="100"
+                              height="100"
+                              cx="59.1106"
+                              cy="63.524"
+                              r="8.77404"
+                              fill="#FEC533"
+                              stroke="white"
+                              stroke-width="1.40385"
+                          />
+                          <path
+                              d="M58.4526 67.1362V63.9446H55.2775V62.6121H58.4526V59.437H59.7851V62.6121H62.9767V63.9446H59.7851V67.1362H58.4526Z"
+                              fill="white"
+                          />
                           {/*<div>Selected Profile: {selectedButtonIndex + 1}</div> */}
                         </div>
                       )}

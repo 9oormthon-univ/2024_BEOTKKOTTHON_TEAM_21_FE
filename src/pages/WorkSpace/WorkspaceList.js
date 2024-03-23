@@ -185,17 +185,17 @@ const WorkspaceList = () => {
           </button>
 
           {plusToggle && (
-            <W.plusBtn className="py-1 absolute bottom-10 right-10">
+            <W.plusBtn className="absolute bottom-10 right-10">
               <div
                 onClick={() => {
                   navigate("/recommendStart");
                 }}
-                className="px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-yellow-500 duration-200"
+                className="p-1 text-sm px-6 border-[#D7D7D7] border-solid border-b-[1px] hover:text-yellow-500 duration-200"
               >
                 새로생성
               </div>
               <div
-                className="px-6 hover:text-yellow-500 duration-200"
+                className="p-1 text-sm px-6 hover:text-yellow-500 duration-200"
                 onClick={() => {
                   navigate("/workspaceEnter");
                 }}
