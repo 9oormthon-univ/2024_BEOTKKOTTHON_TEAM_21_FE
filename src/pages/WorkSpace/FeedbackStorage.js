@@ -163,7 +163,23 @@ export const Feedback = (props) => {
     profileImageUrl: props.data.targetUsers?.userInfoList[0]?.profileImageUrl,
     chatRoomUserId: props.data.chatRoomUserId,
   }
+  
+  // sendUserId
+  const sendChatRoomUserId = async() => {
+    const authToken = localStorage.getItem("authToken");
+    try {
+      const response = await axios.post(`http://3.35.236.118:8080/check/${person.chatRoomUserId}`, null, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        }
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const HandleChatRoom = (props) => {
+    sendChatRoomUserId();
     console.log("채팅방 입장", props.chatRoomId);
     navigate(`/secretfeedback/${props.data.chatRoomId}`, {
       state: {
